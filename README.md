@@ -1,4 +1,4 @@
-# AoC_Solver_Engine
+# Advent of Code Solver
 
 
 Solutions for [Advent of Code](https://adventofcode.com) problems.
