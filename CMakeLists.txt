@@ -1,4 +1,4 @@
-
+﻿
 cmake_minimum_required(VERSION 3.10)
 
 project(HelloWorld)
@@ -10,3 +10,6 @@ add_executable(HelloWorld helloworld.cpp)
 
 target_link_libraries(HelloWorld PRIVATE fmt::fmt)
 target_link_libraries(HelloWorld PRIVATE Microsoft.GSL::GSL)
+
+# Include sub-projects.
+# add_subdirectory ("AoC_Solver_Engine")
