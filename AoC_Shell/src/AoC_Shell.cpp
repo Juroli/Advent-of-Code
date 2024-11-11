@@ -75,24 +75,27 @@ int main( int argc, char* argv[] )
 	{
 		const auto lparams = ReadMainParams( argc, argv );
 
-		if (lparams.size() > 1)
+
+		//std::unique_ptr<TAoC_Solver> solver = std::make_unique<TAoCS_2015_01_A>();
+		std::unique_ptr<TAoC_Solver> solver = std::make_unique<TAoCS_2015_01_B>();
+
+		bool force_test = false;
+
+
+		if (force_test || lparams.size() < 2)
+		{
+			const auto restest = solver->Test();
+
+			Print_TestResults( restest );
+		}
+		else
 		{
 			const auto fpath = lparams[1] + R"(\2015\01\input.txt)";
 			const auto input = Read_Input( fpath );
 
-			TAoCS_2015_01 solver;
-
-			const auto result = solver.Solve_A( input );
+			const auto result = solver->Solve( input );
 
 			fmt::print( "Question 2015 01 A - Result: {}\n", result );
-		}
-		else
-		{
-			TAoCS_2015_01 aoc_day;
-
-			const auto restest = aoc_day.Test_A();
-
-			Print_TestResults( restest );
 		}
 	}
 	

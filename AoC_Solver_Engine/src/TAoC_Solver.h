@@ -28,12 +28,9 @@ class TAoC_Solver
 {
 public:
 
-	virtual std::string Solve_A( const std::string& input ) { return {}; }
-	virtual std::string Solve_B( const std::string& input ) { return {}; }
+	virtual std::string Solve( const std::string& input ) { return {}; }
 
-
-	virtual std::vector<TTest_result> Test_A() { return {}; }
-	virtual std::vector<TTest_result> Test_B() { return {}; }
+	virtual std::vector<TTest_result> Test() { return {}; }
 
 
 };

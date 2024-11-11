@@ -4,7 +4,9 @@
 #include <vector>
 
 
-std::string TAoCS_2015_01::Solve_A( const std::string& input )
+
+
+std::string TAoCS_2015_01_A::Solve( const std::string& input )
 {
 	int piano = 0;
 
@@ -25,7 +27,7 @@ std::string TAoCS_2015_01::Solve_A( const std::string& input )
 
 
 
-std::vector<TTest_result> TAoCS_2015_01::Test_A()
+std::vector<TTest_result> TAoCS_2015_01_A::Test()
 {
 
 	std::vector<TTest_input> ltests = {
@@ -44,9 +46,61 @@ std::vector<TTest_result> TAoCS_2015_01::Test_A()
 
 	for (const auto& curr : ltests)
 	{
-		result.push_back( { curr, Solve_A( curr.input ) } );
+		result.push_back( { curr, Solve( curr.input ) } );
 	}
 
 	return result;
 }
+
+//__________________________________________________________________________________________________
+
+
+
+std::string TAoCS_2015_01_B::Solve( const std::string& input )
+{
+	int piano = 0;
+
+	int step = 1;
+
+	for (const auto& curr : input)
+	{
+		if (curr == '(')
+		{
+			++piano;
+		}
+		else if (curr == ')')
+		{
+			--piano;
+		}
+
+		if (piano == -1)
+		{
+			return std::to_string( step );
+		}
+
+		++step;
+	}
+
+	return "-1";
+}
+
+std::vector<TTest_result> TAoCS_2015_01_B::Test()
+{
+	std::vector<TTest_input> ltests = {
+		{ ")", "1"},
+		{ "()())", "5"}
+	};
+
+	std::vector<TTest_result> result;
+
+	for (const auto& curr : ltests)
+	{
+		result.push_back( { curr, Solve( curr.input ) } );
+	}
+
+	return result;
+}
+
+
+//__________________________________________________________________________________________________
 
