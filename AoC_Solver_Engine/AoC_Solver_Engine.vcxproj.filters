@@ -45,6 +45,9 @@
     <ClInclude Include="src\2015\TAoC_15_Index.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\_Models\TAoCS_yy_dd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2015\01\TAoCS_15_01.cpp">
@@ -72,6 +75,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\2015\TAoC_15_Index.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\_Models\TAoCS_yy_dd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

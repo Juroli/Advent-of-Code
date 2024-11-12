@@ -23,7 +23,7 @@ std::unique_ptr<TAoC_Solver> Get_Solver( int aday, char apart )
 	case 2: return y15::d02::Get_Solver( apart );
 	case 3: return y15::d03::Get_Solver( apart );
 
-	default: return std::make_unique<TAoC_Solver>();
+	default: return std::make_unique<TAoC_Solver_NULL>();
 	}
 
 }
