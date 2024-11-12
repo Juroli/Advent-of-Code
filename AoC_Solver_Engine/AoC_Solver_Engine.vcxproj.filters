@@ -18,13 +18,13 @@
     <ClInclude Include="include\Aoc_Solver.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\2015\TAoCS_01.h">
+    <ClInclude Include="src\2015\TAoCS_15_01.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\TAoC_Solver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\2015\TAoCS_02.h">
+    <ClInclude Include="src\2015\TAoCS_15_02.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\2015\02\TBox.h">
@@ -35,10 +35,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\2015\TAoCS_01.cpp">
+    <ClCompile Include="src\2015\TAoCS_15_01.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\2015\TAoCS_02.cpp">
+    <ClCompile Include="src\2015\TAoCS_15_02.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\2015\02\TBox.cpp">
