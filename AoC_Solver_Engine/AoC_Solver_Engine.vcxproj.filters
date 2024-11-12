@@ -57,10 +57,16 @@
     <ClInclude Include="src\Utils\MD5\Original\md5.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Utils\MD5\orig_refactor\md5.h">
+    <ClInclude Include="src\Utils\MD5\orig_refactor\c\md5.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Utils\MD5\orig_refactor\global.h">
+    <ClInclude Include="src\Utils\MD5\orig_refactor\c\global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\MD5\orig_refactor\cpp\global.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\MD5\orig_refactor\cpp\md5.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -104,7 +110,10 @@
     <ClCompile Include="src\Utils\MD5\Original\mddriver.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Utils\MD5\orig_refactor\md5c.c">
+    <ClCompile Include="src\Utils\MD5\orig_refactor\c\md5c.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\MD5\orig_refactor\cpp\md5c.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
