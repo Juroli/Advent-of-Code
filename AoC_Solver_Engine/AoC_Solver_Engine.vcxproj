@@ -152,10 +152,15 @@
     <ClInclude Include="src\2015\01\TAoCS_15_01.h" />
     <ClInclude Include="src\2015\02\TAoCS_15_02.h" />
     <ClInclude Include="src\2015\03\TAoCS_15_03.h" />
+    <ClInclude Include="src\2015\04\TAoCS_15_04.h" />
     <ClInclude Include="src\2015\TAoC_15_Index.h" />
     <ClInclude Include="src\TAoC_Index.h" />
     <ClInclude Include="src\TAoC_Solver.h" />
     <ClInclude Include="src\TStringList.h" />
+    <ClInclude Include="src\Utils\MD5\orig_refactor\global.h" />
+    <ClInclude Include="src\Utils\MD5\orig_refactor\md5.h" />
+    <ClInclude Include="src\Utils\MD5\Original\global.h" />
+    <ClInclude Include="src\Utils\MD5\Original\md5.h" />
     <ClInclude Include="src\_Models\TAoCS_yy_dd.h" />
   </ItemGroup>
   <ItemGroup>
@@ -164,11 +169,33 @@
     <ClCompile Include="src\2015\01\TAoCS_15_01.cpp" />
     <ClCompile Include="src\2015\02\TAoCS_15_02.cpp" />
     <ClCompile Include="src\2015\03\TAoCS_15_03.cpp" />
+    <ClCompile Include="src\2015\04\TAoCS_15_04.cpp" />
     <ClCompile Include="src\2015\TAoC_15_Index.cpp" />
     <ClCompile Include="src\TAoC_Index.cpp" />
     <ClCompile Include="src\TAoC_Solver.cpp" />
     <ClCompile Include="src\TStringList.cpp" />
+    <ClCompile Include="src\Utils\MD5\orig_refactor\md5c.c" />
+    <ClCompile Include="src\Utils\MD5\Original\md5c.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\Utils\MD5\Original\mddriver.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="src\_Models\TAoCS_yy_dd.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Utils\MD5\Original\golden.md5" />
+    <None Include="src\Utils\MD5\Original\LICENSE.md5" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\Utils\MD5\Original\readme.txt" />
+    <Text Include="src\Utils\MD5\Original\rfc1321.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

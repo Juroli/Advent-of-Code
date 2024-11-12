@@ -48,6 +48,21 @@
     <ClInclude Include="src\_Models\TAoCS_yy_dd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\2015\04\TAoCS_15_04.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\MD5\Original\global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\MD5\Original\md5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\MD5\orig_refactor\md5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\MD5\orig_refactor\global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2015\01\TAoCS_15_01.cpp">
@@ -80,5 +95,25 @@
     <ClCompile Include="src\_Models\TAoCS_yy_dd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\2015\04\TAoCS_15_04.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\MD5\Original\md5c.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\MD5\Original\mddriver.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\MD5\orig_refactor\md5c.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Utils\MD5\Original\LICENSE.md5" />
+    <None Include="src\Utils\MD5\Original\golden.md5" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\Utils\MD5\Original\readme.txt" />
+    <Text Include="src\Utils\MD5\Original\rfc1321.txt" />
   </ItemGroup>
 </Project>
