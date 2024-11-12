@@ -18,15 +18,30 @@
     <ClInclude Include="include\Aoc_Solver.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\TAoCS_2015_01.h">
+    <ClInclude Include="src\2015\TAoCS_01.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\TAoC_Solver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\2015\TAoCS_02.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2015\02\TBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TStringList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\TAoCS_2015_01.cpp">
+    <ClCompile Include="src\2015\TAoCS_01.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2015\TAoCS_02.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2015\02\TBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

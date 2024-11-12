@@ -1,24 +1,29 @@
 
-#include "TAoCS_2015_01.h"
+#include "TAoCS_01.h"
 
 #include <vector>
 
 
+namespace y15
+{
 
 
-std::string TAoCS_2015_01_A::Solve( const std::string& input )
+std::string TAoCS_01_A::Solve( const TStringList& input )
 {
 	int piano = 0;
 
-	for(const auto& curr: input)
+	for(const auto& str: input)
 	{
-		if ( curr == '(')
+		for (const auto& curr : str)
 		{
-			++piano;
-		}
-		else if (curr == ')')
-		{
-			--piano;
+			if (curr == '(')
+			{
+				++piano;
+			}
+			else if (curr == ')')
+			{
+				--piano;
+			}
 		}
 	}
 
@@ -27,7 +32,7 @@ std::string TAoCS_2015_01_A::Solve( const std::string& input )
 
 
 
-std::vector<TTest_result> TAoCS_2015_01_A::Test()
+std::vector<TTest_result> TAoCS_01_A::Test()
 {
 
 	std::vector<TTest_input> ltests = {
@@ -56,35 +61,38 @@ std::vector<TTest_result> TAoCS_2015_01_A::Test()
 
 
 
-std::string TAoCS_2015_01_B::Solve( const std::string& input )
+std::string TAoCS_01_B::Solve( const TStringList& input )
 {
 	int piano = 0;
 
 	int step = 1;
 
-	for (const auto& curr : input)
+	for (const auto& str : input)
 	{
-		if (curr == '(')
+		for (const auto& curr : str)
 		{
-			++piano;
-		}
-		else if (curr == ')')
-		{
-			--piano;
-		}
+			if (curr == '(')
+			{
+				++piano;
+			}
+			else if (curr == ')')
+			{
+				--piano;
+			}
 
-		if (piano == -1)
-		{
-			return std::to_string( step );
-		}
+			if (piano == -1)
+			{
+				return std::to_string( step );
+			}
 
-		++step;
+			++step;
+		}
 	}
 
 	return "-1";
 }
 
-std::vector<TTest_result> TAoCS_2015_01_B::Test()
+std::vector<TTest_result> TAoCS_01_B::Test()
 {
 	std::vector<TTest_input> ltests = {
 		{ ")", "1"},
@@ -103,4 +111,6 @@ std::vector<TTest_result> TAoCS_2015_01_B::Test()
 
 
 //__________________________________________________________________________________________________
+
+}
 

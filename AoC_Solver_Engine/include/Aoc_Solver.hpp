@@ -7,7 +7,8 @@
 #endif  // _MSC_VER
 
 
-#include "../src/TAoCS_2015_01.h"
+#include "../src/2015/TAoCS_01.h"
+#include "../src/2015/TAoCS_02.h"
 
 
 

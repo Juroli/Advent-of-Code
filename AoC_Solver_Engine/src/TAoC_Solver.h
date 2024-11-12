@@ -7,6 +7,9 @@
 #include <istream>
 
 
+#include "TStringList.h"
+
+
 
 struct TTest_input
 {
@@ -24,11 +27,12 @@ struct TTest_result
 
 
 
+
 class TAoC_Solver
 {
 public:
 
-	virtual std::string Solve( const std::string& input ) { return {}; }
+	virtual std::string Solve( const TStringList& input ) { return {}; }
 
 	virtual std::vector<TTest_result> Test() { return {}; }
 

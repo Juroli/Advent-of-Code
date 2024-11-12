@@ -49,23 +49,30 @@ void Print_TestResults( const std::vector<TTest_result>& results )
 }
 
 
-std::string Read_Input( const std::string& path )
+TStringList Read_Input( const std::string& path )
 {
 	std::ifstream file( path );
 	if (!file.good())
 	{
 		throw std::exception( "File not found!" );
 	}
+
+	TStringList result;
+
 	std::string strline;
 
 	
-	if (file.good())
+	while (file.good())
 	{
 		std::getline( file, strline );
-		return strline;
+
+		if (!strline.empty())
+		{
+			result.push_back( strline );
+		}
 	}
 
-	return {};
+	return result;
 }
 
 
@@ -77,9 +84,17 @@ int main( int argc, char* argv[] )
 
 
 		//std::unique_ptr<TAoC_Solver> solver = std::make_unique<TAoCS_2015_01_A>();
-		std::unique_ptr<TAoC_Solver> solver = std::make_unique<TAoCS_2015_01_B>();
+		std::unique_ptr<TAoC_Solver> solver = std::make_unique<y15::TAoCS_02_A>();
 
+		const int YEAR = 2015;
+		const int DAY = 2;
+		const char PART = 'A';
+
+		/**/
 		bool force_test = false;
+		/*/
+		bool force_test = true;
+		//*/
 
 
 		if (force_test || lparams.size() < 2)
@@ -90,12 +105,12 @@ int main( int argc, char* argv[] )
 		}
 		else
 		{
-			const auto fpath = lparams[1] + R"(\2015\01\input.txt)";
+			const auto fpath = fmt::format( "{}\\{}\\{:02}\\input.txt", lparams[1], YEAR, DAY );
 			const auto input = Read_Input( fpath );
 
 			const auto result = solver->Solve( input );
 
-			fmt::print( "Question 2015 01 A - Result: {}\n", result );
+			fmt::print( "Question {} {:02} {} - Result: {}\n", YEAR, DAY, PART, result );
 		}
 	}
 	
