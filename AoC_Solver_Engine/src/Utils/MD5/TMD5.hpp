@@ -1,9 +1,10 @@
 
-#ifndef TMD5_h__
-#define TMD5_h__
+#ifndef TMD5_H_
+#define TMD5_H_
 
 #include <istream>
-//#include <array>
+
+#include <array>
 #include <vector>
 
 
@@ -13,12 +14,12 @@ public:
 
 	TMD5();
 	//	TMD5(std::istream const &pin);
-	TMD5( std::string const& pin );
+	explicit TMD5( std::string const& pin );
 	~TMD5();
 
-	TMD5& operator +=( std::string const& pstr );
+	//	TMD5 &operator +=(std::string const &pstr);
 
-	char Value( unsigned int pid ) const { return m_digest[pid]; }
+	char Value( const unsigned int pid ) const { return m_digest[pid]; }
 
 	std::string String() const;
 
@@ -45,10 +46,12 @@ private:
 
 	//void _MD5Transform(uint32_t state[4], char const [64]);
 	//void _MD5Transform (uint32_t state[4], std::array<char, 64> block);
-	void _MD5Transform( char const [64] );
+	//static void _MD5Transform(char const block[64], uint32_t state[4]);
+	static void _MD5Transform( const uint32_t pblock[16], uint32_t pstate[4] );
+
 	//void _MD5Transform (std::array<char, 64> block);
 	//void _Encode(char *, const std::uint32_t *, uint32_t);
-	std::vector<char> _Encode( std::uint64_t const& input );
+	std::vector<char> _Encode( std::uint64_t const& pinput );
 
 	//	void _Decode(std::uint32_t *, unsigned char const *, uint32_t);
 	void _MD5_memcpy( char*, char const*, uint32_t );
@@ -61,30 +64,39 @@ private:
 	// 	{
 	//uint32_t state[4];                                   /* state (ABCD) */
 	//uint32_t m_count[2];					/* number of bits, modulo 2^64 (lsb first) */
-	uint64_t m_bitcount;					/* number of bits, modulo 2^64 (lsb first) */
+	uint64_t m_bytecount;					/* number of bits, modulo 2^64 (lsb first) */
 
 	char m_buffer[64];                         /* input buffer */
 
-	union
-	{
-		char m_block[64];
-		std::uint32_t m_xdata[16];
-	};
+	char m_block[64];
+	// 	union
+	// 	{
+	// 		char m_block[64];
+	// 		std::uint32_t m_xdata[16];
+	// 	};
 
-	//std::array<char, 64> m_buffer;
-														//};
-														//std::array<unsigned int, 32> m_MD5;
-	//std::array<unsigned int, 4> m_MD5;
-	//uint32_t m_MD5[4];
-	//unsigned char m_digest[16];
-	//unsigned char *m_digest;
+		//std::array<char, 64> m_buffer;
+															//};
+															//std::array<unsigned int, 32> m_MD5;
+		//std::array<unsigned int, 4> m_MD5;
+		//uint32_t m_MD5[4];
 
-	union
-	{
-		uint32_t m_MD5[4];
-		unsigned char m_digest[16];
 		//unsigned char *m_digest;
-	};
+	mutable unsigned char m_digest[16];
+	//mutable std::array<unsigned char, 16> m_digest;		//[16];
+
+	mutable bool m_updated_digest;
+
+	uint32_t m_MD5[4];
+
+
+	// 'union' apparentemente non adatta al "type punning"
+// 	union
+// 	{
+// 		uint32_t m_MD5[4];
+// 		unsigned char m_digest[16];
+// 		//unsigned char *m_digest;
+// 	};
 
 private:
 
@@ -96,34 +108,34 @@ private:
 	// 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	// 	};
 
-	const std::uint32_t S11 = 7;						//	#define S11 7
-	const std::uint32_t S12 = 12;						//	#define S12 12
-	const std::uint32_t S13 = 17;						//	#define S13 17
-	const std::uint32_t S14 = 22;						//	#define S14 22
-	const std::uint32_t S21 = 5;						//	#define S21 5
-	const std::uint32_t S22 = 9;						//	#define S22 9
-	const std::uint32_t S23 = 14;						//	#define S23 14
-	const std::uint32_t S24 = 20;						//	#define S24 20
-	const std::uint32_t S31 = 4;						//	#define S31 4
-	const std::uint32_t S32 = 11;						//	#define S32 11
-	const std::uint32_t S33 = 16;						//	#define S33 16
-	const std::uint32_t S34 = 23;						//	#define S34 23
-	const std::uint32_t S41 = 6;						//	#define S41 6
-	const std::uint32_t S42 = 10;						//	#define S42 10
-	const std::uint32_t S43 = 15;						//	#define S43 15
-	const std::uint32_t S44 = 21;						//	#define S44 21
+	static const std::uint32_t S11 = 7;						//	#define S11 7
+	static const std::uint32_t S12 = 12;						//	#define S12 12
+	static const std::uint32_t S13 = 17;						//	#define S13 17
+	static const std::uint32_t S14 = 22;						//	#define S14 22
+	static const std::uint32_t S21 = 5;						//	#define S21 5
+	static const std::uint32_t S22 = 9;						//	#define S22 9
+	static const std::uint32_t S23 = 14;						//	#define S23 14
+	static const std::uint32_t S24 = 20;						//	#define S24 20
+	static const std::uint32_t S31 = 4;						//	#define S31 4
+	static const std::uint32_t S32 = 11;						//	#define S32 11
+	static const std::uint32_t S33 = 16;						//	#define S33 16
+	static const std::uint32_t S34 = 23;						//	#define S34 23
+	static const std::uint32_t S41 = 6;						//	#define S41 6
+	static const std::uint32_t S42 = 10;						//	#define S42 10
+	static const std::uint32_t S43 = 15;						//	#define S43 15
+	static const std::uint32_t S44 = 21;						//	#define S44 21
 
-	std::uint32_t _F( std::uint32_t x, std::uint32_t y, std::uint32_t z ) { return ((x & y) | ((~x) & z)); }
-	std::uint32_t _G( std::uint32_t x, std::uint32_t y, std::uint32_t z ) { return (x & z) | (y & (~z)); }
-	std::uint32_t _H( std::uint32_t x, std::uint32_t y, std::uint32_t z ) { return (x ^ y ^ z); }
-	std::uint32_t _I( std::uint32_t x, std::uint32_t y, std::uint32_t z ) { return (y ^ (x | (~z))); }
+	static std::uint32_t _F( std::uint32_t x, std::uint32_t y, std::uint32_t z ) { return ((x & y) | ((~x) & z)); }
+	static std::uint32_t _G( std::uint32_t x, std::uint32_t y, std::uint32_t z ) { return (x & z) | (y & (~z)); }
+	static std::uint32_t _H( std::uint32_t x, std::uint32_t y, std::uint32_t z ) { return (x ^ y ^ z); }
+	static std::uint32_t _I( std::uint32_t x, std::uint32_t y, std::uint32_t z ) { return (y ^ (x | (~z))); }
 
 	// ROTATE_LEFT rotates x left n bits.
-	std::uint32_t _BitRotation_Left( std::uint32_t x, int n ) { return ((x << n) | (x >> (32 - n))); }
+	static std::uint32_t _BitRotation_Left( std::uint32_t x, int n ) { return ((x << n) | (x >> (32 - n))); }
 	//std::uint32_t _BitRotation_Left(std::uint32_t x, int n)					{ return _rotl(x, n); }
 
 
-	std::uint32_t _FF( std::uint32_t a
+	static std::uint32_t _FF( std::uint32_t a
 		, std::uint32_t b
 		, std::uint32_t c
 		, std::uint32_t d
@@ -135,7 +147,7 @@ private:
 		return _BitRotation_Left( a + _F( b, c, d ) + x + ac, s ) + b;
 	}
 
-	std::uint32_t _GG( std::uint32_t a
+	static std::uint32_t _GG( std::uint32_t a
 		, std::uint32_t b
 		, std::uint32_t c
 		, std::uint32_t d
@@ -147,7 +159,7 @@ private:
 		return _BitRotation_Left( a + _G( b, c, d ) + x + ac, s ) + b;
 	}
 
-	std::uint32_t _HH( std::uint32_t a
+	static std::uint32_t _HH( std::uint32_t a
 		, std::uint32_t b
 		, std::uint32_t c
 		, std::uint32_t d
@@ -159,7 +171,7 @@ private:
 		return _BitRotation_Left( a + _H( b, c, d ) + x + ac, s ) + b;
 	}
 
-	std::uint32_t _II( std::uint32_t a
+	static std::uint32_t _II( std::uint32_t a
 		, std::uint32_t b
 		, std::uint32_t c
 		, std::uint32_t d

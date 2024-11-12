@@ -59,6 +59,8 @@ std::string TMD5::String() const
 	std::string result( 32, '+' );
 	//result.resize(32);
 
+//	unsigned char const *m_digest = reinterpret_cast<unsigned char const *>(m_MD5);
+
 	char const lookup[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
 	for (int i = 0, j = 0; i < 16; ++i)
@@ -156,13 +158,37 @@ Rotation is separate from addition to prevent re-computation.
 void TMD5::_MD5Init()		/* context */
 {
 	//m_count[0] = m_count[1] = 0;
-	m_bitcount = 0;
+	m_bytecount = 0;
 	/* Load magic initialization constants.
 	*/
-	m_MD5[0] = 0x67452301;
-	m_MD5[1] = 0xefcdab89;
-	m_MD5[2] = 0x98badcfe;
-	m_MD5[3] = 0x10325476;
+	// 	m_MD5[0] = 0x67452301;
+	// 	m_MD5[1] = 0xefcdab89;
+	// 	m_MD5[2] = 0x98badcfe;
+	// 	m_MD5[3] = 0x10325476;
+
+		//m_MD5[0] = 0x67452301;
+	m_digest[0] = 0x01;
+	m_digest[1] = 0x23;
+	m_digest[2] = 0x45;
+	m_digest[3] = 0x67;
+
+	// m_MD5[1] = 0xefcdab89;
+	m_digest[4] = 0x89;
+	m_digest[5] = 0xab;
+	m_digest[6] = 0xcd;
+	m_digest[7] = 0xef;
+
+	// m_MD5[2] = 0x98badcfe;
+	m_digest[8] = 0xfe;
+	m_digest[9] = 0xdc;
+	m_digest[10] = 0xba;
+	m_digest[11] = 0x98;
+
+	// m_MD5[3] = 0x10325476;
+	m_digest[12] = 0x76;
+	m_digest[13] = 0x54;
+	m_digest[14] = 0x32;
+	m_digest[15] = 0x10;
 }
 
 /* MD5 block update operation. Continues an MD5 message-digest
@@ -231,7 +257,7 @@ void TMD5::_MD5Update( std::vector<char>::const_iterator pstart
 	/* Compute number of bytes mod 64 */
 	// index = (m_count[0] >> 3) & 0x3F;
 	//index = (m_count[0] / 8) % 64;
-	uint32_t index = (m_bitcount / 8) % 64;
+	uint32_t index = m_bytecount % 64;
 
 	/* Update number of bits */
 	// 	if ((m_count[0] += (inputLen << 3))
@@ -257,7 +283,19 @@ void TMD5::_MD5Update( std::vector<char>::const_iterator pstart
 
 		if (index >= 64)
 		{
-			_MD5Transform( m_block );
+			uint32_t workbuffer[16];
+
+			for (auto i = 0, src = 0; i < 16; ++i /*, src += 4*/)
+			{
+				workbuffer[i] = 0x0
+					| m_block[src++]
+					| (m_block[src++] << 8)
+					| (m_block[src++] << 16)
+					| (m_block[src++] << 24);
+			}
+
+			//			_MD5Transform(m_block, m_MD5);
+			_MD5Transform( workbuffer, m_MD5 );
 			index = 0;
 		}
 	}
@@ -284,7 +322,7 @@ void TMD5::_MD5Update( std::vector<char>::const_iterator pstart
 	// 	/* Buffer remaining input */
 	// 	_MD5_memcpy(&m_buffer[index], &pinput.data()[i], inputLen-i);
 
-	m_bitcount += inputLen * 8;
+	m_bytecount += inputLen;		// * 8;
 }
 
 
@@ -302,12 +340,12 @@ void TMD5::_MD5Final()
 
 	/* Save number of bits */
 	//_Encode (bits, m_count, 8);
-	std::vector<char> bits = _Encode( m_bitcount );
+	std::vector<char> bits = _Encode( m_bytecount * 8 );
 
 	/* Pad out to 56 mod 64.
 	*/
 	//index = (m_count[0] >> 3) & 0x3f;
-	index = (m_bitcount / 8) % 64;
+	index = m_bytecount % 64;
 	padLen = (index < 56) ? (56 - index) : (120 - index);
 	//_MD5Update (PADDING, padLen);
 	_MD5Update( PADDING.begin(), PADDING.begin() + padLen );
@@ -328,96 +366,98 @@ void TMD5::_MD5Final()
 /* MD5 basic transformation. Transforms state based on block.
 */
 //void TMD5::_MD5Transform (uint32_t state[4], std::array<char, 64> block)	// const  char const block[64])
-void TMD5::_MD5Transform( char const block[64] )
+//void TMD5::_MD5Transform (char const block[64], uint32_t state[4])
+void TMD5::_MD5Transform( const uint32_t block[16], uint32_t state[4] )
 //void TMD5::_MD5Transform (std::array<char, 64> block)
 {
-	std::uint32_t a = m_MD5[0];			//state[0];
-	std::uint32_t b = m_MD5[1];			//state[1];
-	std::uint32_t c = m_MD5[2];			//state[2];
-	std::uint32_t d = m_MD5[3];			//state[3];
+	std::uint32_t a = state[0];			//m_MD5[0];			//state[0];
+	std::uint32_t b = state[1];			//m_MD5[1];			//state[1];
+	std::uint32_t c = state[2];			//m_MD5[2];			//state[2];
+	std::uint32_t d = state[3];			//m_MD5[3];			//state[3];
 
 	//std::uint32_t x[16];
-	std::uint32_t const* x = reinterpret_cast<std::uint32_t const*>(block);
+//	std::uint32_t const *x = reinterpret_cast<std::uint32_t const *>(block);
+	std::uint32_t const* px = block;
 	//std::uint32_t const *x = reinterpret_cast<std::uint32_t const *>(block.data());
 
 //	_Decode (x, block, 64);
 
 	/* Round 1 */
-	a = _FF( a, b, c, d, x[0], S11, 0xd76aa478 ); /* 1 */
-	d = _FF( d, a, b, c, x[1], S12, 0xe8c7b756 ); /* 2 */
-	c = _FF( c, d, a, b, x[2], S13, 0x242070db ); /* 3 */
-	b = _FF( b, c, d, a, x[3], S14, 0xc1bdceee ); /* 4 */
-	a = _FF( a, b, c, d, x[4], S11, 0xf57c0faf ); /* 5 */
-	d = _FF( d, a, b, c, x[5], S12, 0x4787c62a ); /* 6 */
-	c = _FF( c, d, a, b, x[6], S13, 0xa8304613 ); /* 7 */
-	b = _FF( b, c, d, a, x[7], S14, 0xfd469501 ); /* 8 */
-	a = _FF( a, b, c, d, x[8], S11, 0x698098d8 ); /* 9 */
-	d = _FF( d, a, b, c, x[9], S12, 0x8b44f7af ); /* 10 */
-	c = _FF( c, d, a, b, x[10], S13, 0xffff5bb1 ); /* 11 */
-	b = _FF( b, c, d, a, x[11], S14, 0x895cd7be ); /* 12 */
-	a = _FF( a, b, c, d, x[12], S11, 0x6b901122 ); /* 13 */
-	d = _FF( d, a, b, c, x[13], S12, 0xfd987193 ); /* 14 */
-	c = _FF( c, d, a, b, x[14], S13, 0xa679438e ); /* 15 */
-	b = _FF( b, c, d, a, x[15], S14, 0x49b40821 ); /* 16 */
+	a = _FF( a, b, c, d, px[0], S11, 0xd76aa478 ); /*  1 */
+	d = _FF( d, a, b, c, px[1], S12, 0xe8c7b756 ); /*  2 */
+	c = _FF( c, d, a, b, px[2], S13, 0x242070db ); /*  3 */
+	b = _FF( b, c, d, a, px[3], S14, 0xc1bdceee ); /*  4 */
+	a = _FF( a, b, c, d, px[4], S11, 0xf57c0faf ); /*  5 */
+	d = _FF( d, a, b, c, px[5], S12, 0x4787c62a ); /*  6 */
+	c = _FF( c, d, a, b, px[6], S13, 0xa8304613 ); /*  7 */
+	b = _FF( b, c, d, a, px[7], S14, 0xfd469501 ); /*  8 */
+	a = _FF( a, b, c, d, px[8], S11, 0x698098d8 ); /*  9 */
+	d = _FF( d, a, b, c, px[9], S12, 0x8b44f7af ); /* 10 */
+	c = _FF( c, d, a, b, px[10], S13, 0xffff5bb1 ); /* 11 */
+	b = _FF( b, c, d, a, px[11], S14, 0x895cd7be ); /* 12 */
+	a = _FF( a, b, c, d, px[12], S11, 0x6b901122 ); /* 13 */
+	d = _FF( d, a, b, c, px[13], S12, 0xfd987193 ); /* 14 */
+	c = _FF( c, d, a, b, px[14], S13, 0xa679438e ); /* 15 */
+	b = _FF( b, c, d, a, px[15], S14, 0x49b40821 ); /* 16 */
 
 	/* Round 2 */
-	a = _GG( a, b, c, d, x[1], S21, 0xf61e2562 ); /* 17 */
-	d = _GG( d, a, b, c, x[6], S22, 0xc040b340 ); /* 18 */
-	c = _GG( c, d, a, b, x[11], S23, 0x265e5a51 ); /* 19 */
-	b = _GG( b, c, d, a, x[0], S24, 0xe9b6c7aa ); /* 20 */
-	a = _GG( a, b, c, d, x[5], S21, 0xd62f105d ); /* 21 */
-	d = _GG( d, a, b, c, x[10], S22, 0x2441453 ); /* 22 */
-	c = _GG( c, d, a, b, x[15], S23, 0xd8a1e681 ); /* 23 */
-	b = _GG( b, c, d, a, x[4], S24, 0xe7d3fbc8 ); /* 24 */
-	a = _GG( a, b, c, d, x[9], S21, 0x21e1cde6 ); /* 25 */
-	d = _GG( d, a, b, c, x[14], S22, 0xc33707d6 ); /* 26 */
-	c = _GG( c, d, a, b, x[3], S23, 0xf4d50d87 ); /* 27 */
-	b = _GG( b, c, d, a, x[8], S24, 0x455a14ed ); /* 28 */
-	a = _GG( a, b, c, d, x[13], S21, 0xa9e3e905 ); /* 29 */
-	d = _GG( d, a, b, c, x[2], S22, 0xfcefa3f8 ); /* 30 */
-	c = _GG( c, d, a, b, x[7], S23, 0x676f02d9 ); /* 31 */
-	b = _GG( b, c, d, a, x[12], S24, 0x8d2a4c8a ); /* 32 */
+	a = _GG( a, b, c, d, px[1], S21, 0xf61e2562 ); /* 17 */
+	d = _GG( d, a, b, c, px[6], S22, 0xc040b340 ); /* 18 */
+	c = _GG( c, d, a, b, px[11], S23, 0x265e5a51 ); /* 19 */
+	b = _GG( b, c, d, a, px[0], S24, 0xe9b6c7aa ); /* 20 */
+	a = _GG( a, b, c, d, px[5], S21, 0xd62f105d ); /* 21 */
+	d = _GG( d, a, b, c, px[10], S22, 0x2441453 );  /* 22 */
+	c = _GG( c, d, a, b, px[15], S23, 0xd8a1e681 ); /* 23 */
+	b = _GG( b, c, d, a, px[4], S24, 0xe7d3fbc8 ); /* 24 */
+	a = _GG( a, b, c, d, px[9], S21, 0x21e1cde6 ); /* 25 */
+	d = _GG( d, a, b, c, px[14], S22, 0xc33707d6 ); /* 26 */
+	c = _GG( c, d, a, b, px[3], S23, 0xf4d50d87 ); /* 27 */
+	b = _GG( b, c, d, a, px[8], S24, 0x455a14ed ); /* 28 */
+	a = _GG( a, b, c, d, px[13], S21, 0xa9e3e905 ); /* 29 */
+	d = _GG( d, a, b, c, px[2], S22, 0xfcefa3f8 ); /* 30 */
+	c = _GG( c, d, a, b, px[7], S23, 0x676f02d9 ); /* 31 */
+	b = _GG( b, c, d, a, px[12], S24, 0x8d2a4c8a ); /* 32 */
 
 	/* Round 3 */
-	a = _HH( a, b, c, d, x[5], S31, 0xfffa3942 ); /* 33 */
-	d = _HH( d, a, b, c, x[8], S32, 0x8771f681 ); /* 34 */
-	c = _HH( c, d, a, b, x[11], S33, 0x6d9d6122 ); /* 35 */
-	b = _HH( b, c, d, a, x[14], S34, 0xfde5380c ); /* 36 */
-	a = _HH( a, b, c, d, x[1], S31, 0xa4beea44 ); /* 37 */
-	d = _HH( d, a, b, c, x[4], S32, 0x4bdecfa9 ); /* 38 */
-	c = _HH( c, d, a, b, x[7], S33, 0xf6bb4b60 ); /* 39 */
-	b = _HH( b, c, d, a, x[10], S34, 0xbebfbc70 ); /* 40 */
-	a = _HH( a, b, c, d, x[13], S31, 0x289b7ec6 ); /* 41 */
-	d = _HH( d, a, b, c, x[0], S32, 0xeaa127fa ); /* 42 */
-	c = _HH( c, d, a, b, x[3], S33, 0xd4ef3085 ); /* 43 */
-	b = _HH( b, c, d, a, x[6], S34, 0x4881d05 ); /* 44 */
-	a = _HH( a, b, c, d, x[9], S31, 0xd9d4d039 ); /* 45 */
-	d = _HH( d, a, b, c, x[12], S32, 0xe6db99e5 ); /* 46 */
-	c = _HH( c, d, a, b, x[15], S33, 0x1fa27cf8 ); /* 47 */
-	b = _HH( b, c, d, a, x[2], S34, 0xc4ac5665 ); /* 48 */
+	a = _HH( a, b, c, d, px[5], S31, 0xfffa3942 ); /* 33 */
+	d = _HH( d, a, b, c, px[8], S32, 0x8771f681 ); /* 34 */
+	c = _HH( c, d, a, b, px[11], S33, 0x6d9d6122 ); /* 35 */
+	b = _HH( b, c, d, a, px[14], S34, 0xfde5380c ); /* 36 */
+	a = _HH( a, b, c, d, px[1], S31, 0xa4beea44 ); /* 37 */
+	d = _HH( d, a, b, c, px[4], S32, 0x4bdecfa9 ); /* 38 */
+	c = _HH( c, d, a, b, px[7], S33, 0xf6bb4b60 ); /* 39 */
+	b = _HH( b, c, d, a, px[10], S34, 0xbebfbc70 ); /* 40 */
+	a = _HH( a, b, c, d, px[13], S31, 0x289b7ec6 ); /* 41 */
+	d = _HH( d, a, b, c, px[0], S32, 0xeaa127fa ); /* 42 */
+	c = _HH( c, d, a, b, px[3], S33, 0xd4ef3085 ); /* 43 */
+	b = _HH( b, c, d, a, px[6], S34, 0x4881d05 );  /* 44 */
+	a = _HH( a, b, c, d, px[9], S31, 0xd9d4d039 ); /* 45 */
+	d = _HH( d, a, b, c, px[12], S32, 0xe6db99e5 ); /* 46 */
+	c = _HH( c, d, a, b, px[15], S33, 0x1fa27cf8 ); /* 47 */
+	b = _HH( b, c, d, a, px[2], S34, 0xc4ac5665 ); /* 48 */
 
 	/* Round 4 */
-	a = _II( a, b, c, d, x[0], S41, 0xf4292244 ); /* 49 */
-	d = _II( d, a, b, c, x[7], S42, 0x432aff97 ); /* 50 */
-	c = _II( c, d, a, b, x[14], S43, 0xab9423a7 ); /* 51 */
-	b = _II( b, c, d, a, x[5], S44, 0xfc93a039 ); /* 52 */
-	a = _II( a, b, c, d, x[12], S41, 0x655b59c3 ); /* 53 */
-	d = _II( d, a, b, c, x[3], S42, 0x8f0ccc92 ); /* 54 */
-	c = _II( c, d, a, b, x[10], S43, 0xffeff47d ); /* 55 */
-	b = _II( b, c, d, a, x[1], S44, 0x85845dd1 ); /* 56 */
-	a = _II( a, b, c, d, x[8], S41, 0x6fa87e4f ); /* 57 */
-	d = _II( d, a, b, c, x[15], S42, 0xfe2ce6e0 ); /* 58 */
-	c = _II( c, d, a, b, x[6], S43, 0xa3014314 ); /* 59 */
-	b = _II( b, c, d, a, x[13], S44, 0x4e0811a1 ); /* 60 */
-	a = _II( a, b, c, d, x[4], S41, 0xf7537e82 ); /* 61 */
-	d = _II( d, a, b, c, x[11], S42, 0xbd3af235 ); /* 62 */
-	c = _II( c, d, a, b, x[2], S43, 0x2ad7d2bb ); /* 63 */
-	b = _II( b, c, d, a, x[9], S44, 0xeb86d391 ); /* 64 */
+	a = _II( a, b, c, d, px[0], S41, 0xf4292244 ); /* 49 */
+	d = _II( d, a, b, c, px[7], S42, 0x432aff97 ); /* 50 */
+	c = _II( c, d, a, b, px[14], S43, 0xab9423a7 ); /* 51 */
+	b = _II( b, c, d, a, px[5], S44, 0xfc93a039 ); /* 52 */
+	a = _II( a, b, c, d, px[12], S41, 0x655b59c3 ); /* 53 */
+	d = _II( d, a, b, c, px[3], S42, 0x8f0ccc92 ); /* 54 */
+	c = _II( c, d, a, b, px[10], S43, 0xffeff47d ); /* 55 */
+	b = _II( b, c, d, a, px[1], S44, 0x85845dd1 ); /* 56 */
+	a = _II( a, b, c, d, px[8], S41, 0x6fa87e4f ); /* 57 */
+	d = _II( d, a, b, c, px[15], S42, 0xfe2ce6e0 ); /* 58 */
+	c = _II( c, d, a, b, px[6], S43, 0xa3014314 ); /* 59 */
+	b = _II( b, c, d, a, px[13], S44, 0x4e0811a1 ); /* 60 */
+	a = _II( a, b, c, d, px[4], S41, 0xf7537e82 ); /* 61 */
+	d = _II( d, a, b, c, px[11], S42, 0xbd3af235 ); /* 62 */
+	c = _II( c, d, a, b, px[2], S43, 0x2ad7d2bb ); /* 63 */
+	b = _II( b, c, d, a, px[9], S44, 0xeb86d391 ); /* 64 */
 
-	m_MD5[0] += a;				// 	state[0] += a;
-	m_MD5[1] += b;				// 	state[1] += b;
-	m_MD5[2] += c;				// 	state[2] += c;
-	m_MD5[3] += d;				// 	state[3] += d;
+	state[0] += a;				// m_MD5[0] += a;				// 	state[0] += a;
+	state[1] += b;				// m_MD5[1] += b;				// 	state[1] += b;
+	state[2] += c;				// m_MD5[2] += c;				// 	state[2] += c;
+	state[3] += d;				// m_MD5[3] += d;				// 	state[3] += d;
 
 	/* Zeroize sensitive information.
 	*/
