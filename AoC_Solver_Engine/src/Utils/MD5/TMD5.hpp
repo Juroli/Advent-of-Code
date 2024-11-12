@@ -26,15 +26,15 @@ private:
 	void _CalcMD5();
 
 	void _MD5Init();
-	void _MD5Update( unsigned char*, uint32_t );
+	void _MD5Update( unsigned char const*, uint32_t );
 	void _MD5Final();
 
 
-	void _MD5Transform( uint32_t state[4], unsigned char[64] );
+	void _MD5Transform( uint32_t state[4], unsigned char const [64] );
 	void _Encode( unsigned char*, const std::uint32_t*, uint32_t );
-	void _Decode( std::uint32_t*, unsigned char*, uint32_t );
-	void _MD5_memcpy( unsigned char*, unsigned char*, uint32_t );
-	void _MD5_memset( unsigned char*, int, uint32_t );
+	//	void _Decode(std::uint32_t *, unsigned char const *, uint32_t);
+	void _MD5_memcpy( unsigned char*, unsigned char const*, uint32_t );
+	//	void _MD5_memset(unsigned char *, int, uint32_t);
 
 private:
 
@@ -48,7 +48,8 @@ private:
 	//std::array<unsigned int, 32> m_MD5;
 //std::array<unsigned int, 4> m_MD5;
 	uint32_t m_MD5[4];
-	unsigned char m_digest[16];
+	//unsigned char m_digest[16];
+	unsigned char* m_digest;
 
 private:
 
@@ -89,6 +90,7 @@ private:
 	{
 		return _BitRotation_Left( a + _F( b, c, d ) + x + ac, s ) + b;
 	}
+
 	std::uint32_t _GG( std::uint32_t a, std::uint32_t b, std::uint32_t c, std::uint32_t d,
 		std::uint32_t x, int s, std::uint32_t ac )
 	{
@@ -100,6 +102,7 @@ private:
 	{
 		return _BitRotation_Left( a + _H( b, c, d ) + x + ac, s ) + b;
 	}
+
 	std::uint32_t _II( std::uint32_t a, std::uint32_t b, std::uint32_t c, std::uint32_t d,
 		std::uint32_t x, int s, std::uint32_t ac )
 	{

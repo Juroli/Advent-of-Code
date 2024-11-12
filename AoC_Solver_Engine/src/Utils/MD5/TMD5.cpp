@@ -10,6 +10,7 @@ unsigned char TMD5::PADDING[64] = {
 };
 
 TMD5::TMD5()
+	: m_digest( reinterpret_cast<unsigned char*>(m_MD5) )
 {
 	_MD5Init();
 }
@@ -20,6 +21,7 @@ TMD5::TMD5()
 // }
 
 TMD5::TMD5( std::string const& pin )
+	: m_digest( reinterpret_cast<unsigned char*>(m_MD5) )
 {
 	std::vector<unsigned char> buffer;
 
@@ -166,12 +168,13 @@ void TMD5::_MD5Init()		/* context */
 operation, processing another message block, and updating the
 context.
 */
-void TMD5::_MD5Update( unsigned char* input, uint32_t inputLen )
+void TMD5::_MD5Update( unsigned char const* input, uint32_t inputLen )
 {
 	uint32_t i, index, partLen;
 
 	/* Compute number of bytes mod 64 */
-	index = (m_count[0] >> 3) & 0x3F;
+	// index = (m_count[0] >> 3) & 0x3F;
+	index = (m_count[0] / 8) % 64;
 
 	/* Update number of bits */
 	if ((m_count[0] += (inputLen << 3))
@@ -212,6 +215,8 @@ the message digest and zeroizing the context.
 void TMD5::_MD5Final()
 {
 	unsigned char bits[8];
+	//	unsigned char const *bits_2 = reinterpret_cast<unsigned char *>(m_count);
+
 	uint32_t index, padLen;
 
 	/* Save number of bits */
@@ -227,7 +232,7 @@ void TMD5::_MD5Final()
 	_MD5Update( bits, 8 );
 
 	/* Store state in digest */
-	_Encode( m_digest, m_MD5, 16 );
+//	_Encode (m_digest, m_MD5, 16);
 
 	/* Zeroize sensitive information.
 	*/
@@ -237,17 +242,19 @@ void TMD5::_MD5Final()
 
 /* MD5 basic transformation. Transforms state based on block.
 */
-void TMD5::_MD5Transform( uint32_t state[4], unsigned char block[64] )
+void TMD5::_MD5Transform( uint32_t state[4], unsigned char const block[64] )
 {
 	std::uint32_t a = state[0];
 	std::uint32_t b = state[1];
 	std::uint32_t c = state[2];
 	std::uint32_t d = state[3];
-	std::uint32_t x[16];
 
-	_Decode( x, block, 64 );
+	//std::uint32_t x[16];
+	std::uint32_t const* x = reinterpret_cast<std::uint32_t const*>(block);
 
-	/* Round 1 */
+	//	_Decode (x, block, 64);
+
+		/* Round 1 */
 	a = _FF( a, b, c, d, x[0], S11, 0xd76aa478 ); /* 1 */
 	d = _FF( d, a, b, c, x[1], S12, 0xe8c7b756 ); /* 2 */
 	c = _FF( c, d, a, b, x[2], S13, 0x242070db ); /* 3 */
@@ -351,21 +358,21 @@ void TMD5::_Encode( unsigned char* output, std::uint32_t const* input, uint32_t 
 /* Decodes input (unsigned char) into output (UINT4). Assumes len is
 a multiple of 4.
 */
-void TMD5::_Decode( std::uint32_t* output, unsigned char* input, uint32_t len )
-{
-	uint32_t i, j;
-
-	for (i = 0, j = 0; j < len; i++, j += 4)
-		output[i] = (static_cast<std::uint32_t>(input[j])
-			| (static_cast<std::uint32_t>(input[j + 1]) << 8)
-			| (static_cast<std::uint32_t>(input[j + 2]) << 16)
-			| (static_cast<std::uint32_t>(input[j + 3]) << 24));
-}
+// void TMD5::_Decode (std::uint32_t *output, unsigned char const *input, uint32_t len)
+// {
+// 	uint32_t i, j;
+// 
+// 	for (i = 0, j = 0; j < len; i++, j += 4)
+// 		output[i] = (static_cast<std::uint32_t>(input[j])
+// 			| (static_cast<std::uint32_t>(input[j+1]) << 8) 
+// 			| (static_cast<std::uint32_t>(input[j+2]) << 16)
+// 			| (static_cast<std::uint32_t>(input[j+3]) << 24));
+// }
 
 /* Note: Replace "for loop" with standard memcpy if possible.
 */
 
-void TMD5::_MD5_memcpy( unsigned char* output, unsigned char* input, uint32_t len )
+void TMD5::_MD5_memcpy( unsigned char* output, unsigned char const* input, uint32_t len )
 {
 	uint32_t i;
 
@@ -377,13 +384,13 @@ void TMD5::_MD5_memcpy( unsigned char* output, unsigned char* input, uint32_t le
 
 /* Note: Replace "for loop" with standard memset if possible.
 */
-void TMD5::_MD5_memset( unsigned char* output, int value, uint32_t len )
-{
-	uint32_t i;
-
-	for (i = 0; i < len; i++)
-		((char*)output)[i] = (char)value;
-}
+// void TMD5::_MD5_memset (unsigned char *output, int value, uint32_t len)
+// {
+// 	uint32_t i;
+// 
+// 	for (i = 0; i < len; i++)
+// 		((char *)output)[i] = (char)value;
+// }
 
 
 //////////////////////////////////////////////////////////////////////////
