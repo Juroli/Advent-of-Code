@@ -1,6 +1,7 @@
 
 #pragma once
 
+
 #include"../TAoC_Solver.h"
 
 
@@ -8,7 +9,7 @@ namespace y15
 {
 
 
-class TAoCS_02_A : public TAoC_Solver
+class TAoCS_03_A : public TAoC_Solver
 {
 public:
 
@@ -19,8 +20,10 @@ public:
 };
 
 
+//__________________________________________________________________________________________________
 
-class TAoCS_02_B : public TAoC_Solver
+
+class TAoCS_03_B : public TAoC_Solver
 {
 public:
 
@@ -29,7 +32,8 @@ public:
 	std::vector<TTest_result> Test() const override;
 
 };
+
+
 
 }
-
 

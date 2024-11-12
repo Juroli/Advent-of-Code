@@ -12,9 +12,9 @@ class TAoCS_01_A : public TAoC_Solver
 {
 public:
 
-	std::string Solve( const TStringList& input ) override;
+	std::string Solve( const TStringList& input ) const override;
 
-	std::vector<TTest_result> Test() override;
+	std::vector<TTest_result> Test() const override;
 
 };
 
@@ -24,9 +24,9 @@ class TAoCS_01_B : public TAoC_Solver
 {
 public:
 
-	std::string Solve( const TStringList& input ) override;
+	std::string Solve( const TStringList& input ) const override;
 
-	std::vector<TTest_result> Test() override;
+	std::vector<TTest_result> Test() const override;
 
 };
 

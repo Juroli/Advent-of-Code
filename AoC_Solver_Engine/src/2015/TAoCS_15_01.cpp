@@ -8,7 +8,7 @@ namespace y15
 {
 
 
-std::string TAoCS_01_A::Solve( const TStringList& input )
+std::string TAoCS_01_A::Solve( const TStringList& input ) const
 {
 	int piano = 0;
 
@@ -32,7 +32,7 @@ std::string TAoCS_01_A::Solve( const TStringList& input )
 
 
 
-std::vector<TTest_result> TAoCS_01_A::Test()
+std::vector<TTest_result> TAoCS_01_A::Test() const
 {
 
 	std::vector<TTest_input> ltests = {
@@ -47,21 +47,14 @@ std::vector<TTest_result> TAoCS_01_A::Test()
 		{ ")())())", "-3"},
 	};
 
-	std::vector<TTest_result> result;
-
-	for (const auto& curr : ltests)
-	{
-		result.push_back( { curr, Solve( curr.input ) } );
-	}
-
-	return result;
+	return o_RunTests( ltests );
 }
 
 //__________________________________________________________________________________________________
 
 
 
-std::string TAoCS_01_B::Solve( const TStringList& input )
+std::string TAoCS_01_B::Solve( const TStringList& input ) const
 {
 	int piano = 0;
 
@@ -92,21 +85,14 @@ std::string TAoCS_01_B::Solve( const TStringList& input )
 	return "-1";
 }
 
-std::vector<TTest_result> TAoCS_01_B::Test()
+std::vector<TTest_result> TAoCS_01_B::Test() const
 {
 	std::vector<TTest_input> ltests = {
 		{ ")", "1"},
 		{ "()())", "5"}
 	};
 
-	std::vector<TTest_result> result;
-
-	for (const auto& curr : ltests)
-	{
-		result.push_back( { curr, Solve( curr.input ) } );
-	}
-
-	return result;
+	return o_RunTests( ltests );
 }
 
 

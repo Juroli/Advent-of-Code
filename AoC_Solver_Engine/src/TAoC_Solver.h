@@ -32,10 +32,14 @@ class TAoC_Solver
 {
 public:
 
-	virtual std::string Solve( const TStringList& input ) { return {}; }
+	virtual std::string Solve( const TStringList& input ) const { return "* Not implemented! *"; }
 
-	virtual std::vector<TTest_result> Test() { return {}; }
+	virtual std::vector<TTest_result> Test() const { return { { { "?", "?" }, "* Not implemented! *" } }; }
 
+
+protected:
+
+	std::vector<TTest_result> o_RunTests( const std::vector<TTest_input>& test_inputs ) const;
 
 };
 

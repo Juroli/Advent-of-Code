@@ -32,7 +32,7 @@ int TBox::PaperSize() const
 	return m_TotalArea + m_Faces[0];
 }
 
-int TBox::RibbonLenght() const
+int TBox::RibbonLength() const
 {
 	return (2 * m_Dimension[0]) + (2 * m_Dimension[1]) + m_Volume;
 }

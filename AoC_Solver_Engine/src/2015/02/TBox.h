@@ -16,7 +16,7 @@ public:
 	TBox( int pl, int pw, int ph );
 
 	int PaperSize() const;
-	int RibbonLenght() const;
+	int RibbonLength() const;
 
 private:
 

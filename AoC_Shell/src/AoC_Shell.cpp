@@ -27,6 +27,18 @@ std::vector<std::string> ReadMainParams( int argc, char* argv[] )
 
 
 
+bool Check_TestResults( const std::vector<TTest_result>& results )
+{
+	for (const auto& curr : results)
+	{
+		if (!curr)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
 
 void Print_TestResults( const std::vector<TTest_result>& results )
 {
@@ -83,27 +95,28 @@ int main( int argc, char* argv[] )
 		const auto lparams = ReadMainParams( argc, argv );
 
 
-		//std::unique_ptr<TAoC_Solver> solver = std::make_unique<TAoCS_2015_01_A>();
-		std::unique_ptr<TAoC_Solver> solver = std::make_unique<y15::TAoCS_02_A>();
+		std::unique_ptr<TAoC_Solver> solver = std::make_unique<y15::TAoCS_03_B>();
+		//std::unique_ptr<TAoC_Solver> solver = std::make_unique<TAoC_Solver>();
 
 		const int YEAR = 2015;
-		const int DAY = 2;
-		const char PART = 'A';
+		const int DAY = 3;
+		const char PART = 'B';
 
-		/**/
+		/**
 		bool force_test = false;
 		/*/
 		bool force_test = true;
 		//*/
 
+		const auto restest = solver->Test();
+		const auto test_ok = Check_TestResults( restest );
 
-		if (force_test || lparams.size() < 2)
+		if ( !test_ok )
 		{
-			const auto restest = solver->Test();
-
 			Print_TestResults( restest );
 		}
-		else
+		
+		if( test_ok && lparams.size() > 1 )
 		{
 			const auto fpath = fmt::format( "{}\\{}\\{:02}\\input.txt", lparams[1], YEAR, DAY );
 			const auto input = Read_Input( fpath );
