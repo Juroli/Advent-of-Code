@@ -1,11 +1,30 @@
+
 #include "TAoCS_15_03.h"
 
-#include "03/T2DMap.h"
+#include "T2DMap.h"
 
-namespace y15
+
+
+namespace y15::d03
 {
 
-std::string TAoCS_03_A::Solve( const TStringList& input ) const
+
+std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
+{
+	switch (apart)
+	{
+	case 'A': return std::make_unique< TAoCS_A>();
+	case 'B': return std::make_unique< TAoCS_B>();
+
+	default: throw std::exception( "Invalid part." );
+	}
+}
+
+
+//__________________________________________________________________________________________________
+
+
+std::string TAoCS_A::Solve( const TStringList& input ) const
 {
 	if (input.empty())
 	{
@@ -16,7 +35,8 @@ std::string TAoCS_03_A::Solve( const TStringList& input ) const
 	return std::to_string( deliver.NHouses());
 }
 
-std::vector<TTest_result> TAoCS_03_A::Test() const
+
+std::vector<TTest_result> TAoCS_A::Test() const
 {
 	std::vector<TTest_input> ltests = {
 		{ ">", "2"},
@@ -33,7 +53,7 @@ std::vector<TTest_result> TAoCS_03_A::Test() const
 
 
 
-std::string TAoCS_03_B::Solve( const TStringList& input ) const
+std::string TAoCS_B::Solve( const TStringList& input ) const
 {
 	if (input.empty())
 	{
@@ -45,7 +65,7 @@ std::string TAoCS_03_B::Solve( const TStringList& input ) const
 }
 
 
-std::vector<TTest_result> TAoCS_03_B::Test() const
+std::vector<TTest_result> TAoCS_B::Test() const
 {
 	std::vector<TTest_input> ltests = {
 		{ "^v", "3"},

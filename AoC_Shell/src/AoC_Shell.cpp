@@ -53,7 +53,7 @@ void Print_TestResults( const std::vector<TTest_result>& results )
 		}
 		else
 		{
-			fmt::print( "ERROR: expected: {}, received: {}\n", curr.nominal.expected, curr.result );
+			fmt::print( "ERROR: expected: {}, received: {}\n", curr.reference.expected, curr.actual );
 		}
 
 		++progressivo;
@@ -95,23 +95,20 @@ int main( int argc, char* argv[] )
 		const auto lparams = ReadMainParams( argc, argv );
 
 
-		std::unique_ptr<TAoC_Solver> solver = std::make_unique<y15::TAoCS_03_B>();
-		//std::unique_ptr<TAoC_Solver> solver = std::make_unique<TAoC_Solver>();
-
 		const int YEAR = 2015;
 		const int DAY = 3;
-		const char PART = 'B';
+		const char PART = 'A';
 
-		/**
-		bool force_test = false;
-		/*/
-		bool force_test = true;
-		//*/
+		const auto solver = Get_Solver( YEAR, DAY, PART );
+
+
+
+		fmt::print( " - Question {} {:02} {}\n\n", YEAR, DAY, PART );
 
 		const auto restest = solver->Test();
 		const auto test_ok = Check_TestResults( restest );
 
-		if ( !test_ok )
+		//if ( !test_ok )
 		{
 			Print_TestResults( restest );
 		}
@@ -123,7 +120,7 @@ int main( int argc, char* argv[] )
 
 			const auto result = solver->Solve( input );
 
-			fmt::print( "Question {} {:02} {} - Result: {}\n", YEAR, DAY, PART, result );
+			fmt::print( "Result of 'input' file: {}\n", result );
 		}
 	}
 	

@@ -19,10 +19,10 @@ struct TTest_input
 
 struct TTest_result
 {
-	TTest_input nominal;
-	std::string result;
+	TTest_input reference;
+	std::string actual;
 
-	operator bool() const noexcept { return result == nominal.expected; }
+	operator bool() const noexcept { return actual == reference.expected; }
 };
 
 

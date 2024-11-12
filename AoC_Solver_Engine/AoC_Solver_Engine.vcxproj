@@ -149,18 +149,22 @@
     <ClInclude Include="include\Aoc_Solver.hpp" />
     <ClInclude Include="src\2015\02\TBox.h" />
     <ClInclude Include="src\2015\03\T2DMap.h" />
-    <ClInclude Include="src\2015\TAoCS_15_01.h" />
-    <ClInclude Include="src\2015\TAoCS_15_02.h" />
-    <ClInclude Include="src\2015\TAoCS_15_03.h" />
+    <ClInclude Include="src\2015\01\TAoCS_15_01.h" />
+    <ClInclude Include="src\2015\02\TAoCS_15_02.h" />
+    <ClInclude Include="src\2015\03\TAoCS_15_03.h" />
+    <ClInclude Include="src\2015\TAoC_15_Index.h" />
+    <ClInclude Include="src\TAoC_Index.h" />
     <ClInclude Include="src\TAoC_Solver.h" />
     <ClInclude Include="src\TStringList.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2015\02\TBox.cpp" />
     <ClCompile Include="src\2015\03\T2DMap.cpp" />
-    <ClCompile Include="src\2015\TAoCS_15_01.cpp" />
-    <ClCompile Include="src\2015\TAoCS_15_02.cpp" />
-    <ClCompile Include="src\2015\TAoCS_15_03.cpp" />
+    <ClCompile Include="src\2015\01\TAoCS_15_01.cpp" />
+    <ClCompile Include="src\2015\02\TAoCS_15_02.cpp" />
+    <ClCompile Include="src\2015\03\TAoCS_15_03.cpp" />
+    <ClCompile Include="src\2015\TAoC_15_Index.cpp" />
+    <ClCompile Include="src\TAoC_Index.cpp" />
     <ClCompile Include="src\TAoC_Solver.cpp" />
     <ClCompile Include="src\TStringList.cpp" />
   </ItemGroup>

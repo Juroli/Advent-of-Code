@@ -1,14 +1,17 @@
+
 #pragma once
 
-#include"../TAoC_Solver.h"
+#include"TAoC_Solver.h"
 
 
-
-namespace y15
+namespace y15::d02
 {
 
+std::unique_ptr<TAoC_Solver> Get_Solver( char apart );
 
-class TAoCS_01_A : public TAoC_Solver
+
+
+class TAoCS_A : public TAoC_Solver
 {
 public:
 
@@ -20,7 +23,7 @@ public:
 
 
 
-class TAoCS_01_B : public TAoC_Solver
+class TAoCS_B : public TAoC_Solver
 {
 public:
 
@@ -31,4 +34,5 @@ public:
 };
 
 }
+
 
