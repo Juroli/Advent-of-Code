@@ -2,10 +2,13 @@
 #ifndef TMD5_H_
 #define TMD5_H_
 
-#include <istream>
+//#include <istream>
+//#include <array>
 
-#include <array>
 #include <vector>
+
+#include <string>
+
 
 
 class TMD5
@@ -17,7 +20,7 @@ public:
 	explicit TMD5( std::string const& pin );
 	~TMD5();
 
-	//	TMD5 &operator +=(std::string const &pstr);
+	//	TMD5 &operator +=( std::string const &pstr );
 
 	char Value( const unsigned int pid ) const { return m_digest[pid]; }
 
@@ -46,12 +49,10 @@ private:
 
 	//void _MD5Transform(uint32_t state[4], char const [64]);
 	//void _MD5Transform (uint32_t state[4], std::array<char, 64> block);
-	//static void _MD5Transform(char const block[64], uint32_t state[4]);
-	static void _MD5Transform( const uint32_t pblock[16], uint32_t pstate[4] );
-
+	void _MD5Transform( char const [64] );
 	//void _MD5Transform (std::array<char, 64> block);
 	//void _Encode(char *, const std::uint32_t *, uint32_t);
-	std::vector<char> _Encode( std::uint64_t const& pinput );
+	std::vector<char> _Encode( std::uint64_t const& input );
 
 	//	void _Decode(std::uint32_t *, unsigned char const *, uint32_t);
 	void _MD5_memcpy( char*, char const*, uint32_t );
@@ -64,39 +65,30 @@ private:
 	// 	{
 	//uint32_t state[4];                                   /* state (ABCD) */
 	//uint32_t m_count[2];					/* number of bits, modulo 2^64 (lsb first) */
-	uint64_t m_bytecount;					/* number of bits, modulo 2^64 (lsb first) */
+	uint64_t m_bitcount;					/* number of bits, modulo 2^64 (lsb first) */
 
 	char m_buffer[64];                         /* input buffer */
 
-	char m_block[64];
-	// 	union
-	// 	{
-	// 		char m_block[64];
-	// 		std::uint32_t m_xdata[16];
-	// 	};
+	union
+	{
+		char m_block[64];
+		std::uint32_t m_xdata[16];
+	};
 
-		//std::array<char, 64> m_buffer;
-															//};
-															//std::array<unsigned int, 32> m_MD5;
-		//std::array<unsigned int, 4> m_MD5;
-		//uint32_t m_MD5[4];
+	//std::array<char, 64> m_buffer;
+														//};
+														//std::array<unsigned int, 32> m_MD5;
+	//std::array<unsigned int, 4> m_MD5;
+	//uint32_t m_MD5[4];
+	//unsigned char m_digest[16];
+	//unsigned char *m_digest;
 
+	union
+	{
+		uint32_t m_MD5[4];
+		unsigned char m_digest[16];
 		//unsigned char *m_digest;
-	mutable unsigned char m_digest[16];
-	//mutable std::array<unsigned char, 16> m_digest;		//[16];
-
-	mutable bool m_updated_digest;
-
-	uint32_t m_MD5[4];
-
-
-	// 'union' apparentemente non adatta al "type punning"
-// 	union
-// 	{
-// 		uint32_t m_MD5[4];
-// 		unsigned char m_digest[16];
-// 		//unsigned char *m_digest;
-// 	};
+	};
 
 private:
 
@@ -232,6 +224,8 @@ private:
 // 	_MD5_memcpy(&m_buffer[index], &pinput.data()[i], inputLen-i);
 // 
 // }
+
+
 
 #endif // TMD5_h__
 

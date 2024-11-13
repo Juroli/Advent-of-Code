@@ -88,6 +88,15 @@ TStringList Read_Input( const std::string& path )
 }
 
 
+void Test_libs()
+{
+	const auto restest = Test_TMD5();
+	Print_TestResults( restest );
+
+	fmt::print( "\n" );
+}
+
+
 int main( int argc, char* argv[] )
 {
 	try
@@ -95,12 +104,14 @@ int main( int argc, char* argv[] )
 		const auto lparams = ReadMainParams( argc, argv );
 
 
+		Test_libs();
+
+
 		const int YEAR = 2015;
 		const int DAY = 4;
 		const char PART = 'A';
 
 		const auto solver = Get_Solver( YEAR, DAY, PART );
-
 
 
 		fmt::print( " - Question {} {:02} {}\n\n", YEAR, DAY, PART );
