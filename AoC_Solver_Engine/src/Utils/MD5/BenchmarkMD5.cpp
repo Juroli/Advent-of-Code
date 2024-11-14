@@ -6,7 +6,7 @@
 #include "nanobench.h"
 
 
-#include "TMD5.hpp"
+#include "JMD5.hpp"
 
 extern "C"
 {

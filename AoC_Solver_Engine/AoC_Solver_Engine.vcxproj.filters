@@ -69,7 +69,7 @@
     <ClInclude Include="src\Utils\MD5\orig_refactor\cpp\md5.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Utils\MD5\TMD5.hpp">
+    <ClInclude Include="src\Utils\MD5\JMD5.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Utils\MD5\TestMD5.hpp">
@@ -128,7 +128,7 @@
     <ClCompile Include="src\Utils\MD5\orig_refactor\cpp\md5c.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Utils\MD5\TMD5.cpp">
+    <ClCompile Include="src\Utils\MD5\JMD5.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Utils\MD5\TestMD5.cpp">
