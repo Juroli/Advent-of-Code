@@ -76,14 +76,40 @@ std::vector<TTest_result> TAoCS_A::Test() const
 
 std::string TAoCS_B::Solve( const TStringList& input ) const
 {
-	return "* Not implemented! *";
+	if (input.empty())
+	{
+		throw std::exception( "No input" );
+	}
+
+	std::string base_str( input.front() );
+
+	for (auto iter = 1u; true; ++iter)
+	{
+		std::string str = base_str + std::to_string( iter );
+
+		const auto result = Calc_MD5( str );
+
+		bool found = true;
+		for (auto i = 0u; i < 6; ++i)
+		{
+			if (result[i] != '0')
+			{
+				found = false;
+			}
+		}
+
+		if (found)
+		{
+			return std::to_string( iter );
+		}
+	}
+
+	return "";
 }
 
 std::vector<TTest_result> TAoCS_B::Test() const
 {
 	std::vector<TTest_input> ltests = {
-		{ "", ""},
-		{ "", ""},
 	};
 
 	return o_RunTests( ltests );

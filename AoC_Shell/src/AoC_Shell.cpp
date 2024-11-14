@@ -113,14 +113,14 @@ int main( int argc, char* argv[] )
 		const auto lparams = ReadMainParams( argc, argv );
 
 
-		Test_libs();
+		//Test_libs();
 		//Bench_libs();
 
-		return 0;
+		//return 0;
 
 		const int YEAR = 2015;
 		const int DAY = 4;
-		const char PART = 'A';
+		const char PART = 'B';
 
 		const auto solver = Get_Solver( YEAR, DAY, PART );
 
