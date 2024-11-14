@@ -31,31 +31,31 @@ constexpr uint32_t S42 = 10;
 constexpr uint32_t S43 = 15;
 constexpr uint32_t S44 = 21;
 
-static constexpr uint32_t _F( uint32_t x, uint32_t y, uint32_t z ) { return ((x & y) | ((~x) & z)); }
-static constexpr uint32_t _G( uint32_t x, uint32_t y, uint32_t z ) { return (x & z) | (y & (~z)); }
-static constexpr uint32_t _H( uint32_t x, uint32_t y, uint32_t z ) { return (x ^ y ^ z); }
-static constexpr uint32_t _I( uint32_t x, uint32_t y, uint32_t z ) { return (y ^ (x | (~z))); }
+static constexpr uint32_t _F( uint32_t x, uint32_t y, uint32_t z ) noexcept { return ((x & y) | ((~x) & z)); }
+static constexpr uint32_t _G( uint32_t x, uint32_t y, uint32_t z ) noexcept { return (x & z) | (y & (~z)); }
+static constexpr uint32_t _H( uint32_t x, uint32_t y, uint32_t z ) noexcept { return (x ^ y ^ z); }
+static constexpr uint32_t _I( uint32_t x, uint32_t y, uint32_t z ) noexcept { return (y ^ (x | (~z))); }
 
 
-static constexpr uint32_t _BitRotation_Left( uint32_t x, int n ) { return ((x << n) | (x >> (32 - n))); }
+static constexpr uint32_t _BitRotation_Left( uint32_t x, int n ) noexcept { return ((x << n) | (x >> (32 - n))); }
 
 
-static constexpr uint32_t _FF( uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac )
+static constexpr uint32_t _FF( uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac ) noexcept
 {
 	return _BitRotation_Left( a + _F( b, c, d ) + x + ac, s ) + b;
 }
 
-static constexpr uint32_t _GG( uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac )
+static constexpr uint32_t _GG( uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac ) noexcept
 {
 	return _BitRotation_Left( a + _G( b, c, d ) + x + ac, s ) + b;
 }
 
-static constexpr uint32_t _HH( uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac )
+static constexpr uint32_t _HH( uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac ) noexcept
 {
 	return _BitRotation_Left( a + _H( b, c, d ) + x + ac, s ) + b;
 }
 
-static constexpr uint32_t _II( uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac )
+static constexpr uint32_t _II( uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t x, uint32_t s, uint32_t ac ) noexcept
 {
 	return _BitRotation_Left( a + _I( b, c, d ) + x + ac, s ) + b;
 }
@@ -163,8 +163,9 @@ void TMD5::i_MD5Final()
 
 }
 
-/* MD5 basic transformation. Transforms state based on block. */
 
+
+/* MD5 basic transformation. Transforms state based on block. */
 void TMD5::i_MD5Transform( const uint32_t ax[16] )
 {
 	uint32_t a = m_MD5[0];
@@ -252,6 +253,8 @@ void TMD5::i_MD5Transform( const uint32_t ax[16] )
 
 }
 
+
+
 /* Encodes input (UINT4) into output (unsigned char). Assumes len is
 a multiple of 4.
 */
@@ -268,6 +271,7 @@ std::vector<uint8_t> TMD5::i_Encode( const std::uint64_t& input )
 		gsl::narrow_cast<uint8_t>((input >> 56) & 0xff),
 		};
 }
+
 
 
 //__________________________________________________________________________________________________
