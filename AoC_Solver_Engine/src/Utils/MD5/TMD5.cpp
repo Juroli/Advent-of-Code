@@ -123,15 +123,14 @@ void TMD5::i_MD5Update( const std::vector<uint8_t>& ainput )
 }
 
 
-
-void TMD5::i_MD5Update( std::span<const std::byte> adata )
+void TMD5::i_MD5Update_v1( const std::span<const std::byte> adata )
 {
 	const int IN_BUFFER_LENGTH = 64;
 
 	uint8_t curr_buff_len = m_TotalByteCount % IN_BUFFER_LENGTH;
 
 
-	for(const auto curr: adata)
+	for (const auto curr : adata)
 	{
 		m_InputBuffer[curr_buff_len] = curr;
 
@@ -142,7 +141,7 @@ void TMD5::i_MD5Update( std::span<const std::byte> adata )
 
 		if (curr_buff_len >= IN_BUFFER_LENGTH)
 		{
-			const auto work_block = std::bit_cast< std::array<uint32_t, 16> >( m_InputBuffer );
+			const auto work_block = std::bit_cast<std::array<uint32_t, 16>>(m_InputBuffer);
 
 			i_MD5Transform( work_block );
 			curr_buff_len = 0;
@@ -150,6 +149,46 @@ void TMD5::i_MD5Update( std::span<const std::byte> adata )
 	}
 
 }
+
+void TMD5::i_MD5Update_v2( const std::span<const std::byte> adata )
+{
+	const int IN_BUFFER_LENGTH = 64;
+
+	size_t currBuffLen = m_TotalByteCount % IN_BUFFER_LENGTH;
+	auto outItBegin = m_InputBuffer.begin() + currBuffLen;
+
+	auto inItBegin = adata.begin();
+	auto inputSize = adata.size();
+
+
+	while (inputSize > 0)
+	{
+		const auto copyMaxSize = IN_BUFFER_LENGTH - currBuffLen;
+		const auto copySize = std::min( inputSize, copyMaxSize );
+		const auto inItEnd = inItBegin + copySize;
+
+		std::copy( inItBegin, inItEnd, outItBegin );
+
+		currBuffLen += copySize;
+		inputSize -= copySize;
+		inItBegin += copySize;
+
+		m_TotalByteCount += copySize;
+
+
+		if (currBuffLen >= IN_BUFFER_LENGTH)
+		{
+			const auto work_block = std::bit_cast< std::array<uint32_t, 16> >( m_InputBuffer );
+
+			i_MD5Transform( work_block );
+			currBuffLen = 0;
+			outItBegin = m_InputBuffer.begin();
+		}
+	}
+
+}
+
+
 
 
 

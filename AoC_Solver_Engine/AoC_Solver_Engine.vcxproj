@@ -158,6 +158,7 @@
     <ClInclude Include="src\TAoC_Solver.h" />
     <ClInclude Include="src\Test_Common.h" />
     <ClInclude Include="src\TStringList.h" />
+    <ClInclude Include="src\Utils\MD5\BenchmarkMD5.hpp" />
     <ClInclude Include="src\Utils\MD5\orig_refactor\cpp\global.hpp" />
     <ClInclude Include="src\Utils\MD5\orig_refactor\cpp\md5.hpp" />
     <ClInclude Include="src\Utils\MD5\orig_refactor\c\global.h" />
@@ -179,13 +180,9 @@
     <ClCompile Include="src\TAoC_Index.cpp" />
     <ClCompile Include="src\TAoC_Solver.cpp" />
     <ClCompile Include="src\TStringList.cpp" />
+    <ClCompile Include="src\Utils\MD5\BenchmarkMD5.cpp" />
     <ClCompile Include="src\Utils\MD5\orig_refactor\cpp\md5c.cpp" />
-    <ClCompile Include="src\Utils\MD5\orig_refactor\c\md5c.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="src\Utils\MD5\orig_refactor\c\md5c.c" />
     <ClCompile Include="src\Utils\MD5\Original\md5c.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

@@ -26,7 +26,9 @@ private:
 
 
 	void i_MD5Update( const std::vector<uint8_t>& ainput );
-	void i_MD5Update( std::span<const std::byte> adata );
+	void i_MD5Update( const std::span<const std::byte> adata ) { return i_MD5Update_v1( adata ); }
+	void i_MD5Update_v1( const std::span<const std::byte> adata );
+	void i_MD5Update_v2( const std::span<const std::byte> adata );
 
 	void i_MD5Final();
 

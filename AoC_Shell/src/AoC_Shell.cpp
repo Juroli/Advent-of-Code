@@ -13,6 +13,7 @@
 
 
 
+
 std::vector<std::string> ReadMainParams( int argc, char* argv[] )
 {
 	std::vector<std::string> result;
@@ -97,6 +98,12 @@ void Test_libs()
 }
 
 
+void Bench_libs()
+{
+	libMD5::Benchmark_Compare();
+}
+
+
 int main( int argc, char* argv[] )
 {
 	try
@@ -105,7 +112,9 @@ int main( int argc, char* argv[] )
 
 
 		Test_libs();
+		//Bench_libs();
 
+		return 0;
 
 		const int YEAR = 2015;
 		const int DAY = 4;
