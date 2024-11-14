@@ -9,7 +9,8 @@
 
 #include "../src/TAoC_Index.h"
 
-
+#include "../src/Utils/MD5/TestMD5.hpp"
+#include "../src/Utils/MD5/BenchmarkMD5.hpp"
 
 
 #endif

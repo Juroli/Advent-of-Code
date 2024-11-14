@@ -13,6 +13,7 @@
 
 
 
+
 std::vector<std::string> ReadMainParams( int argc, char* argv[] )
 {
 	std::vector<std::string> result;
@@ -88,6 +89,23 @@ TStringList Read_Input( const std::string& path )
 }
 
 
+void Test_libs()
+{
+	//TODO: Move the tests in a Unit Test Project.
+
+	const auto restest = Test_TMD5();
+	Print_TestResults( restest );
+
+	fmt::print( "\n" );
+}
+
+
+void Bench_libs()
+{
+	libMD5::Benchmark_Compare();
+}
+
+
 int main( int argc, char* argv[] )
 {
 	try
@@ -95,12 +113,16 @@ int main( int argc, char* argv[] )
 		const auto lparams = ReadMainParams( argc, argv );
 
 
+		Test_libs();
+		//Bench_libs();
+
+		return 0;
+
 		const int YEAR = 2015;
-		const int DAY = 3;
-		const char PART = 'B';
+		const int DAY = 4;
+		const char PART = 'A';
 
 		const auto solver = Get_Solver( YEAR, DAY, PART );
-
 
 
 		fmt::print( " - Question {} {:02} {}\n\n", YEAR, DAY, PART );
