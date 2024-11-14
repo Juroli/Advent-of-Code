@@ -6,6 +6,7 @@
 #include <vector>
 #include <istream>
 
+#include <functional>
 
 #include "Test_Common.h"
 #include "TStringList.h"
@@ -25,7 +26,9 @@ public:
 
 protected:
 
-	std::vector<TTest_result> o_RunTests( const std::vector<TTest_input>& test_inputs ) const;
+	std::vector<TTest_result> o_RunTests( const std::vector<TTest_input>& test_inputs
+		, std::function<std::string(const std::string&)> funct 
+		) const;
 
 };
 

@@ -44,7 +44,7 @@ std::vector<TTest_result> TAoCS_A::Test() const
 		{ "^v^v^v^v^v", "2"},
 	};
 
-	return o_RunTests(ltests);
+	return o_RunTests( ltests, [this]( const std::string& str ) {return Solve( str ); } );
 }
 
 
@@ -73,7 +73,7 @@ std::vector<TTest_result> TAoCS_B::Test() const
 		{ "^v^v^v^v^v", "11"},
 	};
 
-	return o_RunTests( ltests );
+	return o_RunTests( ltests, [this]( const std::string& str ) {return Solve( str ); } );
 }
 
 }

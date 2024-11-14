@@ -43,7 +43,7 @@ std::vector<TTest_result> TAoCS_A::Test() const
 		{ "1x1x10", "43"},
 	};
 
-	return o_RunTests( ltests );
+	return o_RunTests( ltests, [this]( const std::string& str ) {return Solve( str ); } );
 }
 
 
@@ -70,7 +70,7 @@ std::vector<TTest_result> TAoCS_B::Test() const
 		{ "1x1x10", "14"},
 	};
 
-	return o_RunTests(ltests);
+	return o_RunTests( ltests, [this]( const std::string& str ) {return Solve( str ); } );
 }
 
 }

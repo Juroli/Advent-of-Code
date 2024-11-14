@@ -36,7 +36,7 @@ std::vector<TTest_result> TAoCS_A::Test() const
 		{ "", ""},
 	};
 
-	return o_RunTests( ltests );
+	return o_RunTests( ltests, [this]( const std::string& str ) { return Solve( str ); } );
 }
 
 
@@ -55,7 +55,7 @@ std::vector<TTest_result> TAoCS_B::Test() const
 		{ "", ""},
 	};
 
-	return o_RunTests( ltests );
+	return o_RunTests( ltests, [this]( const std::string& str ) { return Solve( str ); } );
 }
 
 

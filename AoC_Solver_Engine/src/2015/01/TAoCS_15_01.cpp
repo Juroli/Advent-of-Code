@@ -62,7 +62,7 @@ std::vector<TTest_result> TAoCS_A::Test() const
 		{ ")())())", "-3"},
 	};
 
-	return o_RunTests( ltests );
+	return o_RunTests( ltests, [this](const std::string& str){return Solve(str); } );
 }
 
 //__________________________________________________________________________________________________
@@ -107,7 +107,7 @@ std::vector<TTest_result> TAoCS_B::Test() const
 		{ "()())", "5"}
 	};
 
-	return o_RunTests( ltests );
+	return o_RunTests( ltests, [this]( const std::string& str ) {return Solve( str ); } );
 }
 
 

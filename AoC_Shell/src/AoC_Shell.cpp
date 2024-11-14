@@ -119,8 +119,8 @@ int main( int argc, char* argv[] )
 		//return 0;
 
 		const int YEAR = 2015;
-		const int DAY = 4;
-		const char PART = 'B';
+		const int DAY = 5;
+		const char PART = 'A';
 
 		const auto solver = Get_Solver( YEAR, DAY, PART );
 
