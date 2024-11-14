@@ -24,8 +24,9 @@ namespace libMD5
 
 std::string Benchmark_TMD5( const std::string& str )
 {
-	TMD5 check( str );
-	return check.String();
+	//TMD5 check( str );
+	//return check.String();
+	return Calc_MD5( str );
 }
 
 std::string Benchmark_cMD5( std::string& str )
@@ -45,7 +46,7 @@ void Benchmark_Compare()
 {
 	ankerl::nanobench::Bench().run( "cMD5", [&] {
 
-		//for(auto i = 0u; i < 1000000; ++i)
+		for(auto i = 0u; i < 1000000; ++i)
 		{
 			auto str = std::to_string( 1 );	// i );
 			//const auto result = Bench_TMD5( std::to_string( i ) );
@@ -56,7 +57,7 @@ void Benchmark_Compare()
 
 	ankerl::nanobench::Bench().run( "TMD5", [&] {
 
-		//for (auto i = 0u; i < 1000000; ++i)
+		for (auto i = 0u; i < 1000000; ++i)
 		{
 			const auto result = Benchmark_TMD5( std::to_string( 1 ) );	// i ) );
 			ankerl::nanobench::doNotOptimizeAway( result );

@@ -1,13 +1,14 @@
 
 #include "TMD5.hpp"
 
-
 #include <bit>
-
 #include "gsl/gsl"
 
 
-//char TMD5::PADDING[64] = {
+
+namespace
+{
+
 const std::array<std::byte, 64> PADDING = {
 	std::byte{0x80}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0},
 	std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0},
@@ -17,7 +18,7 @@ const std::array<std::byte, 64> PADDING = {
 	std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0},
 	std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0},
 	std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0},
-	};
+};
 
 
 constexpr uint32_t S11 = 7;
@@ -66,91 +67,24 @@ static constexpr uint32_t _II( uint32_t a, uint32_t b, uint32_t c, uint32_t d, u
 	return _BitRotation_Left( a + _I( b, c, d ) + x + ac, s ) + b;
 }
 
-
-
-
-
-
-TMD5::TMD5()
-	: m_TotalByteCount( 0 )
-	, m_MD5 { 0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476 }
-{
 }
 
-TMD5::TMD5( const std::string& pin )
+
+//__________________________________________________________________________________________________
+
+
+namespace impldet_
+{
+
+TSessionMD5::TSessionMD5()
 	: m_TotalByteCount( 0 )
+	, m_InputBuffer()
 	, m_MD5{ 0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476 }
 {
-
-	i_MD5Update( std::vector<uint8_t>( pin.begin(), pin.end() ) );
-
-	i_MD5Final();
 }
 
 
-
-std::string TMD5::String() const
-{
-	std::string result( 32, '+' );
-
-	const char lookup[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-
-	int pos = 0;
-	for (auto i = 0u; i < 4u; ++i)
-	{
-		result[pos++] = lookup[(m_MD5[i] >> 4) & 0x0F];
-		result[pos++] = lookup[m_MD5[i] & 0x0F];
-
-		result[pos++] = lookup[(m_MD5[i] >> 12) & 0x0F];
-		result[pos++] = lookup[(m_MD5[i] >> 8) & 0x0F];
-
-		result[pos++] = lookup[(m_MD5[i] >> 20) & 0x0F];
-		result[pos++] = lookup[(m_MD5[i] >> 16) & 0x0F];
-
-		result[pos++] = lookup[(m_MD5[i] >> 28) & 0x0F];
-		result[pos++] = lookup[(m_MD5[i] >> 24) & 0x0F];
-		
-	}
-
-	return result;
-}
-
-
-
-void TMD5::i_MD5Update( const std::vector<uint8_t>& ainput )
-{
-	i_MD5Update( std::as_bytes(std::span(ainput)) );
-}
-
-
-void TMD5::i_MD5Update_v1( const std::span<const std::byte> adata )
-{
-	const int IN_BUFFER_LENGTH = 64;
-
-	uint8_t curr_buff_len = m_TotalByteCount % IN_BUFFER_LENGTH;
-
-
-	for (const auto curr : adata)
-	{
-		m_InputBuffer[curr_buff_len] = curr;
-
-		++curr_buff_len;
-		//++astart;
-		++m_TotalByteCount;
-
-
-		if (curr_buff_len >= IN_BUFFER_LENGTH)
-		{
-			const auto work_block = std::bit_cast<std::array<uint32_t, 16>>(m_InputBuffer);
-
-			i_MD5Transform( work_block );
-			curr_buff_len = 0;
-		}
-	}
-
-}
-
-void TMD5::i_MD5Update_v2( const std::span<const std::byte> adata )
+void TSessionMD5::Update( const std::span<const std::byte> adata )
 {
 	const int IN_BUFFER_LENGTH = 64;
 
@@ -178,7 +112,7 @@ void TMD5::i_MD5Update_v2( const std::span<const std::byte> adata )
 
 		if (currBuffLen >= IN_BUFFER_LENGTH)
 		{
-			const auto work_block = std::bit_cast< std::array<uint32_t, 16> >( m_InputBuffer );
+			const auto work_block = std::bit_cast<std::array<uint32_t, 16>>(m_InputBuffer);
 
 			i_MD5Transform( work_block );
 			currBuffLen = 0;
@@ -189,13 +123,11 @@ void TMD5::i_MD5Update_v2( const std::span<const std::byte> adata )
 }
 
 
-
-
-
-/* MD5 finalization. Ends an MD5 message-digest operation, writing the
-the message digest and zeroizing the context.
+/* MD5 finalization. Ends an MD5 message-digest operation, adding padding and writing the
+the message digest.
 */
-void TMD5::i_MD5Final()
+
+std::string TSessionMD5::Final()
 {
 	/* Save number of bits */
 	const auto bits = i_Encode( m_TotalByteCount * 8 );
@@ -206,17 +138,17 @@ void TMD5::i_MD5Final()
 	//i_MD5Update( PADDING.begin(), PADDING.begin() + padLen );
 
 	const std::span pad_span( PADDING );
-	i_MD5Update( pad_span.subspan( 0, padLen) );
+	Update( pad_span.subspan( 0, padLen ) );
 
 	/* Append length (before padding) */
-	i_MD5Update( bits );
+	Update( bits );
 
+	return i_MD5_to_string();
 }
 
 
-
 /* MD5 basic transformation. Transforms state based on block. */
-void TMD5::i_MD5Transform( const std::span<const uint32_t, 16>& ax )
+void TSessionMD5::i_MD5Transform( const std::span<const uint32_t, 16>& ax ) noexcept
 {
 
 	uint32_t a = m_MD5[0];
@@ -305,11 +237,8 @@ void TMD5::i_MD5Transform( const std::span<const uint32_t, 16>& ax )
 }
 
 
-
-/* Encodes input (UINT4) into output (unsigned char). Assumes len is
-a multiple of 4.
-*/
-std::array<std::byte, 8> TMD5::i_Encode( const std::uint64_t& input )
+// Encodes input (uint64_t) into output (array<std::byte, 8>).
+std::array<std::byte, 8> TSessionMD5::i_Encode( const std::uint64_t& input ) noexcept
 {
 	return {
 		gsl::narrow_cast<std::byte>((input >> 0) & 0xff),
@@ -320,7 +249,54 @@ std::array<std::byte, 8> TMD5::i_Encode( const std::uint64_t& input )
 		gsl::narrow_cast<std::byte>((input >> 40) & 0xff),
 		gsl::narrow_cast<std::byte>((input >> 48) & 0xff),
 		gsl::narrow_cast<std::byte>((input >> 56) & 0xff),
-		};
+	};
+}
+
+
+std::string TSessionMD5::i_MD5_to_string() const
+{
+	std::string result( 32, '+' );
+
+	const char lookup[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+
+	int pos = 0;
+	for (auto i = 0u; i < 4u; ++i)
+	{
+		result[pos++] = lookup[(m_MD5[i] >> 4) & 0x0F];
+		result[pos++] = lookup[m_MD5[i] & 0x0F];
+
+		result[pos++] = lookup[(m_MD5[i] >> 12) & 0x0F];
+		result[pos++] = lookup[(m_MD5[i] >> 8) & 0x0F];
+
+		result[pos++] = lookup[(m_MD5[i] >> 20) & 0x0F];
+		result[pos++] = lookup[(m_MD5[i] >> 16) & 0x0F];
+
+		result[pos++] = lookup[(m_MD5[i] >> 28) & 0x0F];
+		result[pos++] = lookup[(m_MD5[i] >> 24) & 0x0F];
+
+	}
+
+	return result;
+}
+
+
+}
+
+
+//__________________________________________________________________________________________________
+
+
+void TMD5_Continuous::Update( const std::string& pin )
+{
+	m_Session.Update( std::as_bytes( std::span( pin )) );	// , pin.end() ) );
+}
+
+std::string TMD5_Continuous::Get_MD5() const
+{
+
+	auto loc_session = m_Session;
+
+	return loc_session.Final();
 }
 
 
@@ -328,11 +304,12 @@ std::array<std::byte, 8> TMD5::i_Encode( const std::uint64_t& input )
 //__________________________________________________________________________________________________
 
 
+
 std::string Calc_MD5( const std::string& input )
 {
-	TMD5 md5;
-
-	return std::string();
+	impldet_::TSessionMD5 md5;
+	md5.Update( std::as_bytes( std::span( input ) ) );
+	return md5.Final();
 }
 
 

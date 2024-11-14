@@ -38,9 +38,8 @@ std::string TAoCS_A::Solve( const TStringList& input ) const
 	for (auto iter = 1u; true; ++iter)
 	{
 		std::string str = base_str + std::to_string( iter );
-		TMD5 check( str );
 
-		auto const& result = check.String();
+		const auto result = Calc_MD5( str );
 
 		bool found = true;
 		for (auto i = 0u; i < 5; ++i)

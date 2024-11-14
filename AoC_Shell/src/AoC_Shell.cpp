@@ -91,6 +91,8 @@ TStringList Read_Input( const std::string& path )
 
 void Test_libs()
 {
+	//TODO: Move the tests in a Unit Test Project.
+
 	const auto restest = Test_TMD5();
 	Print_TestResults( restest );
 

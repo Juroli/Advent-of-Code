@@ -10,45 +10,64 @@
 #include <span>
 
 
-class TMD5
+
+namespace impldet_
+{
+
+class TSessionMD5
 {
 public:
 
-	TMD5();
-	explicit TMD5( const std::string& pin );
+	TSessionMD5();
 
+	void Update( const std::span<const std::byte> adata );
 
-	//	TMD5 &operator +=( std::string const &pstr );
-
-	std::string String() const;
+	std::string Final();
 
 private:
 
+	void i_MD5Transform( const std::span<const uint32_t, 16>& ax ) noexcept;
 
-	void i_MD5Update( const std::vector<uint8_t>& ainput );
-	void i_MD5Update( const std::span<const std::byte> adata ) { return i_MD5Update_v1( adata ); }
-	void i_MD5Update_v1( const std::span<const std::byte> adata );
-	void i_MD5Update_v2( const std::span<const std::byte> adata );
+	std::array<std::byte, 8> i_Encode( const std::uint64_t& input ) noexcept;
 
-	void i_MD5Final();
-
-	void i_MD5Transform( const std::span<const uint32_t, 16>& ax );
-
-	std::array<std::byte, 8> i_Encode( const std::uint64_t& input );
+	std::string i_MD5_to_string() const;
 
 private:
-
 
 	uint64_t m_TotalByteCount;
-
 	std::array<std::byte, 64> m_InputBuffer;
-
 	std::array<uint32_t, 4> m_MD5;
-	
+
+};
+
+}
+
+//__________________________________________________________________________________________________
+
+
+// Data can be added gradually and the result can be calculated multiple times for every partial step
+
+class TMD5_Continuous
+{
+
+public:
+
+	void Update( const std::string& pin );
+
+	std::string Get_MD5() const;
+
+private:
+
+	impldet_::TSessionMD5 m_Session;
+
 };
 
 
+//__________________________________________________________________________________________________
+
+// Direct operation: one string in -> one string out
 std::string Calc_MD5( const std::string& input );
+
 
 
 
