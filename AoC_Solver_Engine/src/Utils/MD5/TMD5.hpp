@@ -3,9 +3,11 @@
 #define TMD5_H_
 
 
+#include <array>
 #include <vector>
 #include <string>
 
+#include <span>
 
 
 class TMD5
@@ -24,22 +26,22 @@ private:
 
 
 	void i_MD5Update( const std::vector<uint8_t>& ainput );
-	void i_MD5Update( std::vector<uint8_t>::const_iterator astart, const std::vector<uint8_t>::const_iterator& aend );
+	void i_MD5Update( std::span<const std::byte> adata );
 
 	void i_MD5Final();
 
-	void i_MD5Transform( const uint32_t ax[16] );
+	void i_MD5Transform( const std::span<const uint32_t, 16>& ax );
 
-	std::vector<uint8_t> i_Encode( const std::uint64_t& input );
+	std::array<std::byte, 8> i_Encode( const std::uint64_t& input );
 
 private:
 
 
-	uint64_t m_bytecount;
+	uint64_t m_TotalByteCount;
 
-	uint8_t m_Block[64];
+	std::array<std::byte, 64> m_InputBuffer;
 
-	uint32_t m_MD5[4];
+	std::array<uint32_t, 4> m_MD5;
 	
 };
 

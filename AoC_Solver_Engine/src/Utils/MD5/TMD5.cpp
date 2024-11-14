@@ -1,16 +1,22 @@
 
 #include "TMD5.hpp"
 
-#include <vector>
+
+#include <bit>
 
 #include "gsl/gsl"
 
 
 //char TMD5::PADDING[64] = {
-const std::vector<uint8_t> PADDING = {
-	0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+const std::array<std::byte, 64> PADDING = {
+	std::byte{0x80}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0},
+	std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0},
+	std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0},
+	std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0},
+	std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0},
+	std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0},
+	std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0},
+	std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0}, std::byte{0},
 	};
 
 
@@ -66,13 +72,13 @@ static constexpr uint32_t _II( uint32_t a, uint32_t b, uint32_t c, uint32_t d, u
 
 
 TMD5::TMD5()
-	: m_bytecount( 0 )
+	: m_TotalByteCount( 0 )
 	, m_MD5 { 0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476 }
 {
 }
 
 TMD5::TMD5( const std::string& pin )
-	: m_bytecount( 0 )
+	: m_TotalByteCount( 0 )
 	, m_MD5{ 0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476 }
 {
 
@@ -113,31 +119,33 @@ std::string TMD5::String() const
 
 void TMD5::i_MD5Update( const std::vector<uint8_t>& ainput )
 {
-	i_MD5Update( ainput.begin(), ainput.end() );
+	i_MD5Update( std::as_bytes(std::span(ainput)) );
 }
 
 
 
-void TMD5::i_MD5Update( std::vector<uint8_t>::const_iterator astart
-	, const std::vector<uint8_t>::const_iterator& aend )
+void TMD5::i_MD5Update( std::span<const std::byte> adata )
 {
+	const int IN_BUFFER_LENGTH = 64;
 
-	uint32_t index = m_bytecount % 64;
+	uint8_t curr_buff_len = m_TotalByteCount % IN_BUFFER_LENGTH;
 
 
-	while (astart < aend)
+	for(const auto curr: adata)
 	{
-		m_Block[index] = *astart;
+		m_InputBuffer[curr_buff_len] = curr;
 
-		++index;
-		++astart;
-		++m_bytecount;
+		++curr_buff_len;
+		//++astart;
+		++m_TotalByteCount;
 
-		if (index >= 64)
+
+		if (curr_buff_len >= IN_BUFFER_LENGTH)
 		{
-			void* block_ptr = m_Block;
-			i_MD5Transform( static_cast<uint32_t*>(block_ptr) );
-			index = 0;
+			const auto work_block = std::bit_cast< std::array<uint32_t, 16> >( m_InputBuffer );
+
+			i_MD5Transform( work_block );
+			curr_buff_len = 0;
 		}
 	}
 
@@ -151,23 +159,27 @@ the message digest and zeroizing the context.
 void TMD5::i_MD5Final()
 {
 	/* Save number of bits */
-	const std::vector<uint8_t> bits = i_Encode( m_bytecount * 8 );
+	const auto bits = i_Encode( m_TotalByteCount * 8 );
 
 	/* Pad out to 56 mod 64. */
-	const uint32_t index = m_bytecount % 64;
+	const uint32_t index = m_TotalByteCount % 64;
 	const uint32_t padLen = (index < 56) ? (56 - index) : (120 - index);
-	i_MD5Update( PADDING.begin(), PADDING.begin() + padLen );
+	//i_MD5Update( PADDING.begin(), PADDING.begin() + padLen );
+
+	const std::span pad_span( PADDING );
+	i_MD5Update( pad_span.subspan( 0, padLen) );
 
 	/* Append length (before padding) */
-	i_MD5Update( bits.begin(), bits.begin() + 8 );
+	i_MD5Update( bits );
 
 }
 
 
 
 /* MD5 basic transformation. Transforms state based on block. */
-void TMD5::i_MD5Transform( const uint32_t ax[16] )
+void TMD5::i_MD5Transform( const std::span<const uint32_t, 16>& ax )
 {
+
 	uint32_t a = m_MD5[0];
 	uint32_t b = m_MD5[1];
 	uint32_t c = m_MD5[2];
@@ -258,17 +270,17 @@ void TMD5::i_MD5Transform( const uint32_t ax[16] )
 /* Encodes input (UINT4) into output (unsigned char). Assumes len is
 a multiple of 4.
 */
-std::vector<uint8_t> TMD5::i_Encode( const std::uint64_t& input )
+std::array<std::byte, 8> TMD5::i_Encode( const std::uint64_t& input )
 {
 	return {
-		gsl::narrow_cast<uint8_t>((input >> 0) & 0xff),
-		gsl::narrow_cast<uint8_t>((input >> 8) & 0xff),
-		gsl::narrow_cast<uint8_t>((input >> 16) & 0xff),
-		gsl::narrow_cast<uint8_t>((input >> 24) & 0xff),
-		gsl::narrow_cast<uint8_t>((input >> 32) & 0xff),
-		gsl::narrow_cast<uint8_t>((input >> 40) & 0xff),
-		gsl::narrow_cast<uint8_t>((input >> 48) & 0xff),
-		gsl::narrow_cast<uint8_t>((input >> 56) & 0xff),
+		gsl::narrow_cast<std::byte>((input >> 0) & 0xff),
+		gsl::narrow_cast<std::byte>((input >> 8) & 0xff),
+		gsl::narrow_cast<std::byte>((input >> 16) & 0xff),
+		gsl::narrow_cast<std::byte>((input >> 24) & 0xff),
+		gsl::narrow_cast<std::byte>((input >> 32) & 0xff),
+		gsl::narrow_cast<std::byte>((input >> 40) & 0xff),
+		gsl::narrow_cast<std::byte>((input >> 48) & 0xff),
+		gsl::narrow_cast<std::byte>((input >> 56) & 0xff),
 		};
 }
 
