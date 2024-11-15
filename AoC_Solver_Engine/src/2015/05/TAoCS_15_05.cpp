@@ -49,7 +49,7 @@ bool TAoCS_A::IsNice( std::string const& pstr ) const noexcept
 
 	bool double_char = false;
 
-	static char bad[4][2] = {
+	const char bad[4][2] = {
 		{ 'a', 'b'},
 		{ 'c', 'd'},
 		{ 'p', 'q'},
@@ -130,19 +130,70 @@ std::vector<TTest_result> TAoCS_A::Test() const
 //__________________________________________________________________________________________________
 
 
+bool TAoCS_B::IsNice( std::string const& pstr ) const noexcept
+{
+	// Test 1
+	if (pstr.size() < 4)
+	{
+		return false;
+	}
+
+	bool found = false;
+
+	for (auto i = 1u; i < pstr.size() && !found; ++i)
+	{
+		for (auto j = i + 2u; j < pstr.size() && !found; ++j)
+		{
+			if (pstr[i - 1] == pstr[j - 1]
+				&& pstr[i] == pstr[j])
+			{
+				found = true;
+			}
+		}
+	}
+
+	if (!found)
+	{
+		return false;
+	}
+
+	for (auto i = 2u; i < pstr.size(); ++i)
+	{
+		if (pstr[i] == pstr[i - 2])
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
 std::string TAoCS_B::Solve( const TStringList& input ) const
 {
-	return "* Not implemented! *";
+	int num_nice = 0;
+
+	for (const auto& curr : input)
+	{
+		if (IsNice( curr ))
+		{
+			++num_nice;
+		}
+	}
+
+	return std::to_string( num_nice );
 }
 
 std::vector<TTest_result> TAoCS_B::Test() const
 {
 	std::vector<TTest_input> ltests = {
-		{ "", ""},
-		{ "", ""},
+		{ "qjhvhtzxzqqjkmpb", "nice"},
+		{ "xxyxx", "nice"},
+		{ "uurcxstgmygtbstg", "naughty"},
+		{ "ieodomkazucvgmuy", "naughty"},
 	};
 
-	return o_RunTests( ltests, [this]( const std::string& str ) { return Solve( str ); } );
+	return o_RunTests( ltests, [this]( const std::string& str ) { return IsNice( str ) ? "nice" : "naughty"; } );
 }
 
 
