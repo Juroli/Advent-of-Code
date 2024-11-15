@@ -154,6 +154,8 @@
     <ClInclude Include="src\2015\03\TAoCS_15_03.h" />
     <ClInclude Include="src\2015\04\TAoCS_15_04.h" />
     <ClInclude Include="src\2015\05\TAoCS_15_05.h" />
+    <ClInclude Include="src\2015\06\Grid.hpp" />
+    <ClInclude Include="src\2015\06\TAoCS_15_06.h" />
     <ClInclude Include="src\2015\TAoC_15_Index.h" />
     <ClInclude Include="src\TAoC_Index.h" />
     <ClInclude Include="src\TAoC_Solver.h" />
@@ -178,6 +180,8 @@
     <ClCompile Include="src\2015\03\TAoCS_15_03.cpp" />
     <ClCompile Include="src\2015\04\TAoCS_15_04.cpp" />
     <ClCompile Include="src\2015\05\TAoCS_15_05.cpp" />
+    <ClCompile Include="src\2015\06\Grid.cpp" />
+    <ClCompile Include="src\2015\06\TAoCS_15_06.cpp" />
     <ClCompile Include="src\2015\TAoC_15_Index.cpp" />
     <ClCompile Include="src\TAoC_Index.cpp" />
     <ClCompile Include="src\TAoC_Solver.cpp" />

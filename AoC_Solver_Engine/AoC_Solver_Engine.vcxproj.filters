@@ -84,6 +84,12 @@
     <ClInclude Include="src\2015\05\TAoCS_15_05.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\2015\06\TAoCS_15_06.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2015\06\Grid.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2015\01\TAoCS_15_01.cpp">
@@ -141,6 +147,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\2015\05\TAoCS_15_05.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2015\06\TAoCS_15_06.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2015\06\Grid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
