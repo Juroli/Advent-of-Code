@@ -55,6 +55,6 @@ private:
 
 
 
-void CalcSolution();
+//void CalcSolution();
 
 

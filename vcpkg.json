@@ -2,6 +2,7 @@
   "dependencies": [
     "fmt",
     "ms-gsl",
-    "nanobench"
+    "nanobench",
+    "boost-algorithm"
   ]
 }

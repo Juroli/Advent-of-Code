@@ -23,22 +23,20 @@ std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
 //__________________________________________________________________________________________________
 
 
-std::string TAoCS_A::Solve( const TStringList& input ) const
+std::string TAoCS_A::Solve( const std::string& input ) const
 {
 	int piano = 0;
 
-	for(const auto& str: input)
+
+	for (const auto& curr : input)
 	{
-		for (const auto& curr : str)
+		if (curr == '(')
 		{
-			if (curr == '(')
-			{
-				++piano;
-			}
-			else if (curr == ')')
-			{
-				--piano;
-			}
+			++piano;
+		}
+		else if (curr == ')')
+		{
+			--piano;
 		}
 	}
 
@@ -69,32 +67,29 @@ std::vector<TTest_result> TAoCS_A::Test() const
 
 
 
-std::string TAoCS_B::Solve( const TStringList& input ) const
+std::string TAoCS_B::Solve( const std::string& input ) const
 {
 	int piano = 0;
 
 	int step = 1;
 
-	for (const auto& str : input)
+	for (const auto& curr : input)
 	{
-		for (const auto& curr : str)
+		if (curr == '(')
 		{
-			if (curr == '(')
-			{
-				++piano;
-			}
-			else if (curr == ')')
-			{
-				--piano;
-			}
-
-			if (piano == -1)
-			{
-				return std::to_string( step );
-			}
-
-			++step;
+			++piano;
 		}
+		else if (curr == ')')
+		{
+			--piano;
+		}
+
+		if (piano == -1)
+		{
+			return std::to_string( step );
+		}
+
+		++step;
 	}
 
 	return "-1";

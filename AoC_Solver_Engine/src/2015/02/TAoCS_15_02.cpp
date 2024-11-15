@@ -1,6 +1,8 @@
 
 #include "TAoCS_15_02.h"
 
+#include <sstream>
+
 #include "TBox.h"
 
 
@@ -23,11 +25,13 @@ std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
 //__________________________________________________________________________________________________
 
 
-std::string TAoCS_A::Solve( const TStringList& input ) const
+std::string TAoCS_A::Solve( const std::string& input ) const
 {
 	int paper_size = 0;
 
-	for (const auto& curr : input)
+	std::istringstream in_str(input);
+
+	for (std::string curr; std::getline( in_str, curr );)
 	{
 		const TBox box( curr );
 		paper_size += box.PaperSize();
@@ -50,7 +54,7 @@ std::vector<TTest_result> TAoCS_A::Test() const
 //__________________________________________________________________________________________________
 
 
-std::string TAoCS_B::Solve( const TStringList& input ) const
+std::string TAoCS_B::Solve( const std::string& input ) const
 {
 	int ribbon_length = 0;
 

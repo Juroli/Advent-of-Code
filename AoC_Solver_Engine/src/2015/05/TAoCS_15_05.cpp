@@ -97,7 +97,7 @@ bool TAoCS_A::IsNice( std::string const& pstr ) const noexcept
 }
 
 
-std::string TAoCS_A::Solve( const TStringList& input ) const
+std::string TAoCS_A::Solve( const std::string& input ) const
 {
 	int num_nice = 0;
 
@@ -169,7 +169,7 @@ bool TAoCS_B::IsNice( std::string const& pstr ) const noexcept
 }
 
 
-std::string TAoCS_B::Solve( const TStringList& input ) const
+std::string TAoCS_B::Solve( const std::string& input ) const
 {
 	int num_nice = 0;
 

@@ -23,7 +23,7 @@ std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
 //__________________________________________________________________________________________________
 
 
-std::string TAoCS_A::Solve( const TStringList& input ) const
+std::string TAoCS_A::Solve( const std::string& input ) const
 {
 	return "* Not implemented! *";
 }
@@ -43,7 +43,7 @@ std::vector<TTest_result> TAoCS_A::Test() const
 //__________________________________________________________________________________________________
 
 
-std::string TAoCS_B::Solve( const TStringList& input ) const
+std::string TAoCS_B::Solve( const std::string& input ) const
 {
 	return "* Not implemented! *";
 }

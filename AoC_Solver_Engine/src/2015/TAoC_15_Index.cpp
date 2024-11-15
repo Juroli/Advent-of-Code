@@ -8,6 +8,7 @@
 #include "04/TAoCS_15_04.h"
 #include "05/TAoCS_15_05.h"
 #include "06/TAoCS_15_06.h"
+#include "07/TAoCS_15_07.h"
 
 
 namespace y15
@@ -28,6 +29,7 @@ std::unique_ptr<TAoC_Solver> Get_Solver( int aday, char apart )
 	case 4: return y15::d04::Get_Solver( apart );
 	case 5: return y15::d05::Get_Solver( apart );
 	case 6: return y15::d06::Get_Solver( apart );
+	case 7: return y15::d07::Get_Solver( apart );
 
 	default: return std::make_unique<TAoC_Solver_NULL>();
 	}

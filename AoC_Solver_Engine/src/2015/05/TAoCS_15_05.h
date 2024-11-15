@@ -17,7 +17,7 @@ public:
 
 	bool IsNice( std::string const& pstr ) const noexcept;
 
-	std::string Solve( const TStringList& input ) const override;
+	std::string Solve( const std::string& input ) const override;
 
 	std::vector<TTest_result> Test() const override;
 
@@ -31,7 +31,7 @@ public:
 
 	bool IsNice( std::string const& pstr ) const noexcept;
 
-	std::string Solve( const TStringList& input ) const override;
+	std::string Solve( const std::string& input ) const override;
 
 	std::vector<TTest_result> Test() const override;
 

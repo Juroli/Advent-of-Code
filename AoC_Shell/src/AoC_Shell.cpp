@@ -6,6 +6,7 @@
 #include "fmt/core.h"
 
 #include <fstream>
+#include <sstream>
 
 #include "AoC_Solver.hpp"
 
@@ -62,7 +63,7 @@ void Print_TestResults( const std::vector<TTest_result>& results )
 }
 
 
-TStringList Read_Input( const std::string& path )
+TStringList Read_Input_old( const std::string& path )
 {
 	std::ifstream file( path );
 	if (!file.good())
@@ -86,6 +87,16 @@ TStringList Read_Input( const std::string& path )
 	}
 
 	return result;
+}
+
+std::string Read_Input( const std::string& path )
+{
+	std::ifstream t( "file.txt" );
+	std::stringstream buffer;
+
+	buffer << t.rdbuf();
+
+	return buffer.str();
 }
 
 
@@ -119,8 +130,8 @@ int main( int argc, char* argv[] )
 		//return 0;
 
 		const int YEAR = 2015;
-		const int DAY = 6;
-		const char PART = 'B';
+		const int DAY = 7;
+		const char PART = 'A';
 
 		const auto solver = Get_Solver( YEAR, DAY, PART );
 

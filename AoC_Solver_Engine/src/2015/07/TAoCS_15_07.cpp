@@ -1,12 +1,11 @@
 
-#include "TAoCS_15_06.h"
+
+#include "TAoCS_15_07.h"
 
 #include <vector>
 
-#include "Grid.hpp"
 
-
-namespace y15::d06
+namespace y15::d07
 {
 
 
@@ -25,25 +24,36 @@ std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
 //__________________________________________________________________________________________________
 
 
-
 std::string TAoCS_A::Solve( const std::string& input ) const
 {
-	TOps_Bool grid(1000, 1000);
-
-	for (const auto& curr : input)
-	{
-		grid.ParseLine( curr );
-	}
-
-	return std::to_string( grid.SumAll() );
+	return "* Not implemented! *";
 }
 
 
 std::vector<TTest_result> TAoCS_A::Test() const
 {
+	std::string tmp = { "123 -> x\n"
+		"456->y\n"
+		"x AND y->d\n"
+		"x OR y->e\n"
+		"x LSHIFT 2->f\n"
+		"y RSHIFT 2->g\n"
+		"NOT x->h\n"
+		"NOT y->i\n" 
+	};
+
 	std::vector<TTest_input> ltests = {
-		{ "turn on 0,0 through 999,999", "1000000"},
-		{ "toggle 0,0 through 999,0", "1000"},
+		{ 
+			"123 -> x\n"
+			"456->y\n"
+			"x AND y->d\n"
+			"x OR y->e\n"
+			"x LSHIFT 2->f\n"
+			"y RSHIFT 2->g\n"
+			"NOT x->h\n"
+			"NOT y->i\n"
+			, ""},
+		{ {""}, ""},
 	};
 
 	return o_RunTests( ltests, [this]( const std::string& str ) { return Solve( str ); } );
@@ -53,26 +63,16 @@ std::vector<TTest_result> TAoCS_A::Test() const
 //__________________________________________________________________________________________________
 
 
-
-
-
 std::string TAoCS_B::Solve( const std::string& input ) const
 {
-	TOps_Int grid( 1000, 1000 );
-
-	for (const auto& curr : input)
-	{
-		grid.ParseLine( curr );
-	}
-
-	return std::to_string( grid.SumAll() );
+	return "* Not implemented! *";
 }
 
 std::vector<TTest_result> TAoCS_B::Test() const
 {
 	std::vector<TTest_input> ltests = {
-		{ "turn on 0,0 through 0,0", "1"},
-		{ "toggle 0,0 through 999,999", "2000000"},
+		{ "", ""},
+		{ "", ""},
 	};
 
 	return o_RunTests( ltests, [this]( const std::string& str ) { return Solve( str ); } );

@@ -4,7 +4,7 @@
 
 
 std::vector<TTest_result> TAoC_Solver::o_RunTests( const std::vector<TTest_input>& test_inputs
-	, std::function<std::string( const std::string& )> funct 
+	, std::function<std::string( const std::string& )> funct
 	) const
 {
 	std::vector<TTest_result> result;

@@ -90,6 +90,15 @@
     <ClInclude Include="src\2015\06\Grid.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\2015\07\TAoCS_15_07.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2015\07\TCircuit.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2015\07\TWire.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2015\01\TAoCS_15_01.cpp">
@@ -153,6 +162,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\2015\06\Grid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2015\07\TAoCS_15_07.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2015\07\TCircuit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2015\07\TWire.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
