@@ -60,9 +60,9 @@ std::string TAoCS_A::Solve( const std::string& input ) const
 }
 
 
-std::vector<TTest_result> TAoCS_A::Test() const
+TTestResult_Group TAoCS_A::Test() const
 {
-	std::vector<TTest_input> ltests = {
+	TTestInput_Group ltests = {
 		{ "abcdef", "609043"},
 		{ "pqrstuv", "1048970"},
 	};
@@ -107,9 +107,9 @@ std::string TAoCS_B::Solve( const std::string& input ) const
 	return "";
 }
 
-std::vector<TTest_result> TAoCS_B::Test() const
+TTestResult_Group TAoCS_B::Test() const
 {
-	std::vector<TTest_input> ltests = {
+	TTestInput_Group ltests = {
 	};
 
 	return o_RunTests( ltests, [this]( const std::string& str ) {return Solve( str ); } );

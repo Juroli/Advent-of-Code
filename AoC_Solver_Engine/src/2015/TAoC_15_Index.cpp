@@ -14,22 +14,22 @@
 namespace y15
 {
 
-std::unique_ptr<TAoC_Solver> Get_Solver( int aday, char apart )
+std::unique_ptr<TAoC_Solver> Get_Solver( const TPuzzleID& id )
 {
-	if (aday < 1 || aday > 25)
+	if (id.Day < 1 || id.Day > 25)
 	{
 		throw std::exception( "Invalid day." );
 	}
 
-	switch (aday)
+	switch (id.Day)
 	{
-	case 1: return y15::d01::Get_Solver( apart );
-	case 2: return y15::d02::Get_Solver( apart );
-	case 3: return y15::d03::Get_Solver( apart );
-	case 4: return y15::d04::Get_Solver( apart );
-	case 5: return y15::d05::Get_Solver( apart );
-	case 6: return y15::d06::Get_Solver( apart );
-	case 7: return y15::d07::Get_Solver( apart );
+	case 1: return y15::d01::Get_Solver( id.Part );
+	case 2: return y15::d02::Get_Solver( id.Part );
+	case 3: return y15::d03::Get_Solver( id.Part );
+	case 4: return y15::d04::Get_Solver( id.Part );
+	case 5: return y15::d05::Get_Solver( id.Part );
+	case 6: return y15::d06::Get_Solver( id.Part );
+	case 7: return y15::d07::Get_Solver( id.Part );
 
 	default: return std::make_unique<TAoC_Solver_NULL>();
 	}

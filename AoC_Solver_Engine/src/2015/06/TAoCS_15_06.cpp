@@ -3,6 +3,9 @@
 
 #include <vector>
 
+#include "Utils/Strings/TStringParser.hpp"
+
+
 #include "Grid.hpp"
 
 
@@ -30,8 +33,11 @@ std::string TAoCS_A::Solve( const std::string& input ) const
 {
 	TOps_Bool grid(1000, 1000);
 
-	for (const auto& curr : input)
+	TStringParser parser( input );
+
+	while (parser)
 	{
+		auto curr = parser.GetLine();
 		grid.ParseLine( curr );
 	}
 
@@ -39,9 +45,9 @@ std::string TAoCS_A::Solve( const std::string& input ) const
 }
 
 
-std::vector<TTest_result> TAoCS_A::Test() const
+TTestResult_Group TAoCS_A::Test() const
 {
-	std::vector<TTest_input> ltests = {
+	TTestInput_Group ltests = {
 		{ "turn on 0,0 through 999,999", "1000000"},
 		{ "toggle 0,0 through 999,0", "1000"},
 	};
@@ -60,17 +66,20 @@ std::string TAoCS_B::Solve( const std::string& input ) const
 {
 	TOps_Int grid( 1000, 1000 );
 
-	for (const auto& curr : input)
+	TStringParser parser( input );
+
+	while (parser)
 	{
+		auto curr = parser.GetLine();
 		grid.ParseLine( curr );
 	}
 
 	return std::to_string( grid.SumAll() );
 }
 
-std::vector<TTest_result> TAoCS_B::Test() const
+TTestResult_Group TAoCS_B::Test() const
 {
-	std::vector<TTest_input> ltests = {
+	TTestInput_Group ltests = {
 		{ "turn on 0,0 through 0,0", "1"},
 		{ "toggle 0,0 through 999,999", "2000000"},
 	};

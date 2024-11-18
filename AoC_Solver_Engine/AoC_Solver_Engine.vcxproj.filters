@@ -30,7 +30,7 @@
     <ClInclude Include="src\2015\02\TBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\TStringList.h">
+    <ClInclude Include="src\Utils\Strings\TStringList.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\2015\03\TAoCS_15_03.h">
@@ -99,6 +99,12 @@
     <ClInclude Include="src\2015\07\TWire.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Utils\Strings\TStringParser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Aoc_Utils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2015\01\TAoCS_15_01.cpp">
@@ -119,7 +125,7 @@
     <ClCompile Include="src\2015\03\T2DMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\TStringList.cpp">
+    <ClCompile Include="src\Utils\Strings\TStringList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\TAoC_Index.cpp">
@@ -171,6 +177,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\2015\07\TWire.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\Strings\TStringParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

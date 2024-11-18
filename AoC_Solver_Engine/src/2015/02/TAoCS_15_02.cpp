@@ -5,6 +5,8 @@
 
 #include "TBox.h"
 
+#include "Utils/Strings/TStringParser.hpp"
+
 
 namespace y15::d02
 {
@@ -29,10 +31,11 @@ std::string TAoCS_A::Solve( const std::string& input ) const
 {
 	int paper_size = 0;
 
-	std::istringstream in_str(input);
+	TStringParser parser( input );
 
-	for (std::string curr; std::getline( in_str, curr );)
+	while (parser)
 	{
+		auto curr = parser.GetLine();
 		const TBox box( curr );
 		paper_size += box.PaperSize();
 	}
@@ -40,9 +43,9 @@ std::string TAoCS_A::Solve( const std::string& input ) const
 	return std::to_string( paper_size );
 }
 
-std::vector<TTest_result> TAoCS_A::Test() const
+TTestResult_Group TAoCS_A::Test() const
 {
-	std::vector<TTest_input> ltests = {
+	TTestInput_Group ltests = {
 		{ "2x3x4", "58"},
 		{ "1x1x10", "43"},
 	};
@@ -58,8 +61,11 @@ std::string TAoCS_B::Solve( const std::string& input ) const
 {
 	int ribbon_length = 0;
 
-	for (const auto& curr : input)
+	TStringParser parser( input );
+
+	while (parser)
 	{
+		auto curr = parser.GetLine();
 		const TBox box( curr );
 		ribbon_length += box.RibbonLength();
 	}
@@ -67,9 +73,9 @@ std::string TAoCS_B::Solve( const std::string& input ) const
 	return std::to_string( ribbon_length );
 }
 
-std::vector<TTest_result> TAoCS_B::Test() const
+TTestResult_Group TAoCS_B::Test() const
 {
-	std::vector<TTest_input> ltests = {
+	TTestInput_Group ltests = {
 		{ "2x3x4", "34"},
 		{ "1x1x10", "14"},
 	};

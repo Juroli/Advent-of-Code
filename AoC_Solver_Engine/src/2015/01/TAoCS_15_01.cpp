@@ -45,10 +45,10 @@ std::string TAoCS_A::Solve( const std::string& input ) const
 
 
 
-std::vector<TTest_result> TAoCS_A::Test() const
+TTestResult_Group TAoCS_A::Test() const
 {
 
-	std::vector<TTest_input> ltests = {
+	TTestInput_Group ltests = {
 		{ "(())", "0"},
 		{ "()()", "0"},
 		{ "(((", "3"},
@@ -95,9 +95,9 @@ std::string TAoCS_B::Solve( const std::string& input ) const
 	return "-1";
 }
 
-std::vector<TTest_result> TAoCS_B::Test() const
+TTestResult_Group TAoCS_B::Test() const
 {
-	std::vector<TTest_input> ltests = {
+	TTestInput_Group ltests = {
 		{ ")", "1"},
 		{ "()())", "5"}
 	};

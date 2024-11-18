@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include "Utils/Strings/TStringParser.hpp"
+
 
 
 namespace
@@ -101,8 +103,12 @@ std::string TAoCS_A::Solve( const std::string& input ) const
 {
 	int num_nice = 0;
 
-	for (const auto& curr : input)
+	TStringParser parser( input );
+
+	while (parser)
 	{
+		auto curr = parser.GetLine();
+
 		if (IsNice( curr ))
 		{
 			++num_nice;
@@ -113,9 +119,9 @@ std::string TAoCS_A::Solve( const std::string& input ) const
 }
 
 
-std::vector<TTest_result> TAoCS_A::Test() const
+TTestResult_Group TAoCS_A::Test() const
 {
-	std::vector<TTest_input> ltests = {
+	TTestInput_Group ltests = {
 		{ "ugknbfddgicrmopn", "nice"},
 		{ "aaa", "nice"},
 		{ "jchzalrnumimnmhp", "naughty"},
@@ -140,9 +146,9 @@ bool TAoCS_B::IsNice( std::string const& pstr ) const noexcept
 
 	bool found = false;
 
-	for (auto i = 1u; i < pstr.size() && !found; ++i)
+	for (size_t i = 1u; i < pstr.size() && !found; ++i)
 	{
-		for (auto j = i + 2u; j < pstr.size() && !found; ++j)
+		for (size_t j = i + 2u; j < pstr.size() && !found; ++j)
 		{
 			if (pstr[i - 1] == pstr[j - 1]
 				&& pstr[i] == pstr[j])
@@ -172,9 +178,12 @@ bool TAoCS_B::IsNice( std::string const& pstr ) const noexcept
 std::string TAoCS_B::Solve( const std::string& input ) const
 {
 	int num_nice = 0;
+	TStringParser parser( input );
 
-	for (const auto& curr : input)
+	while (parser)
 	{
+		auto curr = parser.GetLine();
+
 		if (IsNice( curr ))
 		{
 			++num_nice;
@@ -184,9 +193,9 @@ std::string TAoCS_B::Solve( const std::string& input ) const
 	return std::to_string( num_nice );
 }
 
-std::vector<TTest_result> TAoCS_B::Test() const
+TTestResult_Group TAoCS_B::Test() const
 {
-	std::vector<TTest_input> ltests = {
+	TTestInput_Group ltests = {
 		{ "qjhvhtzxzqqjkmpb", "nice"},
 		{ "xxyxx", "nice"},
 		{ "uurcxstgmygtbstg", "naughty"},

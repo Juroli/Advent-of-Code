@@ -19,7 +19,7 @@ public:
 
 	std::string Solve( const std::string& input ) const override;
 
-	std::vector<TTest_result> Test() const override;
+	TTestResult_Group Test() const override;
 
 };
 
@@ -33,7 +33,7 @@ public:
 
 	std::string Solve( const std::string& input ) const override;
 
-	std::vector<TTest_result> Test() const override;
+	TTestResult_Group Test() const override;
 
 };
 

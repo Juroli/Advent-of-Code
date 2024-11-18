@@ -9,16 +9,16 @@
 
 
 
-std::unique_ptr<TAoC_Solver> Get_Solver( int ayear, int aday, char apart )
+std::unique_ptr<TAoC_Solver> Get_Solver( const TPuzzleID& id )
 {
-	if (ayear < 2015)
+	if (id.Year < 2015)
 	{
 		throw std::exception( "Invalid year." );
 	}
 
-	switch (ayear)
+	switch (id.Year)
 	{
-	case 2015: return y15::Get_Solver( aday, apart );
+	case 2015: return y15::Get_Solver( id );
 
 	default: return nullptr;
 	}

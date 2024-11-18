@@ -146,12 +146,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\AoC_Solver_Engine\src\Test_Common.cpp" />
     <ClCompile Include="src\AoC_Shell.cpp" />
+    <ClCompile Include="src\Test_Func.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AoC_Solver_Engine\AoC_Solver_Engine.vcxproj">
       <Project>{dd6f69b0-f2ea-404d-bd81-8511d5ae417f}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Test_Func.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

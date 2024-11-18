@@ -9,9 +9,15 @@
 #include <functional>
 
 #include "Test_Common.h"
-#include "TStringList.h"
 
 
+
+struct TPuzzleID
+{
+	int Year;
+	int Day;
+	char Part;
+};
 
 
 
@@ -21,12 +27,12 @@ public:
 
 	virtual std::string Solve( const std::string& input ) const = 0;
 
-	virtual std::vector<TTest_result> Test() const = 0;
+	virtual TTestResult_Group Test() const = 0;
 
 
 protected:
 
-	std::vector<TTest_result> o_RunTests( const std::vector<TTest_input>& test_inputs
+	TTestResult_Group o_RunTests( const TTestInput_Group& test_inputs
 		, std::function<std::string(const std::string&)> funct
 		) const;
 
@@ -39,7 +45,7 @@ public:
 
 	std::string Solve( const std::string& input ) const override { return "* Not implemented! *"; }
 
-	std::vector<TTest_result> Test() const override { return { { { "?", "?" }, "* Not implemented! *" } }; }
+	TTestResult_Group Test() const override { return { { { "?", "?" }, "* Not implemented! *" } }; }
 
 };
 

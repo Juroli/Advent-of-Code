@@ -36,9 +36,9 @@ std::string TAoCS_A::Solve( const std::string& input ) const
 }
 
 
-std::vector<TTest_result> TAoCS_A::Test() const
+TTestResult_Group TAoCS_A::Test() const
 {
-	std::vector<TTest_input> ltests = {
+	TTestInput_Group ltests = {
 		{ ">", "2"},
 		{ "^>v<", "4"},
 		{ "^v^v^v^v^v", "2"},
@@ -65,9 +65,9 @@ std::string TAoCS_B::Solve( const std::string& input ) const
 }
 
 
-std::vector<TTest_result> TAoCS_B::Test() const
+TTestResult_Group TAoCS_B::Test() const
 {
-	std::vector<TTest_input> ltests = {
+	TTestInput_Group ltests = {
 		{ "^v", "3"},
 		{ "^>v<", "3"},
 		{ "^v^v^v^v^v", "11"},
