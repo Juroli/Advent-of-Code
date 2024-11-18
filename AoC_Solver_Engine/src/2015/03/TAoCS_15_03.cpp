@@ -9,13 +9,12 @@ namespace y15::d03
 {
 
 
-std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
+std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 {
 	switch (apart)
 	{
-	case 'A': return std::make_unique< TAoCS_A>();
-	case 'B': return std::make_unique< TAoCS_B>();
-
+	case 1: return std::make_unique< TAoCS_P1>();
+	case 2: return std::make_unique< TAoCS_P2>();
 	default: throw std::exception( "Invalid part." );
 	}
 }
@@ -24,7 +23,13 @@ std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
 //__________________________________________________________________________________________________
 
 
-std::string TAoCS_A::Solve( const std::string& input ) const
+EImpl TAoCS_P1::Implemented() const noexcept
+{
+	return EImpl::FULL;
+}
+
+
+std::string TAoCS_P1::Solve( const std::string& input ) const
 {
 	if (input.empty())
 	{
@@ -36,7 +41,7 @@ std::string TAoCS_A::Solve( const std::string& input ) const
 }
 
 
-TTestResult_Group TAoCS_A::Test() const
+TTestResult_Group TAoCS_P1::Test() const
 {
 	TTestInput_Group ltests = {
 		{ ">", "2"},
@@ -53,7 +58,13 @@ TTestResult_Group TAoCS_A::Test() const
 
 
 
-std::string TAoCS_B::Solve( const std::string& input ) const
+EImpl TAoCS_P2::Implemented() const noexcept
+{
+	return EImpl::FULL;
+}
+
+
+std::string TAoCS_P2::Solve( const std::string& input ) const
 {
 	if (input.empty())
 	{
@@ -65,7 +76,7 @@ std::string TAoCS_B::Solve( const std::string& input ) const
 }
 
 
-TTestResult_Group TAoCS_B::Test() const
+TTestResult_Group TAoCS_P2::Test() const
 {
 	TTestInput_Group ltests = {
 		{ "^v", "3"},

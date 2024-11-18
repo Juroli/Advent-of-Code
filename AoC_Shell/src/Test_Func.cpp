@@ -64,8 +64,11 @@ bool RunPrint_Test( const TPuzzleID& apid )
 
 void RunPrint_Tests( const TPuzzleID& apid_start, const TPuzzleID& apid_end )
 {
-	const int START_DAY = 1;
-	const int END_DAY = 25;
+	const uint8_t START_DAY = 1;
+	const uint8_t END_DAY = 25;
+
+	const uint8_t START_PART = 1;
+	const uint8_t END_PART = 2;
 
 	for (auto y = apid_start.Year; y <= apid_end.Year; ++y)
 	{
@@ -74,26 +77,18 @@ void RunPrint_Tests( const TPuzzleID& apid_start, const TPuzzleID& apid_end )
 
 		for (auto d = d_start; d <= d_end; ++d)
 		{
-			if (Run_Test( { y, d, 'A' } ))
+			for (auto p = START_PART; p <= END_PART; ++p)
 			{
-				fmt::print( "o" );
-			}
-			else
-			{
-				fmt::print( "x" );
-			}
 
-			
-
-			if (Run_Test( { y, d, 'B' } ))
-			{
-				fmt::print( "o" );
+				if (Run_Test( { y, d, p } ))
+				{
+					fmt::print( "o" );
+				}
+				else
+				{
+					fmt::print( "x" );
+				}
 			}
-			else
-			{
-				fmt::print( "x" );
-			}
-
 
 			fmt::print( " " );
 		}

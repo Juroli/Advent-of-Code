@@ -9,6 +9,8 @@
 
 
 
+
+
 std::unique_ptr<TAoC_Solver> Get_Solver( const TPuzzleID& id )
 {
 	if (id.Year < 2015)
@@ -20,7 +22,7 @@ std::unique_ptr<TAoC_Solver> Get_Solver( const TPuzzleID& id )
 	{
 	case 2015: return y15::Get_Solver( id );
 
-	default: return nullptr;
+	default: return std::make_unique<TAoC_Solver_NULL>();
 	}
 
 }

@@ -1,5 +1,7 @@
+
 #include "TWire.hpp"
 
+#include "gsl/gsl"
 
 #include <boost/algorithm/string.hpp>
 
@@ -114,7 +116,7 @@ void TWireIn::i_CheckString()
 {
 	if (m_NameInput.find_first_not_of( "0123456789" ) == std::string::npos)
 	{
-		m_FixedVal = static_cast<uint16_t>(std::stoul( m_NameInput ));
+		m_FixedVal = gsl::narrow_cast<uint16_t>(std::stoul( m_NameInput ));
 		m_NameInput.clear();
 	}
 }

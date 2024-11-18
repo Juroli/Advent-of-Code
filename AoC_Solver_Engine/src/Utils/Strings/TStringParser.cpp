@@ -19,7 +19,7 @@ std::string TStringParser::GetLine() noexcept
 
 	
 
-	if(ItEnd == m_String.end())
+	if (ItEnd == m_String.end())
 	{
 		m_ItStart = ItEnd;
 	}

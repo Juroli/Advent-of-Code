@@ -7,15 +7,19 @@
 namespace y15::d05
 {
 
-std::unique_ptr<TAoC_Solver> Get_Solver( char apart );
+std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart );
 
 
 
-class TAoCS_A : public TAoC_Solver
+class TAoCS_P1 : public TAoC_Solver
 {
 public:
 
 	bool IsNice( std::string const& pstr ) const noexcept;
+
+
+	
+	EImpl Implemented() const noexcept override;
 
 	std::string Solve( const std::string& input ) const override;
 
@@ -25,11 +29,15 @@ public:
 
 
 
-class TAoCS_B : public TAoC_Solver
+class TAoCS_P2 : public TAoC_Solver
 {
 public:
 
 	bool IsNice( std::string const& pstr ) const noexcept;
+
+
+
+	EImpl Implemented() const noexcept override;
 
 	std::string Solve( const std::string& input ) const override;
 

@@ -31,14 +31,13 @@ namespace y15::d05
 {
 
 
-std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
+std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 {
 	switch (apart)
 	{
-	case 'A': return std::make_unique< TAoCS_A>();
-	case 'B': return std::make_unique< TAoCS_B>();
-
-	default: throw std::exception("Invalid part.");
+	case 1: return std::make_unique< TAoCS_P1>();
+	case 2: return std::make_unique< TAoCS_P2>();
+	default: throw std::exception( "Invalid part." );
 	}
 }
 
@@ -46,7 +45,7 @@ std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
 //__________________________________________________________________________________________________
 
 
-bool TAoCS_A::IsNice( std::string const& pstr ) const noexcept
+bool TAoCS_P1::IsNice( std::string const& pstr ) const noexcept
 {
 
 	bool double_char = false;
@@ -99,7 +98,14 @@ bool TAoCS_A::IsNice( std::string const& pstr ) const noexcept
 }
 
 
-std::string TAoCS_A::Solve( const std::string& input ) const
+
+inline EImpl TAoCS_P1::Implemented() const noexcept
+{
+	return EImpl::FULL;
+}
+
+
+std::string TAoCS_P1::Solve( const std::string& input ) const
 {
 	int num_nice = 0;
 
@@ -119,7 +125,7 @@ std::string TAoCS_A::Solve( const std::string& input ) const
 }
 
 
-TTestResult_Group TAoCS_A::Test() const
+TTestResult_Group TAoCS_P1::Test() const
 {
 	TTestInput_Group ltests = {
 		{ "ugknbfddgicrmopn", "nice"},
@@ -136,7 +142,7 @@ TTestResult_Group TAoCS_A::Test() const
 //__________________________________________________________________________________________________
 
 
-bool TAoCS_B::IsNice( std::string const& pstr ) const noexcept
+bool TAoCS_P2::IsNice( std::string const& pstr ) const noexcept
 {
 	// Test 1
 	if (pstr.size() < 4)
@@ -163,7 +169,7 @@ bool TAoCS_B::IsNice( std::string const& pstr ) const noexcept
 		return false;
 	}
 
-	for (auto i = 2u; i < pstr.size(); ++i)
+	for (size_t i = 2u; i < pstr.size(); ++i)
 	{
 		if (pstr[i] == pstr[i - 2])
 		{
@@ -175,7 +181,14 @@ bool TAoCS_B::IsNice( std::string const& pstr ) const noexcept
 }
 
 
-std::string TAoCS_B::Solve( const std::string& input ) const
+
+EImpl TAoCS_P2::Implemented() const noexcept
+{
+	return EImpl::FULL;
+}
+
+
+std::string TAoCS_P2::Solve( const std::string& input ) const
 {
 	int num_nice = 0;
 	TStringParser parser( input );
@@ -193,7 +206,7 @@ std::string TAoCS_B::Solve( const std::string& input ) const
 	return std::to_string( num_nice );
 }
 
-TTestResult_Group TAoCS_B::Test() const
+TTestResult_Group TAoCS_P2::Test() const
 {
 	TTestInput_Group ltests = {
 		{ "qjhvhtzxzqqjkmpb", "nice"},

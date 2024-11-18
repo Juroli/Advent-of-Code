@@ -17,6 +17,17 @@
 
 
 
+const uint16_t FIRST_YEAR = 2015;
+const uint16_t LAST_YEAR = 2023;
+
+
+const uint8_t FIRST_DAY = 1;
+const uint8_t LAST_DAY = 25;
+
+const uint8_t FIRST_PART = 1;
+const uint8_t LAST_PART = 2;
+
+
 
 std::vector<std::string> ReadMainParams( int argc, char* argv[] )
 {
@@ -87,6 +98,54 @@ void Bench_libs()
 }
 
 
+void PrintImplementationTable()
+{
+	fmt::print( "     |" );
+
+	for (auto d = FIRST_DAY; d <= LAST_DAY; ++d)
+	{
+		fmt::print( " {:02}", d );
+	}
+	fmt::print( "\n" );
+
+
+	fmt::print( "-----+" );
+	for (auto d = FIRST_DAY; d <= LAST_DAY; ++d)
+	{
+		fmt::print( "---" );
+	}
+	fmt::print( "\n" );
+
+
+	for (auto y = FIRST_YEAR; y <= LAST_YEAR; ++y)
+	{
+		fmt::print( "{} |", y );
+
+		for (auto d = FIRST_DAY; d <= LAST_DAY; ++d)
+		{
+			fmt::print( " " );
+			for (auto p = FIRST_PART; p <= LAST_PART; ++p)
+			{
+				const auto solver = Get_Solver( { y, d, p } );
+				const auto impl = solver->Implemented();
+
+				switch (impl)
+				{
+				case EImpl::NONE: fmt::print( "-" ); break;
+				case EImpl::TEST: fmt::print( "x" ); break;
+				case EImpl::FULL: fmt::print( "o" ); break;
+				}
+			}
+
+		}
+
+		fmt::print( "\n" );
+	}
+
+	fmt::print( "\n" );
+}
+
+
 int main( int argc, char* argv[] )
 {
 	try
@@ -97,8 +156,16 @@ int main( int argc, char* argv[] )
 		//Test_libs();
 		//Bench_libs();
 
-		TPuzzleID pid_start = { 2015, 1, 'A' };
+		PrintImplementationTable();
 
+		if (false)
+		{
+
+			TPuzzleID pid_start = { 2015, 1, 'A' };
+			TPuzzleID pid_end = { 2015, 7, 'A' };
+
+			RunPrint_Tests( pid_start, pid_end );
+		}
 
 		//return 0;
 
@@ -108,7 +175,7 @@ int main( int argc, char* argv[] )
 		//const char PART = 'A';
 
 
-		RunPrint_Tests( pid_start, pid );
+		
 
 		const auto test_ok = RunPrint_Test( pid );
 		

@@ -14,16 +14,25 @@
 
 struct TPuzzleID
 {
-	int Year;
-	int Day;
-	char Part;
+	uint16_t Year;
+	uint8_t Day;
+	uint8_t Part;
 };
 
+
+enum class EImpl
+{
+	NONE,
+	TEST,
+	FULL,
+};
 
 
 class TAoC_Solver
 {
 public:
+
+	virtual EImpl Implemented() const noexcept = 0;
 
 	virtual std::string Solve( const std::string& input ) const = 0;
 
@@ -42,6 +51,8 @@ protected:
 class TAoC_Solver_NULL : public TAoC_Solver
 {
 public:
+
+	EImpl Implemented() const noexcept override { return EImpl::NONE; }
 
 	std::string Solve( const std::string& input ) const override { return "* Not implemented! *"; }
 
