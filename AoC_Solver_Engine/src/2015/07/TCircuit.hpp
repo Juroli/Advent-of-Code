@@ -33,6 +33,9 @@ public:
 
 	uint16_t Value( const std::string& pwire );
 
+
+	const TWiresVector& LWires() const noexcept { return m_WiresList; }
+
 private:
 
 	const BWire* i_FindWire( const std::string& pname );
@@ -49,51 +52,6 @@ private:
 	void i_SortWireList();
 
 	//	void _CalcNode(TWire &pwire);
-
-private:
-
-	// 	class TPtrWire
-	// 	{
-	// 
-	// 	public:
-	// 
-	// 		TPtrWire(std::unique_ptr<BWire> &&pptrwire) : m_PtrWire{ std::move(pptrwire) } {}
-	// 
-	// 		const std::string &Name() const { return m_PtrWire->Name(); }
-	// 		uint16_t Value(int plvl) const { return m_PtrWire->Value(plvl); }
-	// 		//const BWire *Ptr() const						{ return m_PtrWire.get(); }
-	// 
-	// 		const BWire *get() const { return m_PtrWire.get(); }
-	// 		BWire *get() { return m_PtrWire.get(); }
-	// 
-	// 		const BWire *operator ->() const { return m_PtrWire.get(); }
-	// 		BWire *operator ->() { return m_PtrWire.get(); }
-	// 
-	// 		const BWire &operator *() const { return *m_PtrWire; }
-	// 		BWire &operator *() { return *m_PtrWire; }
-	// 
-	// 
-	// 		/// COMPARISONS
-	// 
-	// 		friend bool operator < (const TPtrWire &pv1, const TPtrWire &pv2)
-	// 		{
-	// 			return (pv1.m_PtrWire->Level() < pv2.m_PtrWire->Level());
-	// 		}
-	// 
-	// 		friend bool operator < (const TPtrWire &pv1, int pv2)
-	// 		{
-	// 			return (pv1.m_PtrWire->Level() < pv2);
-	// 		}
-	// 
-	// 		friend bool operator < (int pv1, const TPtrWire &pv2)
-	// 		{
-	// 			return (pv1 < pv2.m_PtrWire->Level());
-	// 		}
-	// 
-	// 	private:
-	// 
-	// 		std::unique_ptr<BWire> m_PtrWire;
-	// 	};
 
 private:
 

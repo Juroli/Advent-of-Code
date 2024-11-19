@@ -52,7 +52,7 @@ public:
 	virtual void Toggle( const TCoord& astart, const TCoord& aend ) = 0;
 
 
-	void ParseLine( std::string pline );
+	void ParseLine( std::string_view aline );
 	int SumAll() const noexcept { return m_Grid.SumAll(); }
 
 private:

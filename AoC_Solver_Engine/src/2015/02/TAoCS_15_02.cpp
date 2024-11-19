@@ -40,7 +40,7 @@ std::string TAoCS_P1::Solve( const std::string& input ) const
 
 	while (parser)
 	{
-		auto curr = parser.GetLine();
+		auto curr = parser.Extract_Line();
 		const TBox box( curr );
 		paper_size += box.PaperSize();
 	}
@@ -76,7 +76,7 @@ std::string TAoCS_P2::Solve( const std::string& input ) const
 
 	while (parser)
 	{
-		auto curr = parser.GetLine();
+		auto curr = parser.Extract_Line();
 		const TBox box( curr );
 		ribbon_length += box.RibbonLength();
 	}

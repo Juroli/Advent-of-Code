@@ -42,7 +42,7 @@ std::string TAoCS_P1::Solve( const std::string& input ) const
 
 	while (parser)
 	{
-		auto curr = parser.GetLine();
+		auto curr = parser.Extract_Line();
 		grid.ParseLine( curr );
 	}
 
@@ -81,7 +81,7 @@ std::string TAoCS_P2::Solve( const std::string& input ) const
 
 	while (parser)
 	{
-		auto curr = parser.GetLine();
+		auto curr = parser.Extract_Line();
 		grid.ParseLine( curr );
 	}
 

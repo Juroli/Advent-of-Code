@@ -16,6 +16,8 @@ class TAoCS_P1 : public TAoC_Solver
 public:
 
 
+	std::string Test( std::string_view input ) const;
+
 	
 	EImpl Implemented() const noexcept override;
 

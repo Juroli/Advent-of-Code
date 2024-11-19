@@ -45,7 +45,7 @@ std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 //__________________________________________________________________________________________________
 
 
-bool TAoCS_P1::IsNice( std::string const& pstr ) const noexcept
+bool TAoCS_P1::IsNice( std::string_view pstr ) const noexcept
 {
 
 	bool double_char = false;
@@ -113,7 +113,7 @@ std::string TAoCS_P1::Solve( const std::string& input ) const
 
 	while (parser)
 	{
-		auto curr = parser.GetLine();
+		auto curr = parser.Extract_Line();
 
 		if (IsNice( curr ))
 		{
@@ -142,7 +142,7 @@ TTestResult_Group TAoCS_P1::Test() const
 //__________________________________________________________________________________________________
 
 
-bool TAoCS_P2::IsNice( std::string const& pstr ) const noexcept
+bool TAoCS_P2::IsNice( std::string_view pstr ) const noexcept
 {
 	// Test 1
 	if (pstr.size() < 4)
@@ -195,7 +195,7 @@ std::string TAoCS_P2::Solve( const std::string& input ) const
 
 	while (parser)
 	{
-		auto curr = parser.GetLine();
+		auto curr = parser.Extract_Line();
 
 		if (IsNice( curr ))
 		{

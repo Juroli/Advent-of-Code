@@ -61,8 +61,10 @@ TOps_Base::TOps_Base( int width, int height )
 }
 
 
-void TOps_Base::ParseLine( std::string pline )
+void TOps_Base::ParseLine( std::string_view aline )
 {
+	std::string line( aline );
+
 	enum class ecmd
 	{
 		NONE,
@@ -76,11 +78,11 @@ void TOps_Base::ParseLine( std::string pline )
 	// turn on 489,959 through 759,964
 	std::string delim( " " );
 
-	std::string work = i_ExtractToken( pline, delim );
+	std::string work = i_ExtractToken( line, delim );
 
 	if (work == "turn")
 	{
-		work = i_ExtractToken( pline, delim );
+		work = i_ExtractToken( line, delim );
 		if (work == "on")
 		{
 			operation = ecmd::SET_ON;
@@ -95,21 +97,26 @@ void TOps_Base::ParseLine( std::string pline )
 		operation = ecmd::TOGGLE;
 	}
 
-	TCoord startcoord;
-	work = i_ExtractToken( pline, delim );
-	startcoord.x = std::stoi( i_ExtractToken( work, "," ) );
-	startcoord.y = std::stoi( i_ExtractToken( work, "," ) );
+	work = i_ExtractToken( line, delim );
 
-	work = i_ExtractToken( pline, delim );
+	
+	const auto stx = std::stoi( i_ExtractToken( work, "," ) );
+	const auto sty = std::stoi( i_ExtractToken( work, "," ) );
+	TCoord startcoord = { stx, sty };
+
+	work = i_ExtractToken( line, delim );
 	if (work != "through")
 	{
 		int error = 0;
 	}
 
-	TCoord endcoord;
-	work = i_ExtractToken( pline, delim );
-	endcoord.x = std::stoi( i_ExtractToken( work, "," ) );
-	endcoord.y = std::stoi( i_ExtractToken( work, "," ) );
+	
+	work = i_ExtractToken( line, delim );
+
+	const auto enx = std::stoi( i_ExtractToken( work, "," ) );
+	const auto eny = std::stoi( i_ExtractToken( work, "," ) );
+	TCoord endcoord = { enx, eny };
+
 
 	switch (operation)
 	{

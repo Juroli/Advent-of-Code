@@ -12,7 +12,7 @@ class TBox
 {
 public:
 	TBox() = delete;
-	TBox( std::string const& pin );
+	TBox( std::string_view pin );
 	TBox( int pl, int pw, int ph );
 
 	int PaperSize() const;
@@ -20,7 +20,7 @@ public:
 
 private:
 
-	void i_ParseInput( std::string const& pin );
+	void i_ParseInput( std::string_view pin );
 	void i_CalcAree();
 
 	// 	int m_l;

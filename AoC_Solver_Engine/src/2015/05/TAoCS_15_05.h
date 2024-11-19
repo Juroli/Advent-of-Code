@@ -15,7 +15,7 @@ class TAoCS_P1 : public TAoC_Solver
 {
 public:
 
-	bool IsNice( std::string const& pstr ) const noexcept;
+	bool IsNice( std::string_view pstr ) const noexcept;
 
 
 	
@@ -33,7 +33,7 @@ class TAoCS_P2 : public TAoC_Solver
 {
 public:
 
-	bool IsNice( std::string const& pstr ) const noexcept;
+	bool IsNice( std::string_view pstr ) const noexcept;
 
 
 

@@ -3,7 +3,8 @@
 
 #include "gsl/gsl"
 
-#include <boost/algorithm/string.hpp>
+//#include <boost/algorithm/string.hpp>
+#include "Utils/Strings/Misc.hpp"
 
 
 namespace y15::d07
@@ -12,7 +13,7 @@ namespace y15::d07
 namespace impldet_
 {
 
-TWireIn::TWireIn( const std::string& pid )
+TWireIn::TWireIn( std::string_view pid )
 	: m_NameInput( pid )
 	, m_FixedVal( 0 )
 	, m_Link( nullptr )
@@ -25,18 +26,18 @@ TWireIn::TWireIn( const std::string& pid )
 	i_CheckString();
 }
 
-TWireIn::TWireIn( std::string&& pid )
-	: m_NameInput( std::move( pid ) )
-	, m_FixedVal( 0 )
-	, m_Link( nullptr )
-
-	, m_IsCashed( false )
-	, m_CachedValue( 0 )
-
-	, m_WatchLoop( -1 )
-{
-	i_CheckString();
-}
+//TWireIn::TWireIn( std::string&& pid )
+//	: m_NameInput( std::move( pid ) )
+//	, m_FixedVal( 0 )
+//	, m_Link( nullptr )
+//
+//	, m_IsCashed( false )
+//	, m_CachedValue( 0 )
+//
+//	, m_WatchLoop( -1 )
+//{
+//	i_CheckString();
+//}
 
 
 void TWireIn::CheckSet_Link( BWire const* pwire )
@@ -129,7 +130,7 @@ void TWireIn::i_CheckString()
 
 
 //std::optional<nsDay07::TWire> TWire::Create_Wire(std::string pline)
-std::unique_ptr<BWire> BWire::Create_Wire( std::string pline )
+std::unique_ptr<BWire> BWire::Create_Wire( std::string_view pline )
 {
 	if (pline.empty())
 	{
@@ -152,8 +153,11 @@ std::unique_ptr<BWire> BWire::Create_Wire( std::string pline )
 // 			return workwire;
 // 		}
 
-		return _CalcWire( boost::trim_copy( pline.substr( posarrow + 2 ) )
-			, boost::trim_copy( pline.substr( 0, posarrow ) ) );
+		//return _CalcWire( boost::trim_copy( pline.substr( posarrow + 2 ) )
+		//	, boost::trim_copy( pline.substr( 0, posarrow ) ) );
+
+		return _CalcWire( trim_copy( pline.substr( posarrow + 2 ) )
+			, trim_copy( pline.substr( 0, posarrow ) ) );
 
 	}
 
@@ -174,9 +178,7 @@ std::unique_ptr<BWire> BWire::Create_Wire( std::string pline )
 // 	return m_Node->CheckLink_Input_Node(pwire.m_Node.get());
 // }
 
-std::unique_ptr<BWire> BWire::_CalcWire( const std::string& pname
-	, const std::string& poper
-)
+std::unique_ptr<BWire> BWire::_CalcWire( std::string_view pname, std::string_view poper )
 {
 	//auto tmpstr = poper;				//m_Operation;
 
@@ -261,7 +263,7 @@ std::unique_ptr<BWire> BWire::_CalcWire( const std::string& pname
 
 	if (oper == "LSHIFT")
 	{
-		auto offset = std::stoul( secondstr );
+		auto offset = std::stoul( std::string( secondstr ) );
 
 		//		auto locnode = std::make_unique<TNode_LSHIFT>(firstparent->Node(), offset);
 
@@ -273,7 +275,7 @@ std::unique_ptr<BWire> BWire::_CalcWire( const std::string& pname
 
 	if (oper == "RSHIFT")
 	{
-		auto offset = std::stoul( secondstr );
+		auto offset = std::stoul( std::string( secondstr ) );
 		//		auto locnode = std::make_unique<TNode_RSHIFT>(firstparent->Node(), offset);
 
 		return std::make_unique<TWire_RSHIFT>( pname, firststr, offset );

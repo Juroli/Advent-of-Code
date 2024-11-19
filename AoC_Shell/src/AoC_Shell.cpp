@@ -104,7 +104,7 @@ void PrintImplementationTable()
 
 	for (auto d = FIRST_DAY; d <= LAST_DAY; ++d)
 	{
-		fmt::print( " {:02}", d );
+		fmt::print( " {:2}", d );
 	}
 	fmt::print( "\n" );
 
@@ -161,15 +161,15 @@ int main( int argc, char* argv[] )
 		if (false)
 		{
 
-			TPuzzleID pid_start = { 2015, 1, 'A' };
-			TPuzzleID pid_end = { 2015, 7, 'A' };
+			TPuzzleID pid_start = { 2015, 1, 1 };
+			TPuzzleID pid_end = { 2015, 7, 1 };
 
 			RunPrint_Tests( pid_start, pid_end );
 		}
 
 		//return 0;
 
-		TPuzzleID pid = { 2015, 7, 'A' };
+		TPuzzleID pid = { 2015, 7, 1 };
 		//const int YEAR = 2015;
 		//const int DAY = 7;
 		//const char PART = 'A';

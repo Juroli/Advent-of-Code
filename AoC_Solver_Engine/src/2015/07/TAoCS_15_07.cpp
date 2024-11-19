@@ -3,6 +3,11 @@
 #include "TAoCS_15_07.h"
 
 #include <vector>
+#include "fmt/format.h"
+
+#include "Utils/Strings/TStringParser.hpp"
+#include "TCircuit.hpp"
+
 
 
 namespace y15::d07
@@ -23,6 +28,51 @@ std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 //__________________________________________________________________________________________________
 
 
+std::string TAoCS_P1::Test( std::string_view input ) const
+{
+	TCircuit circuit;
+
+	TStringParser parser( input );
+
+	while (parser)
+	{
+		auto curr = parser.Extract_Line();
+
+		auto currwire = BWire::Create_Wire( curr );
+
+		if (currwire)
+		{
+			circuit.AddWire( std::move( currwire ) );
+		}
+	}
+
+
+	struct TWireStatus
+	{
+		std::string Name;
+		uint16_t Signal;
+	};
+
+
+	std::vector<TWireStatus> snapshot;
+
+	for (const auto& curr : circuit.LWires())
+	{
+		snapshot.push_back( { curr->Name(), curr->Value( 1 ) } );
+	}
+
+	std::sort( snapshot.begin(), snapshot.end(), []( const TWireStatus& p1, TWireStatus& p2 ) { return (p1.Name < p2.Name); } );
+
+	std::string result;
+
+	for (const auto& curr : snapshot)
+	{
+		result += fmt::format( "{}: {}\n", curr.Name, curr.Signal );
+	}
+
+	return result;
+}
+
 EImpl TAoCS_P1::Implemented() const noexcept
 {
 	return EImpl::TEST;
@@ -31,21 +81,30 @@ EImpl TAoCS_P1::Implemented() const noexcept
 
 std::string TAoCS_P1::Solve( const std::string& input ) const
 {
-	return "* Not implemented! *";
+
+	TCircuit circuit;
+
+	TStringParser parser( input );
+
+	while (parser)
+	{
+		auto curr = parser.Extract_Line();
+
+		auto currwire = BWire::Create_Wire( curr );
+
+		if (currwire)
+		{
+			circuit.AddWire( std::move( currwire ) );
+		}
+	}
+
+	return std::to_string( circuit.Value( "a" ) );
+
 }
 
 
 TTestResult_Group TAoCS_P1::Test() const
 {
-	std::string tmp = { "123 -> x\n"
-		"456->y\n"
-		"x AND y->d\n"
-		"x OR y->e\n"
-		"x LSHIFT 2->f\n"
-		"y RSHIFT 2->g\n"
-		"NOT x->h\n"
-		"NOT y->i\n" 
-	};
 
 	TTestInput_Group ltests = {
 		{ 
@@ -57,11 +116,19 @@ TTestResult_Group TAoCS_P1::Test() const
 			"y RSHIFT 2->g\n"
 			"NOT x->h\n"
 			"NOT y->i\n"
-			, ""},
-		{ {""}, ""},
+			, 
+			"d: 72\n"
+			"e: 507\n"
+			"f: 492\n"
+			"g: 114\n"
+			"h: 65412\n"
+			"i: 65079\n"
+			"x: 123\n"
+			"y: 456\n"
+		},
 	};
 
-	return o_RunTests( ltests, [this]( const std::string& str ) { return Solve( str ); } );
+	return o_RunTests( ltests, [this]( const std::string& str ) { return Test( str ); } );
 }
 
 

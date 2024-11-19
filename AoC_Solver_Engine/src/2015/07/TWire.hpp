@@ -27,8 +27,8 @@ class TWireIn
 {
 public:
 	//		_TNodeIn();
-	TWireIn( const std::string& pid );
-	TWireIn( std::string&& pid );
+	TWireIn( std::string_view pid );
+	//TWireIn( std::string&& pid );
 
 	//		_TNodeIn(uint16_t pval) : m_NameInput(""), m_FixedVal(pval), m_Link(nullptr)		{}
 
@@ -73,7 +73,7 @@ class BWire
 {
 protected:
 
-	BWire( std::string const& pname )
+	BWire( std::string_view pname )
 		: m_Name( pname )
 		, m_Linked{ false }
 		, m_Level{ 0 }
@@ -82,7 +82,7 @@ protected:
 
 public:
 
-	static std::unique_ptr<BWire> Create_Wire( std::string pline );
+	static std::unique_ptr<BWire> Create_Wire( std::string_view pline );
 
 	BWire() = delete;
 
@@ -119,7 +119,7 @@ private:
 
 	//	void _Set_Node(std::unique_ptr<TNode_Base> &&pptr)		{ m_Node = std::move(pptr); }
 
-	static std::unique_ptr<BWire> _CalcWire( const std::string& pname, const std::string& poper );
+	static std::unique_ptr<BWire> _CalcWire( std::string_view pname, std::string_view poper );
 
 	std::string m_Name;
 
@@ -139,9 +139,7 @@ class TWire_Link : public BWire
 {
 public:
 
-	TWire_Link( const std::string& pname
-		, const std::string& pnamein
-	)
+	TWire_Link( std::string_view pname, std::string_view pnamein )
 		: BWire( pname )
 		, m_Input( pnamein )
 	{
@@ -197,9 +195,7 @@ class TWire_NOT : public BWire				//<1>
 {
 public:
 
-	TWire_NOT( std::string const& pname
-		, std::string const& pnamein
-	)
+	TWire_NOT( std::string_view pname, std::string_view pnamein	)
 		: BWire( pname )
 		, m_Input( pnamein )
 	{
@@ -248,10 +244,7 @@ class TWire_AND : public BWire				//<2>
 {
 public:
 
-	TWire_AND( std::string const& pname
-		, std::string const& pnamein1
-		, std::string const& pnamein2
-	)
+	TWire_AND( std::string_view pname, std::string_view pnamein1, std::string_view pnamein2 )
 		: BWire( pname )
 		, m_Input_1( pnamein1 )
 		, m_Input_2( pnamein2 )
@@ -323,10 +316,7 @@ class TWire_OR : public BWire				//<2>
 {
 public:
 
-	TWire_OR( std::string const& pname
-		, std::string const& pnamein1
-		, std::string const& pnamein2
-	)
+	TWire_OR( std::string_view pname, std::string_view pnamein1, std::string_view pnamein2 )
 		: BWire( pname )
 		, m_Input_1( pnamein1 )
 		, m_Input_2( pnamein2 )
@@ -389,8 +379,8 @@ class TWire_LSHIFT : public BWire
 {
 public:
 
-	TWire_LSHIFT( const std::string& pname
-		, const std::string& pnamein
+	TWire_LSHIFT( std::string_view pname
+		, std::string_view pnamein
 		, int poffset
 	)
 		: BWire( pname )
@@ -441,10 +431,7 @@ class TWire_RSHIFT : public BWire
 {
 public:
 
-	TWire_RSHIFT( const std::string& pname
-		, const std::string& pnamein
-		, int poffset
-	)
+	TWire_RSHIFT( std::string_view pname, std::string_view pnamein, int poffset )
 		: BWire( pname )
 		, m_Input( pnamein )
 		, m_Offset( poffset )
