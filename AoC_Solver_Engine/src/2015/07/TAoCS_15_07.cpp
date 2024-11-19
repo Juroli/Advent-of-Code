@@ -75,7 +75,7 @@ std::string TAoCS_P1::Test( std::string_view input ) const
 
 EImpl TAoCS_P1::Implemented() const noexcept
 {
-	return EImpl::TEST;
+	return EImpl::FULL;
 }
 
 
@@ -137,19 +137,44 @@ TTestResult_Group TAoCS_P1::Test() const
 
 EImpl TAoCS_P2::Implemented() const noexcept
 {
-	return EImpl::NONE;
+	return EImpl::TEST;
 }
 
 std::string TAoCS_P2::Solve( const std::string& input ) const
 {
-	return "* Not implemented! *";
+	TCircuit circuit;
+
+	TStringParser parser( input );
+
+	while (parser)
+	{
+		auto curr = parser.Extract_Line();
+
+		auto currwire = BWire::Create_Wire( curr );
+
+		if (currwire)
+		{
+			circuit.AddWire( std::move( currwire ) );
+		}
+	}
+
+	auto a_value = circuit.Value( "a" );
+
+	std::string strwire = std::to_string( a_value ) + "->b";
+
+	auto newwire = BWire::Create_Wire( strwire );
+
+	if (newwire)
+	{
+		circuit.ReplaceWire( std::move( newwire ) );
+	}
+
+	return std::to_string( circuit.Value( "a" ));
 }
 
 TTestResult_Group TAoCS_P2::Test() const
 {
 	TTestInput_Group ltests = {
-		{ "", ""},
-		{ "", ""},
 	};
 
 	return o_RunTests( ltests, [this]( const std::string& str ) { return Solve( str ); } );

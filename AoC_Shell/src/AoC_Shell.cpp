@@ -162,14 +162,14 @@ int main( int argc, char* argv[] )
 		{
 
 			TPuzzleID pid_start = { 2015, 1, 1 };
-			TPuzzleID pid_end = { 2015, 7, 1 };
+			TPuzzleID pid_end = { 2015, 7, 2 };
 
 			RunPrint_Tests( pid_start, pid_end );
 		}
 
 		//return 0;
 
-		TPuzzleID pid = { 2015, 7, 1 };
+		TPuzzleID pid = { 2015, 7, 2 };
 		//const int YEAR = 2015;
 		//const int DAY = 7;
 		//const char PART = 'A';
