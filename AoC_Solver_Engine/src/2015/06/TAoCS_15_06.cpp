@@ -28,13 +28,13 @@ std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 
 
 
-inline EImpl TAoCS_P1::Implemented() const noexcept
+std::string TAoCS_P1::i_Solve_Run() const
 {
-	return EImpl::FULL;
+	return STR_IMPLEMENTED;
 }
 
 
-std::string TAoCS_P1::Solve( const std::string& input ) const
+std::string TAoCS_P1::i_Solve_Run( const std::string& input ) const
 {
 	TOps_Bool grid(1000, 1000);
 
@@ -50,30 +50,33 @@ std::string TAoCS_P1::Solve( const std::string& input ) const
 }
 
 
-TTestResult_Group TAoCS_P1::Test() const
+TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
-	TTestInput_Group ltests = {
+	return {
 		{ "turn on 0,0 through 999,999", "1000000"},
 		{ "toggle 0,0 through 999,0", "1000"},
 	};
-
-	return o_RunTests( ltests, [this]( const std::string& str ) { return Solve( str ); } );
 }
+
+
+std::string TAoCS_P1::i_Test_Run( const std::string& astrin ) const
+{
+	return Solve( astrin );
+}
+
 
 
 //__________________________________________________________________________________________________
 
 
 
-
-
-EImpl TAoCS_P2::Implemented() const noexcept
+std::string TAoCS_P2::i_Solve_Run() const
 {
-	return EImpl::FULL;
+	return STR_IMPLEMENTED;
 }
 
 
-std::string TAoCS_P2::Solve( const std::string& input ) const
+std::string TAoCS_P2::i_Solve_Run( const std::string& input ) const
 {
 	TOps_Int grid( 1000, 1000 );
 
@@ -88,14 +91,18 @@ std::string TAoCS_P2::Solve( const std::string& input ) const
 	return std::to_string( grid.SumAll() );
 }
 
-TTestResult_Group TAoCS_P2::Test() const
+
+TTestInput_Group TAoCS_P2::i_Test_Prepare() const
 {
-	TTestInput_Group ltests = {
+	return {
 		{ "turn on 0,0 through 0,0", "1"},
 		{ "toggle 0,0 through 999,999", "2000000"},
 	};
+}
 
-	return o_RunTests( ltests, [this]( const std::string& str ) { return Solve( str ); } );
+std::string TAoCS_P2::i_Test_Run( const std::string& astrin ) const
+{
+	return Solve( astrin );
 }
 
 

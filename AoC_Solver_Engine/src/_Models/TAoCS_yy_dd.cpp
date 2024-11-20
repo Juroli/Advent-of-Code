@@ -19,58 +19,72 @@ std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 }
 
 
+
 //__________________________________________________________________________________________________
 
 
-EImpl TAoCS_P1::Implemented() const noexcept
+std::string TAoCS_P1::i_Solve_Run() const
 {
-	return EImpl::NONE;
+	return STR_NOT_IMPLEMENTED;
+}
+
+std::string TAoCS_P1::i_Solve_Run( const std::string& input ) const
+{
+	return STR_NOT_IMPLEMENTED;
 }
 
 
-std::string TAoCS_P1::Solve( const std::string& input ) const
+TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
-	return "* Not implemented! *";
+	return {
+		{ "?", STR_NOT_IMPLEMENTED },
+		{ "", "" },
+	};
 }
 
 
-TTestResult_Group TAoCS_P1::Test() const
+std::string TAoCS_P1::i_Test_Run( const std::string& astrin) const
 {
-	TTestInput_Group ltests = {
-		{ "", ""},
+	return Solve( astrin );
+}
+
+
+
+//__________________________________________________________________________________________________
+
+
+
+std::string TAoCS_P2::i_Solve_Run() const
+{
+	return STR_NOT_IMPLEMENTED;
+}
+
+
+std::string TAoCS_P2::i_Solve_Run( const std::string& input ) const
+{
+	return STR_NOT_IMPLEMENTED;
+}
+
+
+TTestInput_Group TAoCS_P2::i_Test_Prepare() const
+{
+	return {
+		{ "?", STR_NOT_IMPLEMENTED },
 		{ "", ""},
 	};
+}
 
-	return o_RunTests( ltests, [this]( const std::string& str ) { return Solve( str ); } );
+
+std::string TAoCS_P2::i_Test_Run( const std::string& astrin ) const
+{
+	return Solve( astrin );
 }
 
 
 //__________________________________________________________________________________________________
 
 
-EImpl TAoCS_P2::Implemented() const noexcept
-{
-	return EImpl::NONE;
-}
 
-
-std::string TAoCS_P2::Solve( const std::string& input ) const
-{
-	return "* Not implemented! *";
-}
-
-TTestResult_Group TAoCS_P2::Test() const
-{
-	TTestInput_Group ltests = {
-		{ "", ""},
-		{ "", ""},
-	};
-
-	return o_RunTests( ltests, [this]( const std::string& str ) { return Solve( str ); } );
-}
-
-
-//__________________________________________________________________________________________________
 
 
 }

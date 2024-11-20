@@ -24,39 +24,57 @@ enum class EImpl
 {
 	NONE,
 	TEST,
-	FULL,
+	SOLUTION,
 };
+
+
+constexpr char STR_SOLVE_CHECK[] = "<*>Solve check<*>";
+constexpr char STR_NOT_IMPLEMENTED[] = "<*>Not implemented<*>";
+constexpr char STR_IMPLEMENTED[] = "<*>Implemented<*>";
 
 
 class TAoC_Solver
 {
 public:
 
-	virtual EImpl Implemented() const noexcept = 0;
+	EImpl Implemented() const noexcept;
 
-	virtual std::string Solve( const std::string& input ) const = 0;
+	std::string Solve( const std::string& input ) const;
 
-	virtual TTestResult_Group Test() const = 0;
+	TTestResult_Group Test() const;
 
 
-protected:
+private:
 
-	TTestResult_Group o_RunTests( const TTestInput_Group& test_inputs
-		, std::function<std::string(const std::string&)> funct
-		) const;
+	virtual std::string i_Solve_Run() const = 0;
+	virtual std::string i_Solve_Run( const std::string& input ) const = 0;
+
+	virtual TTestInput_Group i_Test_Prepare() const = 0;
+	virtual std::string i_Test_Run( const std::string& ) const = 0;
+
+
+	//TTestResult_Group o_RunTests( const TTestInput_Group& test_inputs
+	//	, std::function<std::string(const std::string&)> funct
+	//	) const;
 
 };
 
 
 class TAoC_Solver_NULL : public TAoC_Solver
 {
-public:
+private:
 
-	EImpl Implemented() const noexcept override { return EImpl::NONE; }
+	std::string i_Solve_Run() const override { return STR_NOT_IMPLEMENTED; };
+	std::string i_Solve_Run( const std::string& input ) const override { return STR_NOT_IMPLEMENTED; }
 
-	std::string Solve( const std::string& input ) const override { return "* Not implemented! *"; }
+	TTestInput_Group i_Test_Prepare() const override { return { { "?", STR_NOT_IMPLEMENTED } }; }
+	std::string i_Test_Run( const std::string& ) const override { return STR_NOT_IMPLEMENTED; }
 
-	TTestResult_Group Test() const override { return { { { "?", "?" }, "* Not implemented! *" } }; }
+	//EImpl Implemented() const noexcept override { return EImpl::NONE; }
+
+	// std::string Solve( const std::string& input ) const override { return STR_NOT_IMPLEMENTED; }
+
+	// TTestResult_Group Test() const override { return { { { "?", STR_NOT_IMPLEMENTED }, "" } }; }
 
 };
 

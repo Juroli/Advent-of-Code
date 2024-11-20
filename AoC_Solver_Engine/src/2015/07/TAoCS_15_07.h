@@ -16,14 +16,16 @@ class TAoCS_P1 : public TAoC_Solver
 public:
 
 
-	std::string Test( std::string_view input ) const;
+	std::string ListWires( std::string_view input ) const;
 
 	
-	EImpl Implemented() const noexcept override;
+private:
 
-	std::string Solve( const std::string& input ) const override;
+	std::string i_Solve_Run() const override;
+	std::string i_Solve_Run( const std::string& input ) const override;
 
-	TTestResult_Group Test() const override;
+	TTestInput_Group i_Test_Prepare() const override;
+	std::string i_Test_Run( const std::string& astrin ) const override;
 
 };
 
@@ -31,17 +33,17 @@ public:
 
 class TAoCS_P2 : public TAoC_Solver
 {
-public:
 
+private:
 
-	
-	EImpl Implemented() const noexcept override;
+	std::string i_Solve_Run() const override;
+	std::string i_Solve_Run( const std::string& input ) const override;
 
-	std::string Solve( const std::string& input ) const override;
-
-	TTestResult_Group Test() const override;
+	TTestInput_Group i_Test_Prepare() const override;
+	std::string i_Test_Run( const std::string& astrin ) const override;
 
 };
+
 
 
 }

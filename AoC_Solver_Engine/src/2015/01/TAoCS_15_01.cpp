@@ -22,16 +22,15 @@ std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 //__________________________________________________________________________________________________
 
 
-EImpl TAoCS_P1::Implemented() const noexcept
+std::string TAoCS_P1::i_Solve_Run() const
 {
-	return EImpl::FULL;
+	return STR_IMPLEMENTED;
 }
 
 
-std::string TAoCS_P1::Solve( const std::string& input ) const
+std::string TAoCS_P1::i_Solve_Run( const std::string& input ) const
 {
 	int piano = 0;
-
 
 	for (const auto& curr : input)
 	{
@@ -49,11 +48,9 @@ std::string TAoCS_P1::Solve( const std::string& input ) const
 }
 
 
-
-TTestResult_Group TAoCS_P1::Test() const
+TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
-
-	TTestInput_Group ltests = {
+	return {
 		{ "(())", "0"},
 		{ "()()", "0"},
 		{ "(((", "3"},
@@ -64,21 +61,26 @@ TTestResult_Group TAoCS_P1::Test() const
 		{ ")))", "-3"},
 		{ ")())())", "-3"},
 	};
-
-	return o_RunTests( ltests, [this](const std::string& str){return Solve(str); } );
 }
+
+
+std::string TAoCS_P1::i_Test_Run( const std::string& astrin ) const
+{
+	return Solve( astrin );
+}
+
 
 //__________________________________________________________________________________________________
 
 
 
-EImpl TAoCS_P2::Implemented() const noexcept
+std::string TAoCS_P2::i_Solve_Run() const
 {
-	return EImpl::FULL;
+	return STR_IMPLEMENTED;
 }
 
 
-std::string TAoCS_P2::Solve( const std::string& input ) const
+std::string TAoCS_P2::i_Solve_Run( const std::string& input ) const
 {
 	int piano = 0;
 
@@ -106,14 +108,19 @@ std::string TAoCS_P2::Solve( const std::string& input ) const
 	return "-1";
 }
 
-TTestResult_Group TAoCS_P2::Test() const
+
+
+TTestInput_Group TAoCS_P2::i_Test_Prepare() const
 {
-	TTestInput_Group ltests = {
+	return {
 		{ ")", "1"},
 		{ "()())", "5"}
 	};
+}
 
-	return o_RunTests( ltests, [this]( const std::string& str ) {return Solve( str ); } );
+std::string TAoCS_P2::i_Test_Run( const std::string& astrin ) const
+{
+	return Solve( astrin );
 }
 
 

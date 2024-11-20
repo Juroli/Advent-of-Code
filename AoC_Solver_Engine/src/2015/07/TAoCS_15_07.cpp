@@ -32,7 +32,7 @@ std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 //__________________________________________________________________________________________________
 
 
-std::string TAoCS_P1::Test( std::string_view input ) const
+std::string TAoCS_P1::ListWires( std::string_view input ) const
 {
 	TCircuit circuit;
 
@@ -77,13 +77,15 @@ std::string TAoCS_P1::Test( std::string_view input ) const
 	return result;
 }
 
-EImpl TAoCS_P1::Implemented() const noexcept
+
+
+std::string TAoCS_P1::i_Solve_Run() const
 {
-	return EImpl::FULL;
+	return STR_IMPLEMENTED;
 }
 
 
-std::string TAoCS_P1::Solve( const std::string& input ) const
+std::string TAoCS_P1::i_Solve_Run( const std::string& input ) const
 {
 
 	TCircuit circuit;
@@ -107,11 +109,11 @@ std::string TAoCS_P1::Solve( const std::string& input ) const
 }
 
 
-TTestResult_Group TAoCS_P1::Test() const
+TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
 
-	TTestInput_Group ltests = {
-		{ 
+	return {
+		{
 			"123 -> x\n"
 			"456->y\n"
 			"x AND y->d\n"
@@ -120,7 +122,7 @@ TTestResult_Group TAoCS_P1::Test() const
 			"y RSHIFT 2->g\n"
 			"NOT x->h\n"
 			"NOT y->i\n"
-			, 
+			,
 			"d: 72\n"
 			"e: 507\n"
 			"f: 492\n"
@@ -131,20 +133,27 @@ TTestResult_Group TAoCS_P1::Test() const
 			"y: 456\n"
 		},
 	};
-
-	return o_RunTests( ltests, [this]( const std::string& str ) { return Test( str ); } );
 }
+
+
+std::string TAoCS_P1::i_Test_Run( const std::string& astrin ) const
+{
+	return ListWires( astrin );
+}
+
 
 
 //__________________________________________________________________________________________________
 
 
-EImpl TAoCS_P2::Implemented() const noexcept
+
+std::string TAoCS_P2::i_Solve_Run() const
 {
-	return EImpl::TEST;
+	return STR_NOT_IMPLEMENTED;
 }
 
-std::string TAoCS_P2::Solve( const std::string& input ) const
+
+std::string TAoCS_P2::i_Solve_Run( const std::string& input ) const
 {
 	TCircuit circuit;
 
@@ -176,12 +185,16 @@ std::string TAoCS_P2::Solve( const std::string& input ) const
 	return std::to_string( circuit.Value( "a" ));
 }
 
-TTestResult_Group TAoCS_P2::Test() const
-{
-	TTestInput_Group ltests = {
-	};
 
-	return o_RunTests( ltests, [this]( const std::string& str ) { return Solve( str ); } );
+TTestInput_Group TAoCS_P2::i_Test_Prepare() const
+{
+	return {};
+}
+
+
+std::string TAoCS_P2::i_Test_Run( const std::string& astrin ) const
+{
+	return Solve( astrin );
 }
 
 

@@ -13,14 +13,14 @@ std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart );
 
 class TAoCS_P1 : public TAoC_Solver
 {
-public:
 
-	
-	EImpl Implemented() const noexcept override;
+private:
 
-	std::string Solve( const std::string& input ) const override;
+	std::string i_Solve_Run() const override;
+	std::string i_Solve_Run( const std::string& input ) const override;
 
-	TTestResult_Group Test() const override;
+	TTestInput_Group i_Test_Prepare() const override;
+	std::string i_Test_Run( const std::string& astrin ) const override;
 
 };
 
@@ -28,14 +28,14 @@ public:
 
 class TAoCS_P2 : public TAoC_Solver
 {
-public:
 
-	
-	EImpl Implemented() const noexcept override;
+private:
 
-	std::string Solve( const std::string& input ) const override;
+	std::string i_Solve_Run() const override;
+	std::string i_Solve_Run( const std::string& input ) const override;
 
-	TTestResult_Group Test() const override;
+	TTestInput_Group i_Test_Prepare() const override;
+	std::string i_Test_Run( const std::string& astrin ) const override;
 
 };
 

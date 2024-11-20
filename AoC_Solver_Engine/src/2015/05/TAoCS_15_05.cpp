@@ -45,6 +45,13 @@ std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 //__________________________________________________________________________________________________
 
 
+
+std::string TAoCS_P1::i_Solve_Run() const
+{
+	return STR_IMPLEMENTED;
+}
+
+
 bool TAoCS_P1::IsNice( std::string_view pstr ) const noexcept
 {
 
@@ -99,13 +106,8 @@ bool TAoCS_P1::IsNice( std::string_view pstr ) const noexcept
 
 
 
-inline EImpl TAoCS_P1::Implemented() const noexcept
-{
-	return EImpl::FULL;
-}
 
-
-std::string TAoCS_P1::Solve( const std::string& input ) const
+std::string TAoCS_P1::i_Solve_Run( const std::string& input ) const
 {
 	int num_nice = 0;
 
@@ -125,9 +127,9 @@ std::string TAoCS_P1::Solve( const std::string& input ) const
 }
 
 
-TTestResult_Group TAoCS_P1::Test() const
+TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
-	TTestInput_Group ltests = {
+	return {
 		{ "ugknbfddgicrmopn", "nice"},
 		{ "aaa", "nice"},
 		{ "jchzalrnumimnmhp", "naughty"},
@@ -135,11 +137,18 @@ TTestResult_Group TAoCS_P1::Test() const
 		{ "dvszwmarrgswjxmb", "naughty"},
 	};
 
-	return o_RunTests( ltests, [this]( const std::string& str ) { return IsNice( str )? "nice": "naughty"; });
 }
 
 
+std::string TAoCS_P1::i_Test_Run( const std::string& astrin ) const
+{
+	return IsNice( astrin )? "nice": "naughty";
+}
+
+
+
 //__________________________________________________________________________________________________
+
 
 
 bool TAoCS_P2::IsNice( std::string_view pstr ) const noexcept
@@ -182,13 +191,14 @@ bool TAoCS_P2::IsNice( std::string_view pstr ) const noexcept
 
 
 
-EImpl TAoCS_P2::Implemented() const noexcept
+
+std::string TAoCS_P2::i_Solve_Run() const
 {
-	return EImpl::FULL;
+	return STR_IMPLEMENTED;
 }
 
 
-std::string TAoCS_P2::Solve( const std::string& input ) const
+std::string TAoCS_P2::i_Solve_Run( const std::string& input ) const
 {
 	int num_nice = 0;
 	TStringParser parser( input );
@@ -206,17 +216,24 @@ std::string TAoCS_P2::Solve( const std::string& input ) const
 	return std::to_string( num_nice );
 }
 
-TTestResult_Group TAoCS_P2::Test() const
+
+TTestInput_Group TAoCS_P2::i_Test_Prepare() const
 {
-	TTestInput_Group ltests = {
+	return {
 		{ "qjhvhtzxzqqjkmpb", "nice"},
 		{ "xxyxx", "nice"},
 		{ "uurcxstgmygtbstg", "naughty"},
 		{ "ieodomkazucvgmuy", "naughty"},
 	};
 
-	return o_RunTests( ltests, [this]( const std::string& str ) { return IsNice( str ) ? "nice" : "naughty"; } );
 }
+
+
+std::string TAoCS_P2::i_Test_Run( const std::string& astrin ) const
+{
+	return IsNice( astrin ) ? "nice" : "naughty";
+}
+
 
 
 //__________________________________________________________________________________________________

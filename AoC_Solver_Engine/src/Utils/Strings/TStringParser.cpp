@@ -39,7 +39,15 @@ std::string_view TStringParser::Extract_Token( std::string_view adelim ) noexcep
 	const auto start_pos = m_StartPos;
 	const auto end_pos = m_String.find( adelim, m_StartPos );
 
-	m_StartPos = std::min( end_pos + adelim.size(), m_String.size());
+	if (end_pos != m_String.npos)
+	{
+		m_StartPos = std::min( end_pos + adelim.size(), m_String.size() );
+	}
+	else
+	{
+		m_StartPos = m_String.size();
+	}
+	
 
 	return m_String.substr( start_pos, end_pos - start_pos );
 }
