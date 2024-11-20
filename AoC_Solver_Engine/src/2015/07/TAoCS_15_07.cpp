@@ -6,12 +6,16 @@
 #include "fmt/format.h"
 
 #include "Utils/Strings/TStringParser.hpp"
-#include "TCircuit.hpp"
+
+#include "v1/TCircuit_v1.hpp"
+//#include "v2/TCircuit.hpp"
 
 
 
 namespace y15::d07
 {
+
+using namespace y15::d07::v1;
 
 
 std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )

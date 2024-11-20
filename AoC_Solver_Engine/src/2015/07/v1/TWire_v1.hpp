@@ -14,7 +14,8 @@
 #include <optional>
 #include <algorithm>
 
-namespace y15::d07
+
+namespace y15::d07::v1
 {
 
 class BWire;
