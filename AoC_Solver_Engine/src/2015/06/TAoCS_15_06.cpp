@@ -53,8 +53,8 @@ std::string TAoCS_P1::i_Solve_Run( const std::string& input ) const
 TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
 	return {
-		{ "turn on 0,0 through 999,999", "1000000"},
-		{ "toggle 0,0 through 999,0", "1000"},
+		TTestInput::Create_Example( "Ex01", "turn on 0,0 through 999,999", "1000000" ),
+		TTestInput::Create_Example( "Ex02", "toggle 0,0 through 999,0", "1000" ),
 	};
 }
 
@@ -95,8 +95,8 @@ std::string TAoCS_P2::i_Solve_Run( const std::string& input ) const
 TTestInput_Group TAoCS_P2::i_Test_Prepare() const
 {
 	return {
-		{ "turn on 0,0 through 0,0", "1"},
-		{ "toggle 0,0 through 999,999", "2000000"},
+		TTestInput::Create_Example( "Ex01", "turn on 0,0 through 0,0", "1" ),
+		TTestInput::Create_Example( "Ex02", "toggle 0,0 through 999,999", "2000000" ),
 	};
 }
 

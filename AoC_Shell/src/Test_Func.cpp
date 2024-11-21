@@ -28,11 +28,11 @@ void Print_TestResults( const TTestResult_Group& results )
 
 		if (curr)
 		{
-			fmt::print( "OK\n" );
+			fmt::print( "{} = OK\n", curr.Name() );
 		}
 		else
 		{
-			fmt::print( "ERROR: expected: {}, received: {}\n", curr.reference.expected, curr.actual );
+			fmt::print( "{} = ERROR: expected: {}, received: {}\n", curr.Name(), curr.Expected(), curr.Received());
 		}
 
 		++progressivo;

@@ -21,9 +21,6 @@
     <ClCompile Include="src\Test_Func.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\AoC_Solver_Engine\src\Test_Common.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Test_Func.hpp">

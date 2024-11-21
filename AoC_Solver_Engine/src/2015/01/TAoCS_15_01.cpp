@@ -51,15 +51,15 @@ std::string TAoCS_P1::i_Solve_Run( const std::string& input ) const
 TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
 	return {
-		{ "(())", "0"},
-		{ "()()", "0"},
-		{ "(((", "3"},
-		{ "(()(()(", "3"},
-		{ "))(((((", "3"},
-		{ "())", "-1"},
-		{ "))(", "-1"},
-		{ ")))", "-3"},
-		{ ")())())", "-3"},
+		TTestInput::Create_Example( "Ex. 01", "(())", "0"),
+		TTestInput::Create_Example( "Ex. 02", "()()", "0"),
+		TTestInput::Create_Example( "Ex. 03", "(((", "3"),
+		TTestInput::Create_Example( "Ex. 04", "(()(()(", "3"),
+		TTestInput::Create_Example( "Ex. 05", "))(((((", "3"),
+		TTestInput::Create_Example( "Ex. 06", "())", "-1"),
+		TTestInput::Create_Example( "Ex. 07", "))(", "-1"),
+		TTestInput::Create_Example( "Ex. 08", ")))", "-3"),
+		TTestInput::Create_Example( "Ex. 09", ")())())", "-3"),
 	};
 }
 
@@ -113,8 +113,8 @@ std::string TAoCS_P2::i_Solve_Run( const std::string& input ) const
 TTestInput_Group TAoCS_P2::i_Test_Prepare() const
 {
 	return {
-		{ ")", "1"},
-		{ "()())", "5"}
+		TTestInput::Create_Example( "Ex. 01", ")", "1" ),
+		TTestInput::Create_Example( "Ex. 02", "()())", "5" ),
 	};
 }
 

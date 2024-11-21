@@ -37,8 +37,8 @@ std::string TAoCS_P1::i_Solve_Run( const std::string& input ) const
 TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
 	return {
-		{ "?", STR_NOT_IMPLEMENTED },
-		{ "", "" },
+		TTestInput::Create_Example( "Ex01", "?", STR_NOT_IMPLEMENTED ),
+		TTestInput::Create_Example( "", "", "" ),
 	};
 }
 
@@ -69,8 +69,8 @@ std::string TAoCS_P2::i_Solve_Run( const std::string& input ) const
 TTestInput_Group TAoCS_P2::i_Test_Prepare() const
 {
 	return {
-		{ "?", STR_NOT_IMPLEMENTED },
-		{ "", ""},
+		TTestInput::Create_Example( "Ex01", "?", STR_NOT_IMPLEMENTED ),
+		TTestInput::Create_Example( "", "", "" ),
 	};
 }
 

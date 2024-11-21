@@ -130,11 +130,11 @@ std::string TAoCS_P1::i_Solve_Run( const std::string& input ) const
 TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
 	return {
-		{ "ugknbfddgicrmopn", "nice"},
-		{ "aaa", "nice"},
-		{ "jchzalrnumimnmhp", "naughty"},
-		{ "haegwjzuvuyypxyu", "naughty"},
-		{ "dvszwmarrgswjxmb", "naughty"},
+		TTestInput::Create_Example( "Ex01", "ugknbfddgicrmopn", "nice" ) ,
+		TTestInput::Create_Example( "Ex02", "aaa", "nice" ) ,
+		TTestInput::Create_Example( "Ex03", "jchzalrnumimnmhp", "naughty" ) ,
+		TTestInput::Create_Example( "Ex04", "haegwjzuvuyypxyu", "naughty" ) ,
+		TTestInput::Create_Example( "Ex05", "dvszwmarrgswjxmb", "naughty" ) ,
 	};
 
 }
@@ -220,10 +220,10 @@ std::string TAoCS_P2::i_Solve_Run( const std::string& input ) const
 TTestInput_Group TAoCS_P2::i_Test_Prepare() const
 {
 	return {
-		{ "qjhvhtzxzqqjkmpb", "nice"},
-		{ "xxyxx", "nice"},
-		{ "uurcxstgmygtbstg", "naughty"},
-		{ "ieodomkazucvgmuy", "naughty"},
+		TTestInput::Create_Example( "Ex01", "qjhvhtzxzqqjkmpb", "nice" ) ,
+		TTestInput::Create_Example( "Ex02", "xxyxx", "nice" ) ,
+		TTestInput::Create_Example( "Ex03", "uurcxstgmygtbstg", "naughty" ) ,
+		TTestInput::Create_Example( "Ex04", "ieodomkazucvgmuy", "naughty" ) ,
 	};
 
 }

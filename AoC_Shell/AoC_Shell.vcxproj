@@ -146,7 +146,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\AoC_Solver_Engine\src\Test_Common.cpp" />
     <ClCompile Include="src\AoC_Shell.cpp" />
     <ClCompile Include="src\Test_Func.cpp" />
   </ItemGroup>

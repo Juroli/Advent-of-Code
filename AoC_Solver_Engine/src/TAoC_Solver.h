@@ -67,7 +67,7 @@ private:
 	std::string i_Solve_Run() const override { return STR_NOT_IMPLEMENTED; };
 	std::string i_Solve_Run( const std::string& input ) const override { return STR_NOT_IMPLEMENTED; }
 
-	TTestInput_Group i_Test_Prepare() const override { return { { "?", STR_NOT_IMPLEMENTED } }; }
+	TTestInput_Group i_Test_Prepare() const override { return { TTestInput::Create_Example( "Ex01", "?", STR_NOT_IMPLEMENTED ) }; }
 	std::string i_Test_Run( const std::string& ) const override { return STR_NOT_IMPLEMENTED; }
 
 	//EImpl Implemented() const noexcept override { return EImpl::NONE; }

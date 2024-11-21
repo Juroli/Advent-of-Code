@@ -113,7 +113,7 @@ TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
 
 	return {
-		{
+		TTestInput::Create_Example( "Ex01",
 			"123 -> x\n"
 			"456->y\n"
 			"x AND y->d\n"
@@ -131,7 +131,7 @@ TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 			"i: 65079\n"
 			"x: 123\n"
 			"y: 456\n"
-		},
+		),
 	};
 }
 

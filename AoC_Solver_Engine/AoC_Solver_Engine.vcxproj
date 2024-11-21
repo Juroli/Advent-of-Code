@@ -201,6 +201,7 @@
     <ClCompile Include="src\2015\TAoC_15_Index.cpp" />
     <ClCompile Include="src\TAoC_Index.cpp" />
     <ClCompile Include="src\TAoC_Solver.cpp" />
+    <ClCompile Include="src\Test_Common.cpp" />
     <ClCompile Include="src\Utils\Strings\TStringList.cpp" />
     <ClCompile Include="src\Utils\MD5\BenchmarkMD5.cpp" />
     <ClCompile Include="src\Utils\MD5\orig_refactor\cpp\md5c.cpp">

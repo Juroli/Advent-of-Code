@@ -69,8 +69,8 @@ std::string TAoCS_P1::i_Solve_Run( const std::string& input ) const
 TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
 	return {
-		{ "abcdef", "609043"},
-		{ "pqrstuv", "1048970"},
+		TTestInput::Create_Example( "Ex01",  "abcdef", "609043" ) ,
+		TTestInput::Create_Example( "Ex02",  "pqrstuv", "1048970" ) ,
 	};
 }
 

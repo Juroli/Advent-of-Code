@@ -46,9 +46,9 @@ std::string TAoCS_P1::i_Solve_Run( const std::string& input ) const
 TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
 	return {
-		{ ">", "2"},
-		{ "^>v<", "4"},
-		{ "^v^v^v^v^v", "2"},
+		TTestInput::Create_Example( "Ex01", ">", "2" ) ,
+		TTestInput::Create_Example( "Ex02", "^>v<", "4" ) ,
+		TTestInput::Create_Example( "Ex03", "^v^v^v^v^v", "2" ) ,
 	};
 }
 
@@ -84,9 +84,9 @@ std::string TAoCS_P2::i_Solve_Run( const std::string& input ) const
 TTestInput_Group TAoCS_P2::i_Test_Prepare() const
 {
 	return {
-		{ "^v", "3"},
-		{ "^>v<", "3"},
-		{ "^v^v^v^v^v", "11"},
+		TTestInput::Create_Example( "Ex01", "^v", "3" ) ,
+		TTestInput::Create_Example( "Ex02", "^>v<", "3" ) ,
+		TTestInput::Create_Example( "Ex03", "^v^v^v^v^v", "11" ) ,
 	};
 }
 

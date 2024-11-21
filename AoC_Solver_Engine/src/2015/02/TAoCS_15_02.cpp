@@ -53,8 +53,8 @@ std::string TAoCS_P1::i_Solve_Run( const std::string& input ) const
 TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
 	return {
-		{ "2x3x4", "58"},
-		{ "1x1x10", "43"},
+		TTestInput::Create_Example( "Ex. 01","2x3x4", "58" ) ,
+		TTestInput::Create_Example( "Ex. 02", "1x1x10", "43" ) ,
 	};
 }
 
@@ -94,8 +94,8 @@ std::string TAoCS_P2::i_Solve_Run( const std::string& input ) const
 TTestInput_Group TAoCS_P2::i_Test_Prepare() const
 {
 	return {
-		{ "2x3x4", "34"},
-		{ "1x1x10", "14"},
+		TTestInput::Create_Example( "Ex. 01", "2x3x4", "34" ) ,
+		TTestInput::Create_Example( "Ex. 02", "1x1x10", "14" ) ,
 	};
 }
 

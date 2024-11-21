@@ -20,7 +20,7 @@ EImpl TAoC_Solver::Implemented() const noexcept
 		const auto input_test = i_Test_Prepare();
 
 		if ( input_test.empty()
-			 || (!input_test.empty() && input_test.front().expected != STR_NOT_IMPLEMENTED)
+			 || (!input_test.empty() && input_test.front().Expected() != STR_NOT_IMPLEMENTED)
 			)
 		{
 			return EImpl::TEST;
@@ -43,7 +43,7 @@ TTestResult_Group TAoC_Solver::Test() const
 
 	for (const auto& curr : test_inputs)
 	{
-		result.Add( { curr, i_Test_Run( curr.input ) } );
+		result.Add( { curr, i_Test_Run( curr.Input() ) } );
 	}
 
 	return result;
