@@ -66,7 +66,7 @@ private:
 //__________________________________________________________________________________________________
 
 // Direct operation: one string in -> one string out
-std::string Calc_MD5( const std::string& input );
+std::string Calc_MD5( std::string_view input );
 
 
 

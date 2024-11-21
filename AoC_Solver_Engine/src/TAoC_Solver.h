@@ -25,6 +25,7 @@ enum class EImpl
 	NONE,
 	TEST,
 	SOLUTION,
+	ERROR,
 };
 
 
@@ -39,18 +40,18 @@ public:
 
 	EImpl Implemented() const noexcept;
 
-	std::string Solve( const std::string& input ) const;
+	std::string Solve( std::string_view input ) const;
 
 	TTestResult_Group Test() const;
 
 
 private:
 
-	virtual std::string i_Solve_Run() const = 0;
-	virtual std::string i_Solve_Run( const std::string& input ) const = 0;
+	//virtual std::string i_Solve_Run() const = 0;
+	virtual std::string i_Solve_Run( std::string_view ) const = 0;
 
 	virtual TTestInput_Group i_Test_Prepare() const = 0;
-	virtual std::string i_Test_Run( const std::string& ) const = 0;
+	virtual std::string i_Test_Run( std::string_view ) const = 0;
 
 
 	//TTestResult_Group o_RunTests( const TTestInput_Group& test_inputs
@@ -64,11 +65,12 @@ class TAoC_Solver_NULL : public TAoC_Solver
 {
 private:
 
-	std::string i_Solve_Run() const override { return STR_NOT_IMPLEMENTED; };
-	std::string i_Solve_Run( const std::string& input ) const override { return STR_NOT_IMPLEMENTED; }
+	//std::string i_Solve_Run() const override { return STR_NOT_IMPLEMENTED; };
+	std::string i_Solve_Run( std::string_view ) const override { return STR_NOT_IMPLEMENTED; }
 
-	TTestInput_Group i_Test_Prepare() const override { return { TTestInput::Create_Example( "Ex01", "?", STR_NOT_IMPLEMENTED ) }; }
-	std::string i_Test_Run( const std::string& ) const override { return STR_NOT_IMPLEMENTED; }
+	TTestInput_Group i_Test_Prepare() const override 
+		{ return { TTestInput::Create_Example( STR_NOT_IMPLEMENTED, STR_NOT_IMPLEMENTED, STR_NOT_IMPLEMENTED ) }; }
+	std::string i_Test_Run( std::string_view ) const override { return STR_NOT_IMPLEMENTED; }
 
 	//EImpl Implemented() const noexcept override { return EImpl::NONE; }
 

@@ -305,7 +305,7 @@ std::string TMD5_Continuous::Get_MD5() const
 
 
 
-std::string Calc_MD5( const std::string& input )
+std::string Calc_MD5( std::string_view input )
 {
 	impldet_::TSessionMD5 md5;
 	md5.Update( std::as_bytes( std::span( input ) ) );

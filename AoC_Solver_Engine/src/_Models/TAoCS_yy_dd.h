@@ -16,11 +16,11 @@ class TAoCS_P1 : public TAoC_Solver
 
 private:
 
-	std::string i_Solve_Run() const override;
-	std::string i_Solve_Run( const std::string& input ) const override;
+	//std::string i_Solve_Run() const override;
+	std::string i_Solve_Run( std::string_view input ) const override;
 
 	TTestInput_Group i_Test_Prepare() const override;
-	std::string i_Test_Run( const std::string& astrin ) const override;
+	std::string i_Test_Run( std::string_view astrin ) const override;
 
 };
 
@@ -31,11 +31,11 @@ class TAoCS_P2 : public TAoC_Solver
 
 private:
 
-	std::string i_Solve_Run() const override;
-	std::string i_Solve_Run( const std::string& input ) const override;
+	//std::string i_Solve_Run() const override;
+	std::string i_Solve_Run( std::string_view input ) const override;
 
 	TTestInput_Group i_Test_Prepare() const override;
-	std::string i_Test_Run( const std::string& astrin ) const override;
+	std::string i_Test_Run( std::string_view astrin ) const override;
 
 };
 

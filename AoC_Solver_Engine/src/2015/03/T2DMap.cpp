@@ -39,14 +39,14 @@ void TDeliverer::Move( char pdir )
 }
 
 
-T2DMap::T2DMap( const std::string& pstr, int anumdeliver )
+T2DMap::T2DMap( std::string_view pstr, int anumdeliver )
 	: m_LSanta(anumdeliver)
 {
 	i_ParseString( pstr );
 }
 
 
-void T2DMap::i_ParseString( const std::string& astr )
+void T2DMap::i_ParseString( std::string_view astr )
 {
 
 	TCoord workCoord = { 0, 0 };

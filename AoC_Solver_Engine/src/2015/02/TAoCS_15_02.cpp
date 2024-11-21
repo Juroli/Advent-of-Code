@@ -27,14 +27,19 @@ std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 
 
 
-std::string TAoCS_P1::i_Solve_Run() const
-{
-	return STR_IMPLEMENTED;
-}
+//std::string TAoCS_P1::i_Solve_Run() const
+//{
+//	return STR_IMPLEMENTED;
+//}
 
 
-std::string TAoCS_P1::i_Solve_Run( const std::string& input ) const
+std::string TAoCS_P1::i_Solve_Run( std::string_view input ) const
 {
+	if (input == STR_SOLVE_CHECK)
+	{
+		return STR_IMPLEMENTED;
+	}
+
 	int paper_size = 0;
 
 	TStringParser parser( input );
@@ -58,7 +63,7 @@ TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 	};
 }
 
-std::string TAoCS_P1::i_Test_Run( const std::string& astrin ) const
+std::string TAoCS_P1::i_Test_Run( std::string_view astrin ) const
 {
 	return Solve( astrin );
 }
@@ -68,14 +73,19 @@ std::string TAoCS_P1::i_Test_Run( const std::string& astrin ) const
 
 
 
-std::string TAoCS_P2::i_Solve_Run() const
-{
-	return STR_IMPLEMENTED;
-}
+//std::string TAoCS_P2::i_Solve_Run() const
+//{
+//	return STR_IMPLEMENTED;
+//}
 
 
-std::string TAoCS_P2::i_Solve_Run( const std::string& input ) const
+std::string TAoCS_P2::i_Solve_Run( std::string_view input ) const
 {
+	if (input == STR_SOLVE_CHECK)
+	{
+		return STR_IMPLEMENTED;
+	}
+
 	int ribbon_length = 0;
 
 	TStringParser parser( input );
@@ -100,7 +110,7 @@ TTestInput_Group TAoCS_P2::i_Test_Prepare() const
 }
 
 
-std::string TAoCS_P2::i_Test_Run( const std::string& astrin ) const
+std::string TAoCS_P2::i_Test_Run( std::string_view astrin ) const
 {
 	return Solve( astrin );
 }

@@ -6,31 +6,39 @@
 EImpl TAoC_Solver::Implemented() const noexcept
 {
 
-	{
-		const auto Result_Solve = i_Solve_Run();
+	const auto Result_Solve = i_Solve_Run( STR_SOLVE_CHECK );
 
-		if (Result_Solve == STR_IMPLEMENTED)
-		{
-			return EImpl::SOLUTION;
-		}
+	if (Result_Solve == STR_IMPLEMENTED)
+	{
+		return EImpl::SOLUTION;
+	}
+	else if(Result_Solve != STR_NOT_IMPLEMENTED)
+	{
+		return EImpl::ERROR;
 	}
 
 
-	{
-		const auto input_test = i_Test_Prepare();
+	const auto input_test = i_Test_Prepare();
 
-		if ( input_test.empty()
-			 || (!input_test.empty() && input_test.front().Expected() != STR_NOT_IMPLEMENTED)
+	if (input_test.size() == 1)
+	{
+		const TTestInput test = input_test.front();
+
+		if (test.Name() == STR_NOT_IMPLEMENTED
+			&& test.Input() == STR_NOT_IMPLEMENTED
+			&& test.Expected() == STR_NOT_IMPLEMENTED
 			)
 		{
-			return EImpl::TEST;
+			return EImpl::NONE;
 		}
 	}
 
-	return EImpl::NONE;
+	return EImpl::TEST;
+
 }
 
-std::string TAoC_Solver::Solve( const std::string& input ) const
+
+std::string TAoC_Solver::Solve( std::string_view input ) const
 {
 	return i_Solve_Run(input);
 }

@@ -134,6 +134,7 @@ void PrintImplementationTable()
 				case EImpl::NONE: fmt::print( "-" ); break;
 				case EImpl::TEST: fmt::print( "x" ); break;
 				case EImpl::SOLUTION: fmt::print( "o" ); break;
+				case EImpl::ERROR: fmt::print( "!" ); break;
 				}
 			}
 
