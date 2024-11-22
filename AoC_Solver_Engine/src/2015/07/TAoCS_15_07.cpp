@@ -8,14 +8,14 @@
 #include "Utils/Strings/TStringParser.hpp"
 
 #include "v1/TCircuit_v1.hpp"
-//#include "v2/TCircuit.hpp"
+#include "v2/TCircuit.hpp"
 
 
 
 namespace y15::d07
 {
 
-using namespace y15::d07::v1;
+//using namespace y15::d07::v2;
 
 
 std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
@@ -32,9 +32,9 @@ std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 //__________________________________________________________________________________________________
 
 
-std::string TAoCS_P1::ListWires( std::string_view input ) const
+std::string TAoCS_P1::ListWires_v1( std::string_view input ) const
 {
-	TCircuit circuit;
+	v1::TCircuit circuit;
 
 	TStringParser parser( input );
 
@@ -42,7 +42,7 @@ std::string TAoCS_P1::ListWires( std::string_view input ) const
 	{
 		auto curr = parser.Extract_Line();
 
-		auto currwire = BWire::Create_Wire( curr );
+		auto currwire = v1::BWire::Create_Wire( curr );
 
 		if (currwire)
 		{
@@ -77,6 +77,33 @@ std::string TAoCS_P1::ListWires( std::string_view input ) const
 	return result;
 }
 
+std::string TAoCS_P1::ListWires_v2( std::string_view input ) const
+{
+	v2::TCircuit circuit;
+
+	TStringParser parser( input );
+
+	while (parser)
+	{
+		auto curr = parser.Extract_Line();
+
+		circuit.ParseLine( curr );
+	}
+
+
+	auto snapshot = circuit.WireInfo_Snapshot();
+
+	std::sort( snapshot.begin(), snapshot.end(), []( const v2::TWireInfo& p1, v2::TWireInfo& p2 ) { return (p1.Name < p2.Name); } );
+
+	std::string result;
+
+	for (const auto& curr : snapshot)
+	{
+		result += fmt::format( "{}: {}\n", curr.Name, curr.Value );
+	}
+
+	return result;
+}
 
 
 //std::string TAoCS_P1::i_Solve_Run() const
@@ -92,7 +119,7 @@ std::string TAoCS_P1::i_Solve_Run( std::string_view input ) const
 		return STR_IMPLEMENTED;
 	}
 
-	TCircuit circuit;
+	v2::TCircuit circuit;
 
 	TStringParser parser( input );
 
@@ -100,12 +127,19 @@ std::string TAoCS_P1::i_Solve_Run( std::string_view input ) const
 	{
 		auto curr = parser.Extract_Line();
 
+
+		/*		CIRCUIT V1		*
 		auto currwire = BWire::Create_Wire( curr );
 
 		if (currwire)
 		{
 			circuit.AddWire( std::move( currwire ) );
 		}
+		/*/
+
+		circuit.ParseLine( curr );
+
+		//*/
 	}
 
 	return std::to_string( circuit.Value( "a" ) );
@@ -142,7 +176,8 @@ TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 
 std::string TAoCS_P1::i_Test_Run( std::string_view astrin ) const
 {
-	return ListWires( astrin );
+	//return ListWires_v1( astrin );
+	return ListWires_v2( astrin );
 }
 
 
@@ -164,7 +199,7 @@ std::string TAoCS_P2::i_Solve_Run( std::string_view input ) const
 		return STR_NOT_IMPLEMENTED;
 	}
 
-	TCircuit circuit;
+	v1::TCircuit circuit;
 
 	TStringParser parser( input );
 
@@ -172,7 +207,7 @@ std::string TAoCS_P2::i_Solve_Run( std::string_view input ) const
 	{
 		auto curr = parser.Extract_Line();
 
-		auto currwire = BWire::Create_Wire( curr );
+		auto currwire = v1::BWire::Create_Wire( curr );
 
 		if (currwire)
 		{
@@ -184,7 +219,7 @@ std::string TAoCS_P2::i_Solve_Run( std::string_view input ) const
 
 	std::string strwire = std::to_string( a_value ) + "->b";
 
-	auto newwire = BWire::Create_Wire( strwire );
+	auto newwire = v1::BWire::Create_Wire( strwire );
 
 	if (newwire)
 	{

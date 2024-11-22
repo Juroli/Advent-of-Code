@@ -212,6 +212,9 @@
     <ClCompile Include="src\Test_Common.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\2015\07\v2\TGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Utils\MD5\Original\LICENSE.md5" />

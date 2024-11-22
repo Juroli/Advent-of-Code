@@ -16,7 +16,8 @@ class TAoCS_P1 : public TAoC_Solver
 public:
 
 
-	std::string ListWires( std::string_view input ) const;
+	std::string ListWires_v1( std::string_view input ) const;
+	std::string ListWires_v2( std::string_view input ) const;
 
 	
 private:
