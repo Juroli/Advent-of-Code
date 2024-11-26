@@ -11,52 +11,95 @@
 //#include <cstdint>
 #include <string>
 
+#include "TWire.hpp"
+
 namespace y15::d07::v2
 {
 
-
-using TSignal = uint16_t;
-
+//using TSignal = uint16_t;
 
 
-class TOutPort
+//class TOutPort
+//{
+//public:
+//
+//
+//	virtual bool IsReady() const noexcept = 0;
+//
+//	virtual const std::string& Name() const noexcept = 0;
+//
+//	virtual int Level() const = 0;
+//
+//	virtual TSignal ReadSignal() const = 0;
+//
+//private:
+//
+//};
+
+
+class BInPort
 {
 public:
 
-
 	virtual const std::string& Name() const noexcept = 0;
-
-	virtual int Level() const = 0;
-
+	virtual bool IsLinked() const noexcept = 0;
+	virtual TMeta MetaData() const noexcept = 0;
+	virtual void CheckLink( const TWire* wire ) noexcept = 0;
 	virtual TSignal ReadSignal() const = 0;
-
-private:
-
 };
 
 
-
-class TInPort
+class TInPort_Fixed: public BInPort
 {
 public:
 
-	TInPort( std::string_view in_name );
-	TInPort( std::string_view in_name, const TOutPort* aport );
+	TInPort_Fixed( TSignal val ) : m_Name( std::to_string( val ) ), m_Value( val ) {}
+
+	//bool IsReady() const noexcept;
+
+	const std::string& Name() const noexcept override { return m_Name; }
+
+	bool IsLinked() const noexcept override { return true; }
+
+	TMeta MetaData() const noexcept override { return { true, 0 }; }
+
+	void CheckLink( const TWire* wire ) noexcept override {}
+
+	TSignal ReadSignal() const override { return m_Value; }
 
 
-	bool IsLinked() const noexcept { return m_OutPort != nullptr; }
+private:
 
-	int Level() const noexcept;
+	std::string m_Name;
+	TSignal m_Value;
+};
 
-	void Link( const TOutPort* aport ) noexcept;
 
-	TSignal ReadSignal() const;
+class TInPort_Wire: public BInPort
+{
+public:
+
+	TInPort_Wire( std::string_view in_name );
+	TInPort_Wire( std::string_view in_name, const TWire* aport );
+
+
+	//bool IsReady() const noexcept;
+
+	const std::string& Name() const noexcept override { return m_InName; }
+
+	bool IsLinked() const noexcept override { return m_InWire != nullptr; }
+
+	TMeta MetaData() const noexcept override;
+
+	void CheckLink( const TWire* wire ) noexcept override;
+
+	TSignal ReadSignal() const override;
 
 
 private:
 
 	std::string m_InName;
-	const TOutPort* m_OutPort;
+	const TWire* m_InWire;
 };
 
 

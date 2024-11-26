@@ -29,32 +29,58 @@ namespace y15::d07::v2
 //};
 
 
+using TLUptrGates = std::vector < std::unique_ptr <BGate>>;
+using TLPtrGates = std::vector <BGate*>;
+using TLPtrWires = std::vector <TWire*>;
+
+
+
 class TCircuit
 {
 public:
 
 
-	void ParseLine( std::string_view line );
+	void AddFromLine( std::string_view line );
 
 	bool IsReady() const noexcept;
+
+
+	void BuildCircuit();
+
 
 	TSignal Value( std::string_view wire_name ) const;
 
 	std::vector<TWireInfo> WireInfo_Snapshot() const;
 
-private:
-
-	std::unique_ptr<BGate> i_CreateGate( std::string_view gate_def );
-
-	const TOutPort* i_AddGate( std::string_view gate_def );
-	void i_AddWire( std::string_view wire_name, std::string_view in_name, const TOutPort* out_port );
-
+	std::string PrintInput();
 
 private:
 
-	TWireList m_LWires;
+	TPtrPort i_CreatePort( std::string_view input );
+	std::unique_ptr<BGate> i_CreateGate( std::string_view wire_name, std::string_view gate_def );
 
-	TGateList m_LGates;
+	void i_AddGate( std::unique_ptr<BGate> gate);
+	//void i_CheckStagedItems();
+
+	//const TOutPort* i_AddGate( std::string_view gate_def );
+	//void i_AddWire( std::string_view wire_name, std::string_view in_name, const TOutPort* out_port );
+
+
+private:
+
+	TLUptrGates m_GatesRepo;
+
+	TLPtrGates m_LGate_ToProcess;
+
+	//TWireList m_LStagedWires;
+	//TGateList m_LNewGates;
+	//TLPtrWires m_LWire;
+
+	//TGateList m_LLinkedGates;
+
+	//TWireList m_LWires;
+	//TGateList m_LGates;
+	TLPtrGates m_LGate;
 
 };
 

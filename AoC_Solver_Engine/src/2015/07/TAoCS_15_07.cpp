@@ -87,13 +87,18 @@ std::string TAoCS_P1::ListWires_v2( std::string_view input ) const
 	{
 		auto curr = parser.Extract_Line();
 
-		circuit.ParseLine( curr );
+		circuit.AddFromLine( curr );
 	}
 
+	circuit.BuildCircuit();
+
+	if (!circuit.IsReady())
+	{
+		throw std::exception("Circuit is not ready.");
+	}
 
 	auto snapshot = circuit.WireInfo_Snapshot();
 
-	std::sort( snapshot.begin(), snapshot.end(), []( const v2::TWireInfo& p1, v2::TWireInfo& p2 ) { return (p1.Name < p2.Name); } );
 
 	std::string result;
 
@@ -137,10 +142,12 @@ std::string TAoCS_P1::i_Solve_Run( std::string_view input ) const
 		}
 		/*/
 
-		circuit.ParseLine( curr );
+		circuit.AddFromLine( curr );
 
 		//*/
 	}
+
+	circuit.BuildCircuit();
 
 	return std::to_string( circuit.Value( "a" ) );
 

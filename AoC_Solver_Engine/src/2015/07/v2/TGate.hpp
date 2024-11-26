@@ -19,21 +19,25 @@ namespace y15::d07::v2
 {
 
 
-class BGate: public TOutPort
+class BGate: public TWire		//TOutPort
 {
 public:
 
-	BGate( std::string_view name );
+	BGate( std::string_view wire_name );
 
-	const std::string& Name() const noexcept override { return m_Name; }
+	//const std::string& Name() const noexcept override { return m_Name; }
 
+	//virtual bool IsLinked() const = 0;
 
-	virtual bool IsLinked() const = 0;
+	virtual void ProposeWire( const TWire* in_wire ) = 0;
 
+	virtual std::string to_string() const = 0;
 
 private:
 
-	std::string m_Name;
+	//int m_Level;
+
+	//std::string m_Name;
 
 
 	// Inherited via TOutPort
@@ -43,43 +47,59 @@ private:
 
 
 
-class TGateList
-{
-public:
+using TPtrPort = std::unique_ptr<BInPort>;
 
-	void AddGate( std::unique_ptr<BGate>&& gate );
-
-	//TWire* FindGate( std::string_view name ) const noexcept;
-
-	bool IsLinked() const;
-
-private:
-
-	std::vector < std::unique_ptr <BGate>> m_LGates;
-
-};
-
-
-
-class TGate_Fixed : public BGate
-{
-public:
-
-	TGate_Fixed( std::string_view name, const TSignal& signal );
-
-
-	bool IsLinked() const override;
-
-	int Level() const override;
-
-	TSignal ReadSignal() const override;
+//class TGateList
+//{
+//public:
+//
+//	void AddGate( std::unique_ptr<BGate>&& gate );
+//
+//	size_t size() const noexcept { return m_LGates.size(); }
+//
+//	TWire* FindWire( std::string_view name ) const noexcept;
+//
+//	bool IsLinked() const;
+//
+//	std::vector<TWireInfo> WireInfo_Snapshot() const;
+//
+//	const auto begin() const noexcept { return m_LGates.begin(); }
+//	const auto end() const noexcept { return m_LGates.end(); }
+//
+//private:
+//
+//	std::vector < std::unique_ptr <BGate>> m_LGates;
+//
+//};
 
 
-private:
 
-	TSignal m_Value;
-
-};
+//class TGate_Fixed : public BGate
+//{
+//public:
+//
+//	TGate_Fixed( std::string_view wire_name, const TSignal& signal );
+//
+//
+//	//bool IsReady() const noexcept override;
+//
+//	bool IsLinked() const noexcept override;
+//
+//	void ProposeWire( const TWire* in_wire ) override;
+//
+//	void Update_Level() override;
+//
+//	std::string to_string() const override;
+//
+//private:
+//
+//	TSignal i_ReadSignal() const override;
+//
+//private:
+//
+//	TSignal m_Value;
+//
+//};
 
 
 //__________________________________________________________________________________________________
@@ -89,19 +109,26 @@ class TGate_Link : public BGate
 {
 public:
 
-	TGate_Link( std::string_view gate_name, std::string_view in_name );
+	TGate_Link( std::string_view wire_name, TPtrPort input );
 
 
-	bool IsLinked() const override;
+	//bool IsReady() const noexcept override;
 
-	int Level() const override;
+	bool IsLinked() const noexcept override;
 
-	TSignal ReadSignal() const override;
+	void ProposeWire( const TWire* in_wire ) override;
 
+	void Update_Level() override;
+
+	std::string to_string() const override;
 
 private:
 
-	TInPort m_Input;
+	TSignal i_ReadSignal() const override;
+
+private:
+
+	TPtrPort m_Input;
 
 };
 
@@ -113,19 +140,24 @@ class TGate_NOT : public BGate
 {
 public:
 
-	TGate_NOT( std::string_view gate_name, std::string_view in_name );
+	TGate_NOT( std::string_view wire_name, TPtrPort input );
 
 
-	bool IsLinked() const override;
+	bool IsLinked() const noexcept override;
 
-	int Level() const override;
+	void ProposeWire( const TWire* in_wire ) override;
 
-	TSignal ReadSignal() const override;
+	void Update_Level() override;
 
+	std::string to_string() const override;
 
 private:
 
-	TInPort m_Input;
+	TSignal i_ReadSignal() const override;
+
+private:
+
+	TPtrPort m_Input;
 
 };
 
@@ -137,20 +169,25 @@ class TGate_AND : public BGate
 {
 public:
 
-	TGate_AND( std::string_view gate_name, std::string_view in1_name, std::string_view in2_name );
+	TGate_AND( std::string_view wire_name, TPtrPort input_1, TPtrPort input_2 );
 
 
-	bool IsLinked() const override;
+	bool IsLinked() const noexcept override;
 
-	int Level() const override;
+	void ProposeWire( const TWire* in_wire ) override;
 
-	TSignal ReadSignal() const override;
+	void Update_Level() override;
 
+	std::string to_string() const override;
 
 private:
 
-	TInPort m_Input_1;
-	TInPort m_Input_2;
+	TSignal i_ReadSignal() const override;
+
+private:
+
+	TPtrPort m_Input_1;
+	TPtrPort m_Input_2;
 
 };
 
@@ -162,20 +199,25 @@ class TGate_OR : public BGate
 {
 public:
 
-	TGate_OR( std::string_view gate_name, std::string_view in1_name, std::string_view in2_name );
+	TGate_OR( std::string_view wire_name, TPtrPort input_1, TPtrPort input_2 );
 
 
-	bool IsLinked() const override;
+	bool IsLinked() const noexcept override;
 
-	int Level() const override;
+	void ProposeWire( const TWire* in_wire ) override;
 
-	TSignal ReadSignal() const override;
+	void Update_Level() override;
 
+	std::string to_string() const override;
 
 private:
 
-	TInPort m_Input_1;
-	TInPort m_Input_2;
+	TSignal i_ReadSignal() const override;
+
+private:
+
+	TPtrPort m_Input_1;
+	TPtrPort m_Input_2;
 
 };
 
@@ -187,20 +229,26 @@ class TGate_LSHIFT : public BGate
 {
 public:
 
-	TGate_LSHIFT( std::string_view gate_name, std::string_view in_name, int offset );
+	TGate_LSHIFT( std::string_view wire_name, TPtrPort input_1, TPtrPort input_2 );
 
 
-	bool IsLinked() const override;
+	bool IsLinked() const noexcept override;
 
-	int Level() const override;
+	void ProposeWire( const TWire* in_wire ) override;
 
-	TSignal ReadSignal() const override;
+	void Update_Level() override;
 
+	std::string to_string() const override;
 
 private:
 
-	TInPort m_Input;
-	int m_Offset;
+	TSignal i_ReadSignal() const override;
+
+private:
+
+	TPtrPort m_Input_1;
+	TPtrPort m_Input_2;
+	//int m_Offset;
 
 };
 
@@ -212,20 +260,26 @@ class TGate_RSHIFT : public BGate
 {
 public:
 
-	TGate_RSHIFT( std::string_view gate_name, std::string_view in_name, int offset );
+	TGate_RSHIFT( std::string_view wire_name, TPtrPort input_1, TPtrPort input_2 );
 
 
-	bool IsLinked() const override;
+	bool IsLinked() const noexcept override;
 
-	int Level() const override;
+	void ProposeWire( const TWire* in_wire ) override;
 
-	TSignal ReadSignal() const override;
+	void Update_Level() override;
 
+	std::string to_string() const override;
 
 private:
 
-	TInPort m_Input;
-	int m_Offset;
+	TSignal i_ReadSignal() const override;
+
+private:
+
+	TPtrPort m_Input_1;
+	TPtrPort m_Input_2;
+	//int m_Offset;
 
 };
 

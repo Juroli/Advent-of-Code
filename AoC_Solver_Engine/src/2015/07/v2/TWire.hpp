@@ -7,11 +7,11 @@
 #endif  // _MSC_VER
 
 
-#include "Ports.hpp"
+//#include "Ports.hpp"
 
 #include <memory>
 #include <vector>
-//#include <string>
+#include <string>
 //#include <optional>
 //#include <algorithm>
 
@@ -21,6 +21,10 @@ namespace y15::d07::v2
 {
 
 
+using TSignal = uint16_t;
+
+
+
 struct TWireInfo
 {
 	std::string Name;
@@ -28,54 +32,85 @@ struct TWireInfo
 };
 
 
+struct TMeta
+{
+	bool Ready;
+	int Level;
+};
 
-class TWire: public TOutPort
+
+class TWire			//: public TOutPort
 {
 public:
 
-	TWire( std::string_view wname, std::string_view in_name, const TOutPort* aport );
+	TWire( std::string_view wname );		// , std::string_view in_name );		// , const TOutPort* aport );
 
 
-	void LinkTo( const TOutPort* aport ) noexcept;
+	//bool IsReady() const noexcept;
 
-	int Level() const override;
+	//void LinkTo( const TOutPort* aport ) noexcept;
 
-	const std::string& Name() const noexcept override;
+	bool Ready() const noexcept { return m_Meta.Ready; }
+	int Level() const noexcept { return m_Meta.Level; }
+	
+	const TMeta& MetaData() const noexcept { return m_Meta; }
 
-	TSignal ReadSignal() const override;
+	void Set_MetaData( const TMeta& lvl ) { m_Meta = lvl; }
 
+	virtual void Update_Level() = 0;
+
+	const std::string& Name() const noexcept;
+
+	//TSignal ReadSignal() const override;
+
+
+	//virtual bool IsReady() const noexcept = 0;
+	virtual bool IsLinked() const noexcept = 0;
+
+	TSignal Value() const;
+
+private:
+
+
+	virtual TSignal i_ReadSignal() const = 0;
 
 private:
 
 	std::string m_Name;
 
-	TInPort m_InPort;
+	TMeta m_Meta;
+
+
+	mutable bool m_Cached = false;
+	mutable TSignal m_Cache = 0;
+
+	//TInPort m_InPort;
 
 };
 
 
 
 
-class TWireList
-{
-public:
-
-
-	void AddWire( std::string_view wire_name, std::string_view in_name, const TOutPort* out_port );
-
-	TWire* FindWire( std::string_view name ) const noexcept;
-
-
-	std::vector<TWireInfo> Info_Snapshot() const;
-
-	const auto begin() const noexcept { return m_LWire.begin(); }
-	const auto end() const noexcept { return m_LWire.end(); }
-
-private:
-
-	std::vector<std::unique_ptr<TWire>> m_LWire;
-
-};
+//class TWireList
+//{
+//public:
+//
+//
+//	void AddWire( std::string_view wire_name, std::string_view in_name );		// , const TOutPort* out_port );
+//
+//	TWire* FindWire( std::string_view name ) const noexcept;
+//
+//
+//	std::vector<TWireInfo> Info_Snapshot() const;
+//
+//	const auto begin() const noexcept { return m_LWire.begin(); }
+//	const auto end() const noexcept { return m_LWire.end(); }
+//
+//private:
+//
+//	std::vector<std::unique_ptr<TWire>> m_LWire;
+//
+//};
 
 
 }

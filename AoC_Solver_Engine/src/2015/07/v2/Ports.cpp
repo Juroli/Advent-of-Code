@@ -7,41 +7,59 @@ namespace y15::d07::v2
 
 
 
-TInPort::TInPort( std::string_view in_name )
+TInPort_Wire::TInPort_Wire( std::string_view in_name )
 	: m_InName( in_name )
-	, m_OutPort( nullptr )
+	, m_InWire( nullptr )
 {
 }
 
-TInPort::TInPort( std::string_view in_name, const TOutPort* aport )
+TInPort_Wire::TInPort_Wire( std::string_view in_name, const TWire* aport )
 	: m_InName( in_name )
-	, m_OutPort( aport )
+	, m_InWire( aport )
 {
 }
 
+//bool TInPort::IsReady() const noexcept
+//{
+//	return IsLinked() && m_OutWire->IsReady();
+//}
 
-int TInPort::Level() const noexcept
+
+TMeta TInPort_Wire::MetaData() const noexcept
 {
 	if (!IsLinked())
 	{
-		return -1;
+		return { false, 0 };
 	}
 
-	return m_OutPort->Level() + 1;
+	return { m_InWire->Ready(), m_InWire->Level() + 1 };
 }
 
-void TInPort::Link( const TOutPort* aport ) noexcept
+void TInPort_Wire::CheckLink( const TWire* wire ) noexcept
 {
-	m_OutPort = aport;
+	if (wire == nullptr)
+	{
+		return;
+	}
+
+	if(wire->Name() == m_InName )
+	{
+		m_InWire = wire;
+	}
 }
 
-TSignal TInPort::ReadSignal() const
+//void TInPort::Link( const TWire* aport ) noexcept
+//{
+//	
+//}
+
+TSignal TInPort_Wire::ReadSignal() const
 {
 	if (!IsLinked())
 	{
 		throw std::exception( "Unlinked gate" );
 	}
-	return m_OutPort->ReadSignal();
+	return m_InWire->Value();
 }
 
 
