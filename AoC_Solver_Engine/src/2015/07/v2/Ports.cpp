@@ -32,20 +32,18 @@ TMeta TInPort_Wire::MetaData() const noexcept
 		return { false, 0 };
 	}
 
-	return { m_InWire->Ready(), m_InWire->Level() + 1 };
+	return { m_InWire->IsReady(), m_InWire->Level() + 1};
 }
 
-void TInPort_Wire::CheckLink( const TWire* wire ) noexcept
+bool TInPort_Wire::CheckAddLink( const TWire* wire ) noexcept
 {
-	if (wire == nullptr)
-	{
-		return;
-	}
-
-	if(wire->Name() == m_InName )
+	if (wire != nullptr && wire->Name() == m_InName )
 	{
 		m_InWire = wire;
+		return true;
 	}
+
+	return false;
 }
 
 //void TInPort::Link( const TWire* aport ) noexcept

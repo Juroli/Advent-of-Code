@@ -50,14 +50,14 @@ public:
 
 	//void LinkTo( const TOutPort* aport ) noexcept;
 
-	bool Ready() const noexcept { return m_Meta.Ready; }
+	bool IsReady() const noexcept { return m_Meta.Ready; }
 	int Level() const noexcept { return m_Meta.Level; }
 	
 	const TMeta& MetaData() const noexcept { return m_Meta; }
 
 	void Set_MetaData( const TMeta& lvl ) { m_Meta = lvl; }
 
-	virtual void Update_Level() = 0;
+	
 
 	const std::string& Name() const noexcept;
 
@@ -65,12 +65,15 @@ public:
 
 
 	//virtual bool IsReady() const noexcept = 0;
-	virtual bool IsLinked() const noexcept = 0;
+	//virtual bool IsLinked() const noexcept = 0;
 
 	TSignal Value() const;
 
-private:
+protected:
 
+	virtual void i_Update_Meta() = 0;
+
+private:
 
 	virtual TSignal i_ReadSignal() const = 0;
 

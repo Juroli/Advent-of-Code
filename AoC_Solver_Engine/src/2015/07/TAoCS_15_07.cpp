@@ -90,7 +90,7 @@ std::string TAoCS_P1::ListWires_v2( std::string_view input ) const
 		circuit.AddFromLine( curr );
 	}
 
-	circuit.BuildCircuit();
+	//circuit.BuildCircuit();
 
 	if (!circuit.IsReady())
 	{
@@ -147,7 +147,7 @@ std::string TAoCS_P1::i_Solve_Run( std::string_view input ) const
 		//*/
 	}
 
-	circuit.BuildCircuit();
+	//circuit.BuildCircuit();
 
 	return std::to_string( circuit.Value( "a" ) );
 

@@ -35,17 +35,18 @@ void TCircuit::AddFromLine( std::string_view line )
 		return;
 	}
 
-	auto pgate = i_CreateGate( wire_name, gate_def );
+	//auto pgate = i_CreateGate( wire_name, gate_def );
 
-	if (pgate == nullptr)
-	{
-		return;
-	}
+	//if (pgate == nullptr)
+	//{
+	//	return;
+	//}
 
 	//m_LWires.AddWire( wire_name, gate_def, pgate.get() );
 	//m_LGates.AddGate( std::move( pgate ) );
-	m_LGate_ToProcess.push_back( pgate.get() );
-	i_AddGate( std::move( pgate ) );
+	//m_LGate_ToProcess.push_back( pgate.get() );
+	//i_AddGate( std::move( pgate ) );
+	i_AddGate( i_CreateGate( wire_name, gate_def ) );
 	
 	return;
 }
@@ -55,14 +56,14 @@ bool TCircuit::IsReady() const noexcept
 {
 	//return m_LGates.IsLinked();
 
-	if (!m_LGate_ToProcess.empty())
+	if (!m_LGatePile.empty())
 	{
 		return false;
 	}
 
-	for (const auto& curr : m_LGate)
+	for (const auto& curr : m_LGateReady)
 	{
-		if (!curr->IsLinked())
+		if (!curr->IsReady())
 		{
 			return false;
 		}
@@ -71,81 +72,108 @@ bool TCircuit::IsReady() const noexcept
 	return true;
 }
 
-void TCircuit::BuildCircuit()
-{
-	//std::vector<BGate*> worklist;
-
-
-	size_t moved_gates = 1;
-
-	while (!m_LGate_ToProcess.empty() && moved_gates > 0)
-	{
-		moved_gates = 0;
-		//auto itnew = m_LNewGates.begin();
-
-		//while (itnew != m_LNewGates.end())
-		for (auto& g_curr : m_LGate_ToProcess)
-		{
-			//const auto work_ptr = itnew->get();
-			if ( g_curr->IsLinked())
-			{
-				//worklist.push_back( work_ptr );
-				m_LGate.push_back( g_curr );
-
-				++moved_gates;
-
-				//itnew = m_LNewGates.erase( itnew );
-			
-				for (const auto& tp_curr : m_LGate_ToProcess)
-				{
-					if(tp_curr != nullptr)
-					{
-						tp_curr->ProposeWire( g_curr );
-					}
-				}
-
-				g_curr = nullptr;
-			}
-			//else
-			//{
-			//	++itnew;
-			//}
-		}
-
-		m_LGate_ToProcess.erase( std::remove( m_LGate_ToProcess.begin(), m_LGate_ToProcess.end(), nullptr ), m_LGate_ToProcess.end());
-
-		//for (const auto& work_gate : worklist)
-		//{
-		//	for (const auto& new_gate : m_LNewGates)
-		//	{
-		//		new_gate->ProposeWire( work_gate );
-		//	}
-		//}
-
-		//moved_gates = worklist.size();
-
-		//worklist.clear();
-
-	}
-
-	if (!m_LGate_ToProcess.empty())
-	{
-		throw std::exception( "Unused gates" );
-	}
-}
+//void TCircuit::BuildCircuit()
+//{
+//	//std::vector<BGate*> worklist;
+//
+//
+//	size_t moved_gates = 1;
+//
+//	while (moved_gates > 0)
+//	{
+//		moved_gates = 0;
+//		//auto itnew = m_LNewGates.begin();
+//
+//		//while (itnew != m_LNewGates.end())
+//		for (auto& g_curr : m_LGatePile)
+//		{
+//			//const auto work_ptr = itnew->get();
+//			if ( g_curr->IsReady())
+//			{
+//				//worklist.push_back( work_ptr );
+//				m_LGateReady.push_back( g_curr );
+//
+//				++moved_gates;
+//
+//				//itnew = m_LNewGates.erase( itnew );
+//			
+//				for (const auto& tp_curr : m_LGatePile)
+//				{
+//					if (tp_curr != nullptr)
+//					{
+//						tp_curr->ProposeInputWire( g_curr );
+//					}
+//				}
+//
+//				g_curr = nullptr;
+//			}
+//			//else
+//			//{
+//			//	++itnew;
+//			//}
+//		}
+//
+//		m_LGatePile.erase( std::remove( m_LGatePile.begin(), m_LGatePile.end(), nullptr ), m_LGatePile.end());
+//
+//		//for (const auto& work_gate : worklist)
+//		//{
+//		//	for (const auto& new_gate : m_LNewGates)
+//		//	{
+//		//		new_gate->ProposeWire( work_gate );
+//		//	}
+//		//}
+//
+//		//moved_gates = worklist.size();
+//
+//		//worklist.clear();
+//
+//	}
+//
+//	if (!m_LGatePile.empty())
+//	{
+//		throw std::exception( "Unused gates" );
+//	}
+//}
 
 
 TSignal TCircuit::Value( std::string_view wire_name ) const
 {
-	//const auto wire = m_LGates.FindWire( wire_name );
-	const auto wpos = std::find_if( m_LGate.begin(), m_LGate.end(), [&wire_name]( const BGate* w ) { return (w->Name() == wire_name); } );
+	int curr_maxlvl = 0;
 
-	if (wpos == m_LGate.end())
+	for (const auto& curr : m_LGateReady)
 	{
-		throw std::exception( "Invalid wire name" );
+		if (!curr->IsReady())
+		{
+			throw std::exception( "Wire not ready" );
+		}
+
+		if (curr->Level() > curr_maxlvl)
+		{
+			curr_maxlvl = curr->Level();
+		}
+
+		if (curr->Level() < curr_maxlvl)
+		{
+			auto DEBUG_a = 0;
+		}
+
+		if (curr->Name() == wire_name)
+		{
+			return curr->Value();
+		}
 	}
 
-	return (*wpos)->Value();
+	throw std::exception( "Invalid wire name" );
+
+	//const auto wire = m_LGates.FindWire( wire_name );
+	//const auto wpos = std::find_if( m_LGate.begin(), m_LGate.end(), [&wire_name]( const BGate* w ) { return (w->Name() == wire_name); } );
+
+	//if (wpos == m_LGate.end())
+	//{
+	//	throw std::exception( "Invalid wire name" );
+	//}
+
+	//return (*wpos)->Value();
 }
 
 
@@ -154,7 +182,7 @@ std::vector<TWireInfo> TCircuit::WireInfo_Snapshot() const
 	//return m_LGates.WireInfo_Snapshot();
 	std::vector<TWireInfo> result;
 
-	for (const auto& curr : m_LGate)
+	for (const auto& curr : m_LGateReady)
 	{
 		if (curr == nullptr)
 		{
@@ -175,7 +203,7 @@ std::string TCircuit::PrintInput()
 {
 	std::string result;
 
-	for (const auto& curr : m_GatesRepo)
+	for (const auto& curr : m_GatesHolder)
 	{
 		result += fmt::format( "{}\n", curr->to_string() );
 	}
@@ -279,8 +307,104 @@ std::unique_ptr<BGate> TCircuit::i_CreateGate( std::string_view wire_name, std::
 
 void TCircuit::i_AddGate( std::unique_ptr<BGate> gate )
 {
+	if (gate == nullptr)
+	{
+		return;
+	}
+
+	auto locptr = gate.get();
+
 	//m_LNewGates.AddGate( std::move( gate ) );
-	m_GatesRepo.push_back( std::move( (gate) ) );
+	m_GatesHolder.push_back( std::move( gate ) );
+
+	for (const auto& curr : m_LGateReady)
+	{
+		//curr->ProposeInputWire( locptr );
+		locptr->ProposeInputWire( curr );
+	}
+
+	if(locptr->IsReady())
+	{
+		i_TransferToReady( locptr );
+
+		//const auto ins_pos = std::upper_bound( m_LGateReady.begin(), m_LGateReady.end(), locptr,
+		//	[]( const BGate* pa, const BGate* pb ) { return pa->Level() < pb->Level(); }
+		//);
+
+		//m_LGateReady.insert( ins_pos, locptr );
+
+		//i_ProposeToPile( locptr );
+
+		i_ProcessPile();
+	}
+	else
+	{
+		m_LGatePile.push_back( locptr );
+	}
+}
+
+void TCircuit::i_ProcessPile()
+{
+	size_t moved_gates = 1;
+
+	while (moved_gates > 0)
+	{
+		moved_gates = 0;
+		//auto itnew = m_LNewGates.begin();
+
+		//while (itnew != m_LNewGates.end())
+		for (auto& g_curr : m_LGatePile)
+		{
+			//const auto work_ptr = itnew->get();
+			if (g_curr->IsReady())
+			{
+
+				++moved_gates;
+
+				auto locptr = g_curr;
+				g_curr = nullptr;
+
+				i_TransferToReady( locptr );
+			}
+			//else
+			//{
+			//	++itnew;
+			//}
+		}
+
+		m_LGatePile.erase( std::remove( m_LGatePile.begin(), m_LGatePile.end(), nullptr ), m_LGatePile.end() );
+
+		//for (const auto& work_gate : worklist)
+		//{
+		//	for (const auto& new_gate : m_LNewGates)
+		//	{
+		//		new_gate->ProposeWire( work_gate );
+		//	}
+		//}
+
+		//moved_gates = worklist.size();
+
+		//worklist.clear();
+
+	}
+}
+
+void TCircuit::i_TransferToReady( BGate* gate )
+{
+	//m_LGateReady.push_back( gate );
+	const auto ins_pos = std::upper_bound( m_LGateReady.begin(), m_LGateReady.end(), gate,
+		[]( const BGate* pa, const BGate* pb ) { return pa->Level() < pb->Level(); }
+	);
+	m_LGateReady.insert( ins_pos, gate );
+
+
+	for (const auto& tp_curr : m_LGatePile)
+	{
+		if (tp_curr != nullptr)
+		{
+			tp_curr->ProposeInputWire( gate );
+		}
+	}
 }
 
 

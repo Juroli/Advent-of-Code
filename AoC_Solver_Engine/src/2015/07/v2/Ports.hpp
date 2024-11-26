@@ -44,7 +44,7 @@ public:
 	virtual const std::string& Name() const noexcept = 0;
 	virtual bool IsLinked() const noexcept = 0;
 	virtual TMeta MetaData() const noexcept = 0;
-	virtual void CheckLink( const TWire* wire ) noexcept = 0;
+	virtual bool CheckAddLink( const TWire* wire ) noexcept = 0;
 	virtual TSignal ReadSignal() const = 0;
 };
 
@@ -63,7 +63,7 @@ public:
 
 	TMeta MetaData() const noexcept override { return { true, 0 }; }
 
-	void CheckLink( const TWire* wire ) noexcept override {}
+	bool CheckAddLink( const TWire* wire ) noexcept override { return false; }
 
 	TSignal ReadSignal() const override { return m_Value; }
 
@@ -91,7 +91,7 @@ public:
 
 	TMeta MetaData() const noexcept override;
 
-	void CheckLink( const TWire* wire ) noexcept override;
+	bool CheckAddLink( const TWire* wire ) noexcept override;
 
 	TSignal ReadSignal() const override;
 

@@ -12,6 +12,16 @@ BGate::BGate( std::string_view wire_name )
 {
 }
 
+void BGate::ProposeInputWire( const TWire* in_wire )
+{
+	if (i_CheckAddWire( in_wire ))
+	{
+		i_Update_Meta();
+	}
+
+	
+}
+
 
 //void TGateList::AddGate( std::unique_ptr<BGate>&& gate )
 //{
@@ -110,6 +120,7 @@ TGate_Link::TGate_Link( std::string_view wire_name, TPtrPort input )
 	: BGate( wire_name )
 	, m_Input( std::move(input) )
 {
+	i_Update_Meta();
 }
 
 //bool TGate_Link::IsReady() const noexcept
@@ -122,24 +133,25 @@ bool TGate_Link::IsLinked() const noexcept
 	return m_Input->IsLinked();
 }
 
-void TGate_Link::ProposeWire( const TWire* in_wire )
+std::string TGate_Link::to_string() const
 {
-	m_Input->CheckLink( in_wire );
+	return fmt::format( "{} -> {}", m_Input->Name(), Name() );
 }
 
-void TGate_Link::Update_Level()
+
+
+bool TGate_Link::i_CheckAddWire( const TWire* in_wire )
+{
+	return m_Input->CheckAddLink( in_wire );
+}
+
+void TGate_Link::i_Update_Meta()
 {
 	if(m_Input->IsLinked())
 	{
 		Set_MetaData( m_Input->MetaData() );
 	}
 }
-
-std::string TGate_Link::to_string() const
-{
-	return fmt::format( "{} -> {}", m_Input->Name(), Name());
-}
-
 
 TSignal TGate_Link::i_ReadSignal() const
 {
@@ -161,24 +173,25 @@ bool TGate_NOT::IsLinked() const noexcept
 	return m_Input->IsLinked();
 }
 
-void TGate_NOT::ProposeWire( const TWire* in_wire )
+std::string TGate_NOT::to_string() const
 {
-	m_Input->CheckLink( in_wire );
+	return fmt::format( "NOT {} -> {}", m_Input->Name(), Name() );
 }
 
-void TGate_NOT::Update_Level()
+
+
+bool TGate_NOT::i_CheckAddWire( const TWire* in_wire )
+{
+	return m_Input->CheckAddLink( in_wire );
+}
+
+void TGate_NOT::i_Update_Meta()
 {
 	if (m_Input->IsLinked())
 	{
 		Set_MetaData( m_Input->MetaData() );
 	}
 }
-
-std::string TGate_NOT::to_string() const
-{
-	return fmt::format( "NOT {} -> {}", m_Input->Name(), Name() );
-}
-
 
 TSignal TGate_NOT::i_ReadSignal() const
 {
@@ -202,13 +215,20 @@ bool TGate_AND::IsLinked() const noexcept
 	return (m_Input_1->IsLinked() && m_Input_2->IsLinked());
 }
 
-void TGate_AND::ProposeWire( const TWire* in_wire )
+std::string TGate_AND::to_string() const
 {
-	m_Input_1->CheckLink( in_wire );
-	m_Input_2->CheckLink( in_wire );
+	return fmt::format( "{} AND {} -> {}", m_Input_1->Name(), m_Input_2->Name(), Name() );
 }
 
-void TGate_AND::Update_Level()
+
+
+bool TGate_AND::i_CheckAddWire( const TWire* in_wire )
+{
+	return m_Input_1->CheckAddLink( in_wire )
+		|| m_Input_2->CheckAddLink( in_wire );
+}
+
+void TGate_AND::i_Update_Meta()
 {
 	if (m_Input_1->IsLinked() && m_Input_2->IsLinked())
 	{
@@ -220,12 +240,6 @@ void TGate_AND::Update_Level()
 			} );
 	}
 }
-
-std::string TGate_AND::to_string() const
-{
-	return fmt::format( "{} AND {} -> {}", m_Input_1->Name(), m_Input_2->Name(), Name() );
-}
-
 
 TSignal TGate_AND::i_ReadSignal() const
 {
@@ -248,13 +262,20 @@ bool TGate_OR::IsLinked() const noexcept
 	return (m_Input_1->IsLinked() && m_Input_2->IsLinked());
 }
 
-void TGate_OR::ProposeWire( const TWire* in_wire )
+std::string TGate_OR::to_string() const
 {
-	m_Input_1->CheckLink( in_wire );
-	m_Input_2->CheckLink( in_wire );
+	return fmt::format( "{} OR {} -> {}", m_Input_1->Name(), m_Input_2->Name(), Name() );
 }
 
-void TGate_OR::Update_Level()
+
+
+bool TGate_OR::i_CheckAddWire( const TWire* in_wire )
+{
+	return m_Input_1->CheckAddLink( in_wire )
+		|| m_Input_2->CheckAddLink( in_wire );
+}
+
+void TGate_OR::i_Update_Meta()
 {
 	if (m_Input_1->IsLinked() && m_Input_2->IsLinked())
 	{
@@ -266,12 +287,6 @@ void TGate_OR::Update_Level()
 			} );
 	}
 }
-
-std::string TGate_OR::to_string() const
-{
-	return fmt::format( "{} OR {} -> {}", m_Input_1->Name(), m_Input_2->Name(), Name() );
-}
-
 
 TSignal TGate_OR::i_ReadSignal() const
 {
@@ -295,13 +310,20 @@ bool TGate_LSHIFT::IsLinked() const noexcept
 	return (m_Input_1->IsLinked() && m_Input_2->IsLinked());
 }
 
-void TGate_LSHIFT::ProposeWire( const TWire* in_wire )
+std::string TGate_LSHIFT::to_string() const
 {
-	m_Input_1->CheckLink( in_wire );
-	m_Input_2->CheckLink( in_wire );
+	return fmt::format( "{} LSHIFT {} -> {}", m_Input_1->Name(), m_Input_2->Name(), Name() );
 }
 
-void TGate_LSHIFT::Update_Level()
+
+
+bool TGate_LSHIFT::i_CheckAddWire( const TWire* in_wire )
+{
+	return m_Input_1->CheckAddLink( in_wire )
+		|| m_Input_2->CheckAddLink( in_wire );
+}
+
+void TGate_LSHIFT::i_Update_Meta()
 {
 	if (m_Input_1->IsLinked() && m_Input_2->IsLinked())
 	{
@@ -312,11 +334,6 @@ void TGate_LSHIFT::Update_Level()
 			, std::max( meta1.Level, meta2.Level )
 			} );
 	}
-}
-
-std::string TGate_LSHIFT::to_string() const
-{
-	return fmt::format( "{} LSHIFT {} -> {}", m_Input_1->Name(), m_Input_2->Name(), Name() );
 }
 
 TSignal TGate_LSHIFT::i_ReadSignal() const
@@ -341,13 +358,20 @@ bool TGate_RSHIFT::IsLinked() const noexcept
 	return (m_Input_1->IsLinked() && m_Input_2->IsLinked());
 }
 
-void TGate_RSHIFT::ProposeWire( const TWire* in_wire )
+std::string TGate_RSHIFT::to_string() const
 {
-	m_Input_1->CheckLink( in_wire );
-	m_Input_2->CheckLink( in_wire );
+	return fmt::format( "{} RSHIFT {} -> {}", m_Input_1->Name(), m_Input_2->Name(), Name() );
 }
 
-void TGate_RSHIFT::Update_Level()
+
+
+bool TGate_RSHIFT::i_CheckAddWire( const TWire* in_wire )
+{
+	return m_Input_1->CheckAddLink( in_wire )
+		|| m_Input_2->CheckAddLink( in_wire );
+}
+
+void TGate_RSHIFT::i_Update_Meta()
 {
 	if (m_Input_1->IsLinked() && m_Input_2->IsLinked())
 	{
@@ -359,12 +383,6 @@ void TGate_RSHIFT::Update_Level()
 			} );
 	}
 }
-
-std::string TGate_RSHIFT::to_string() const
-{
-	return fmt::format( "{} RSHIFT {} -> {}", m_Input_1->Name(), m_Input_2->Name(), Name() );
-}
-
 
 TSignal TGate_RSHIFT::i_ReadSignal() const
 {

@@ -19,7 +19,7 @@ namespace y15::d07::v2
 {
 
 
-class BGate: public TWire		//TOutPort
+class BGate : public TWire
 {
 public:
 
@@ -28,12 +28,15 @@ public:
 	//const std::string& Name() const noexcept override { return m_Name; }
 
 	//virtual bool IsLinked() const = 0;
+	virtual bool IsLinked() const noexcept = 0;
 
-	virtual void ProposeWire( const TWire* in_wire ) = 0;
+	void ProposeInputWire( const TWire* in_wire );
 
 	virtual std::string to_string() const = 0;
 
 private:
+
+	virtual bool i_CheckAddWire( const TWire* in_wire ) = 0;
 
 	//int m_Level;
 
@@ -49,26 +52,27 @@ private:
 
 using TPtrPort = std::unique_ptr<BInPort>;
 
-//class TGateList
+
+//class TPtrGateList
 //{
 //public:
 //
-//	void AddGate( std::unique_ptr<BGate>&& gate );
+//	void AddGate( BGate* gate );
 //
 //	size_t size() const noexcept { return m_LGates.size(); }
 //
-//	TWire* FindWire( std::string_view name ) const noexcept;
+//	//TWire* FindWire( std::string_view name ) const noexcept;
 //
 //	bool IsLinked() const;
 //
-//	std::vector<TWireInfo> WireInfo_Snapshot() const;
+//	//std::vector<TWireInfo> WireInfo_Snapshot() const;
 //
 //	const auto begin() const noexcept { return m_LGates.begin(); }
 //	const auto end() const noexcept { return m_LGates.end(); }
 //
 //private:
 //
-//	std::vector < std::unique_ptr <BGate>> m_LGates;
+//	std::vector<BGate*> m_LGates;
 //
 //};
 
@@ -116,13 +120,13 @@ public:
 
 	bool IsLinked() const noexcept override;
 
-	void ProposeWire( const TWire* in_wire ) override;
-
-	void Update_Level() override;
-
 	std::string to_string() const override;
 
 private:
+
+	bool i_CheckAddWire( const TWire* in_wire ) override;
+
+	void i_Update_Meta() override;
 
 	TSignal i_ReadSignal() const override;
 
@@ -145,13 +149,13 @@ public:
 
 	bool IsLinked() const noexcept override;
 
-	void ProposeWire( const TWire* in_wire ) override;
-
-	void Update_Level() override;
-
 	std::string to_string() const override;
 
 private:
+
+	bool i_CheckAddWire( const TWire* in_wire ) override;
+
+	void i_Update_Meta() override;
 
 	TSignal i_ReadSignal() const override;
 
@@ -174,13 +178,13 @@ public:
 
 	bool IsLinked() const noexcept override;
 
-	void ProposeWire( const TWire* in_wire ) override;
-
-	void Update_Level() override;
-
 	std::string to_string() const override;
 
 private:
+
+	bool i_CheckAddWire( const TWire* in_wire ) override;
+
+	void i_Update_Meta() override;
 
 	TSignal i_ReadSignal() const override;
 
@@ -204,13 +208,13 @@ public:
 
 	bool IsLinked() const noexcept override;
 
-	void ProposeWire( const TWire* in_wire ) override;
-
-	void Update_Level() override;
-
 	std::string to_string() const override;
 
 private:
+
+	bool i_CheckAddWire( const TWire* in_wire ) override;
+
+	void i_Update_Meta() override;
 
 	TSignal i_ReadSignal() const override;
 
@@ -234,13 +238,13 @@ public:
 
 	bool IsLinked() const noexcept override;
 
-	void ProposeWire( const TWire* in_wire ) override;
-
-	void Update_Level() override;
-
 	std::string to_string() const override;
 
 private:
+
+	bool i_CheckAddWire( const TWire* in_wire ) override;
+
+	void i_Update_Meta() override;
 
 	TSignal i_ReadSignal() const override;
 
@@ -265,13 +269,13 @@ public:
 
 	bool IsLinked() const noexcept override;
 
-	void ProposeWire( const TWire* in_wire ) override;
-
-	void Update_Level() override;
-
 	std::string to_string() const override;
 
 private:
+
+	bool i_CheckAddWire( const TWire* in_wire ) override;
+
+	void i_Update_Meta() override;
 
 	TSignal i_ReadSignal() const override;
 
