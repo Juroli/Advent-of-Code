@@ -5,7 +5,7 @@
 
 
 
-TBox::TBox( std::string const& pin )
+TBox::TBox( std::string_view pin )
 {
 	i_ParseInput( pin );
 
@@ -39,7 +39,7 @@ int TBox::RibbonLength() const
 
 
 
-void TBox::i_ParseInput( std::string const& pin )
+void TBox::i_ParseInput( std::string_view pin )
 {
 	std::string work( pin );
 

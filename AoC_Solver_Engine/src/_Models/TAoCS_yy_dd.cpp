@@ -8,58 +8,93 @@ namespace y00::d00
 {
 
 
-std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
+std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 {
 	switch (apart)
 	{
-	case 'A': return std::make_unique< TAoCS_A>();
-	case 'B': return std::make_unique< TAoCS_B>();
-
-	default: throw std::exception("Invalid part.");
+	case 1: return std::make_unique< TAoCS_P1>();
+	case 2: return std::make_unique< TAoCS_P2>();
+	default: throw std::exception( "Invalid part." );
 	}
 }
 
 
+
 //__________________________________________________________________________________________________
 
 
-std::string TAoCS_A::Solve( const TStringList& input ) const
+//std::string TAoCS_P1::i_Solve_Run() const
+//{
+//	return STR_NOT_IMPLEMENTED;
+//}
+
+std::string TAoCS_P1::i_Solve_Run( std::string_view input ) const
 {
-	return "* Not implemented! *";
+	if (input == STR_SOLVE_CHECK )
+	{
+		return STR_NOT_IMPLEMENTED;
+	}
+
+	return STR_NOT_IMPLEMENTED;
 }
 
 
-std::vector<TTest_result> TAoCS_A::Test() const
+TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
-	std::vector<TTest_input> ltests = {
-		{ "", ""},
-		{ "", ""},
+	return {
+		TTestInput::Create_Example( STR_NOT_IMPLEMENTED, STR_NOT_IMPLEMENTED, STR_NOT_IMPLEMENTED ),
+		TTestInput::Create_Example( "", "", "" ),
 	};
-
-	return o_RunTests( ltests, [this]( const std::string& str ) { return Solve( str ); } );
 }
+
+
+std::string TAoCS_P1::i_Test_Run( std::string_view astrin) const
+{
+	return Solve( astrin );
+}
+
 
 
 //__________________________________________________________________________________________________
 
 
-std::string TAoCS_B::Solve( const TStringList& input ) const
+
+//std::string TAoCS_P2::i_Solve_Run() const
+//{
+//	return STR_NOT_IMPLEMENTED;
+//}
+
+
+std::string TAoCS_P2::i_Solve_Run( std::string_view input ) const
 {
-	return "* Not implemented! *";
+	if ( input == STR_SOLVE_CHECK )
+	{
+		return STR_NOT_IMPLEMENTED;
+	}
+
+	return STR_NOT_IMPLEMENTED;
 }
 
-std::vector<TTest_result> TAoCS_B::Test() const
+
+TTestInput_Group TAoCS_P2::i_Test_Prepare() const
 {
-	std::vector<TTest_input> ltests = {
-		{ "", ""},
-		{ "", ""},
+	return {
+		TTestInput::Create_Example( STR_NOT_IMPLEMENTED, STR_NOT_IMPLEMENTED, STR_NOT_IMPLEMENTED ),
+		TTestInput::Create_Example( "", "", "" ),
 	};
+}
 
-	return o_RunTests( ltests, [this]( const std::string& str ) { return Solve( str ); } );
+
+std::string TAoCS_P2::i_Test_Run( std::string_view astrin ) const
+{
+	return Solve( astrin );
 }
 
 
 //__________________________________________________________________________________________________
+
+
+
 
 
 }

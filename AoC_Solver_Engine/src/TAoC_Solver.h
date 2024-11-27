@@ -9,37 +9,74 @@
 #include <functional>
 
 #include "Test_Common.h"
-#include "TStringList.h"
 
 
 
+struct TPuzzleID
+{
+	uint16_t Year;
+	uint8_t Day;
+	uint8_t Part;
+};
+
+
+enum class EImpl
+{
+	NONE,
+	TEST,
+	SOLUTION,
+	ERROR,
+};
+
+
+constexpr char STR_SOLVE_CHECK[] = "<*>Solve check<*>";
+constexpr char STR_NOT_IMPLEMENTED[] = "<*>Not implemented<*>";
+constexpr char STR_IMPLEMENTED[] = "<*>Implemented<*>";
 
 
 class TAoC_Solver
 {
 public:
 
-	virtual std::string Solve( const TStringList& input ) const = 0;
+	EImpl Implemented() const noexcept;
 
-	virtual std::vector<TTest_result> Test() const = 0;
+	std::string Solve( std::string_view input ) const;
+
+	TTestResult_Group Test() const;
 
 
-protected:
+private:
 
-	std::vector<TTest_result> o_RunTests( const std::vector<TTest_input>& test_inputs
-		, std::function<std::string(const std::string&)> funct 
-		) const;
+	//virtual std::string i_Solve_Run() const = 0;
+	virtual std::string i_Solve_Run( std::string_view ) const = 0;
+
+	virtual TTestInput_Group i_Test_Prepare() const = 0;
+	virtual std::string i_Test_Run( std::string_view ) const = 0;
+
+
+	//TTestResult_Group o_RunTests( const TTestInput_Group& test_inputs
+	//	, std::function<std::string(const std::string&)> funct
+	//	) const;
 
 };
 
 
 class TAoC_Solver_NULL : public TAoC_Solver
 {
-public:
+private:
 
-	std::string Solve( const TStringList& input ) const override { return "* Not implemented! *"; }
+	//std::string i_Solve_Run() const override { return STR_NOT_IMPLEMENTED; };
+	std::string i_Solve_Run( std::string_view ) const override { return STR_NOT_IMPLEMENTED; }
 
-	std::vector<TTest_result> Test() const override { return { { { "?", "?" }, "* Not implemented! *" } }; }
+	TTestInput_Group i_Test_Prepare() const override 
+		{ return { TTestInput::Create_Example( STR_NOT_IMPLEMENTED, STR_NOT_IMPLEMENTED, STR_NOT_IMPLEMENTED ) }; }
+	std::string i_Test_Run( std::string_view ) const override { return STR_NOT_IMPLEMENTED; }
+
+	//EImpl Implemented() const noexcept override { return EImpl::NONE; }
+
+	// std::string Solve( const std::string& input ) const override { return STR_NOT_IMPLEMENTED; }
+
+	// TTestResult_Group Test() const override { return { { { "?", STR_NOT_IMPLEMENTED }, "" } }; }
 
 };
 

@@ -7,33 +7,43 @@
 namespace y15::d05
 {
 
-std::unique_ptr<TAoC_Solver> Get_Solver( char apart );
+std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart );
 
 
 
-class TAoCS_A : public TAoC_Solver
+class TAoCS_P1 : public TAoC_Solver
 {
 public:
 
-	bool IsNice( std::string const& pstr ) const noexcept;
+	bool IsNice( std::string_view pstr ) const noexcept;
 
-	std::string Solve( const TStringList& input ) const override;
 
-	std::vector<TTest_result> Test() const override;
+private:
+
+	//std::string i_Solve_Run() const override;
+	std::string i_Solve_Run( std::string_view input ) const override;
+
+	TTestInput_Group i_Test_Prepare() const override;
+	std::string i_Test_Run( std::string_view astrin ) const override;
 
 };
 
 
 
-class TAoCS_B : public TAoC_Solver
+class TAoCS_P2 : public TAoC_Solver
 {
 public:
 
-	bool IsNice( std::string const& pstr ) const noexcept;
+	bool IsNice( std::string_view pstr ) const noexcept;
 
-	std::string Solve( const TStringList& input ) const override;
 
-	std::vector<TTest_result> Test() const override;
+private:
+
+	//std::string i_Solve_Run() const override;
+	std::string i_Solve_Run( std::string_view input ) const override;
+
+	TTestInput_Group i_Test_Prepare() const override;
+	std::string i_Test_Run( std::string_view astrin ) const override;
 
 };
 

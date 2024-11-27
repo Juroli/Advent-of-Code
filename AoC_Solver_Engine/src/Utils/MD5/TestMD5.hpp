@@ -9,7 +9,7 @@
 
 
 
-std::vector<TTest_result> Test_TMD5();
+TTestResult_Group Test_TMD5();
 
 
 

@@ -147,6 +147,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\Aoc_Solver.hpp" />
+    <ClInclude Include="include\Aoc_Utils.hpp" />
     <ClInclude Include="src\2015\02\TBox.h" />
     <ClInclude Include="src\2015\03\T2DMap.h" />
     <ClInclude Include="src\2015\01\TAoCS_15_01.h" />
@@ -156,11 +157,17 @@
     <ClInclude Include="src\2015\05\TAoCS_15_05.h" />
     <ClInclude Include="src\2015\06\Grid.hpp" />
     <ClInclude Include="src\2015\06\TAoCS_15_06.h" />
+    <ClInclude Include="src\2015\07\TAoCS_15_07.h" />
+    <ClInclude Include="src\2015\07\Board\Ports.hpp" />
+    <ClInclude Include="src\2015\07\Board\TCircuit.hpp" />
+    <ClInclude Include="src\2015\07\Board\TGate.hpp" />
+    <ClInclude Include="src\2015\07\Board\TWire.hpp" />
+    <ClInclude Include="src\2015\07\y15d07_TInputParser.hpp" />
     <ClInclude Include="src\2015\TAoC_15_Index.h" />
     <ClInclude Include="src\TAoC_Index.h" />
     <ClInclude Include="src\TAoC_Solver.h" />
     <ClInclude Include="src\Test_Common.h" />
-    <ClInclude Include="src\TStringList.h" />
+    <ClInclude Include="src\Utils\Strings\TStringList.hpp" />
     <ClInclude Include="src\Utils\MD5\BenchmarkMD5.hpp" />
     <ClInclude Include="src\Utils\MD5\orig_refactor\cpp\global.hpp" />
     <ClInclude Include="src\Utils\MD5\orig_refactor\cpp\md5.hpp" />
@@ -170,6 +177,8 @@
     <ClInclude Include="src\Utils\MD5\Original\md5.h" />
     <ClInclude Include="src\Utils\MD5\TestMD5.hpp" />
     <ClInclude Include="src\Utils\MD5\JMD5.hpp" />
+    <ClInclude Include="src\Utils\Strings\TStringParser.hpp" />
+    <ClInclude Include="src\Utils\Strings\Misc.hpp" />
     <ClInclude Include="src\_Models\TAoCS_yy_dd.h" />
   </ItemGroup>
   <ItemGroup>
@@ -182,12 +191,24 @@
     <ClCompile Include="src\2015\05\TAoCS_15_05.cpp" />
     <ClCompile Include="src\2015\06\Grid.cpp" />
     <ClCompile Include="src\2015\06\TAoCS_15_06.cpp" />
+    <ClCompile Include="src\2015\07\TAoCS_15_07.cpp" />
+    <ClCompile Include="src\2015\07\Board\Ports.cpp" />
+    <ClCompile Include="src\2015\07\Board\TCircuit.cpp" />
+    <ClCompile Include="src\2015\07\Board\TGate.cpp" />
+    <ClCompile Include="src\2015\07\Board\TWire.cpp" />
+    <ClCompile Include="src\2015\07\y15d07_TInputParser.cpp" />
     <ClCompile Include="src\2015\TAoC_15_Index.cpp" />
     <ClCompile Include="src\TAoC_Index.cpp" />
     <ClCompile Include="src\TAoC_Solver.cpp" />
-    <ClCompile Include="src\TStringList.cpp" />
+    <ClCompile Include="src\Test_Common.cpp" />
+    <ClCompile Include="src\Utils\Strings\TStringList.cpp" />
     <ClCompile Include="src\Utils\MD5\BenchmarkMD5.cpp" />
-    <ClCompile Include="src\Utils\MD5\orig_refactor\cpp\md5c.cpp" />
+    <ClCompile Include="src\Utils\MD5\orig_refactor\cpp\md5c.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="src\Utils\MD5\orig_refactor\c\md5c.c" />
     <ClCompile Include="src\Utils\MD5\Original\md5c.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -203,6 +224,8 @@
     </ClCompile>
     <ClCompile Include="src\Utils\MD5\TestMD5.cpp" />
     <ClCompile Include="src\Utils\MD5\JMD5.cpp" />
+    <ClCompile Include="src\Utils\Strings\TStringParser.cpp" />
+    <ClCompile Include="src\Utils\Strings\Misc.cpp" />
     <ClCompile Include="src\_Models\TAoCS_yy_dd.cpp" />
   </ItemGroup>
   <ItemGroup>

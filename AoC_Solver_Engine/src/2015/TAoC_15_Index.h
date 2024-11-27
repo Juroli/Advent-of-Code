@@ -9,7 +9,7 @@
 namespace y15
 {
 
-std::unique_ptr<TAoC_Solver> Get_Solver( int aday, char apart );
+std::unique_ptr<TAoC_Solver> Get_Solver( const TPuzzleID& id );
 
 }
 

@@ -30,7 +30,7 @@
     <ClInclude Include="src\2015\02\TBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\TStringList.h">
+    <ClInclude Include="src\Utils\Strings\TStringList.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\2015\03\TAoCS_15_03.h">
@@ -90,6 +90,33 @@
     <ClInclude Include="src\2015\06\Grid.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\2015\07\TAoCS_15_07.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\Strings\TStringParser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Aoc_Utils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\Strings\Misc.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2015\07\Board\TWire.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2015\07\Board\TCircuit.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2015\07\Board\TGate.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2015\07\Board\Ports.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2015\07\y15d07_TInputParser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2015\01\TAoCS_15_01.cpp">
@@ -110,7 +137,7 @@
     <ClCompile Include="src\2015\03\T2DMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\TStringList.cpp">
+    <ClCompile Include="src\Utils\Strings\TStringList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\TAoC_Index.cpp">
@@ -153,6 +180,33 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\2015\06\Grid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2015\07\TAoCS_15_07.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\Strings\TStringParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\Strings\Misc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2015\07\Board\TWire.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2015\07\Board\TCircuit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2015\07\Board\Ports.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test_Common.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2015\07\Board\TGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2015\07\y15d07_TInputParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

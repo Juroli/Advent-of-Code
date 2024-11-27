@@ -37,13 +37,13 @@ public:
 
 	//static const int N_DELIVERERS = 2;
 
-	T2DMap( const std::string& astr, int anumdeliver );
+	T2DMap( std::string_view astr, int anumdeliver );
 
 	[[nodiscard]] auto NHouses() const { return m_OldPos.size(); }
 
 private:
 
-	void i_ParseString( const std::string& pstr );
+	void i_ParseString( std::string_view pstr );
 
 
 private:
@@ -55,6 +55,6 @@ private:
 
 
 
-void CalcSolution();
+//void CalcSolution();
 
 

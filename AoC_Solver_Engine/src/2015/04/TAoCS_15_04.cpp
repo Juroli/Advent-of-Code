@@ -11,14 +11,13 @@ namespace y15::d04
 {
 
 
-std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
+std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 {
 	switch (apart)
 	{
-	case 'A': return std::make_unique< TAoCS_A>();
-	case 'B': return std::make_unique< TAoCS_B>();
-
-	default: throw std::exception("Invalid part.");
+	case 1: return std::make_unique< TAoCS_P1>();
+	case 2: return std::make_unique< TAoCS_P2>();
+	default: throw std::exception( "Invalid part." );
 	}
 }
 
@@ -26,14 +25,26 @@ std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
 //__________________________________________________________________________________________________
 
 
-std::string TAoCS_A::Solve( const TStringList& input ) const
+
+//std::string TAoCS_P1::i_Solve_Run() const
+//{
+//	return STR_IMPLEMENTED;
+//}
+
+
+std::string TAoCS_P1::i_Solve_Run( const std::string_view input ) const
 {
+	if (input == STR_SOLVE_CHECK)
+	{
+		return STR_IMPLEMENTED;
+	}
+
 	if (input.empty())
 	{
 		throw std::exception( "No input" );
 	}
 
-	std::string base_str( input.front() );
+	std::string base_str( input );
 
 	for (auto iter = 1u; true; ++iter)
 	{
@@ -60,28 +71,44 @@ std::string TAoCS_A::Solve( const TStringList& input ) const
 }
 
 
-std::vector<TTest_result> TAoCS_A::Test() const
+TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
-	std::vector<TTest_input> ltests = {
-		{ "abcdef", "609043"},
-		{ "pqrstuv", "1048970"},
+	return {
+		TTestInput::Create_Example( "Ex01",  "abcdef", "609043" ) ,
+		TTestInput::Create_Example( "Ex02",  "pqrstuv", "1048970" ) ,
 	};
-
-	return o_RunTests( ltests, [this]( const std::string& str ) {return Solve( str ); } );
 }
+
+std::string TAoCS_P1::i_Test_Run( std::string_view astrin ) const
+{
+	return Solve( astrin );
+}
+
 
 
 //__________________________________________________________________________________________________
 
 
-std::string TAoCS_B::Solve( const TStringList& input ) const
+
+//std::string TAoCS_P2::i_Solve_Run() const
+//{
+//	return STR_IMPLEMENTED;
+//}
+
+
+std::string TAoCS_P2::i_Solve_Run( std::string_view input ) const
 {
+	if (input == STR_SOLVE_CHECK)
+	{
+		return STR_IMPLEMENTED;
+	}
+
 	if (input.empty())
 	{
 		throw std::exception( "No input" );
 	}
 
-	std::string base_str( input.front() );
+	std::string base_str( input );
 
 	for (auto iter = 1u; true; ++iter)
 	{
@@ -107,13 +134,18 @@ std::string TAoCS_B::Solve( const TStringList& input ) const
 	return "";
 }
 
-std::vector<TTest_result> TAoCS_B::Test() const
-{
-	std::vector<TTest_input> ltests = {
-	};
 
-	return o_RunTests( ltests, [this]( const std::string& str ) {return Solve( str ); } );
+TTestInput_Group TAoCS_P2::i_Test_Prepare() const
+{
+	return {};
 }
+
+
+std::string TAoCS_P2::i_Test_Run( std::string_view astrin ) const
+{
+	return Solve( astrin );
+}
+
 
 
 //__________________________________________________________________________________________________

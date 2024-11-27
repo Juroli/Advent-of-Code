@@ -8,14 +8,13 @@ namespace y15::d01
 {
 
 
-std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
+std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 {
 	switch (apart)
 	{
-	case 'A': return std::make_unique< TAoCS_A>();
-	case 'B': return std::make_unique< TAoCS_B>();
-
-	default: throw std::exception("Invalid part.");
+	case 1: return std::make_unique< TAoCS_P1>();
+	case 2: return std::make_unique< TAoCS_P2>();
+	default: throw std::exception( "Invalid part." );
 	}
 }
 
@@ -23,22 +22,31 @@ std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
 //__________________________________________________________________________________________________
 
 
-std::string TAoCS_A::Solve( const TStringList& input ) const
+//std::string TAoCS_P1::i_Solve_Run() const
+//{
+//	return STR_IMPLEMENTED;
+//}
+
+
+std::string TAoCS_P1::i_Solve_Run( std::string_view input ) const
 {
+	if (input == STR_SOLVE_CHECK)
+	{
+		return STR_IMPLEMENTED;
+	}
+
+
 	int piano = 0;
 
-	for(const auto& str: input)
+	for (const auto& curr : input)
 	{
-		for (const auto& curr : str)
+		if (curr == '(')
 		{
-			if (curr == '(')
-			{
-				++piano;
-			}
-			else if (curr == ')')
-			{
-				--piano;
-			}
+			++piano;
+		}
+		else if (curr == ')')
+		{
+			--piano;
 		}
 	}
 
@@ -46,68 +54,85 @@ std::string TAoCS_A::Solve( const TStringList& input ) const
 }
 
 
-
-std::vector<TTest_result> TAoCS_A::Test() const
+TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
-
-	std::vector<TTest_input> ltests = {
-		{ "(())", "0"},
-		{ "()()", "0"},
-		{ "(((", "3"},
-		{ "(()(()(", "3"},
-		{ "))(((((", "3"},
-		{ "())", "-1"},
-		{ "))(", "-1"},
-		{ ")))", "-3"},
-		{ ")())())", "-3"},
+	return {
+		TTestInput::Create_Example( "Ex. 01", "(())", "0"),
+		TTestInput::Create_Example( "Ex. 02", "()()", "0"),
+		TTestInput::Create_Example( "Ex. 03", "(((", "3"),
+		TTestInput::Create_Example( "Ex. 04", "(()(()(", "3"),
+		TTestInput::Create_Example( "Ex. 05", "))(((((", "3"),
+		TTestInput::Create_Example( "Ex. 06", "())", "-1"),
+		TTestInput::Create_Example( "Ex. 07", "))(", "-1"),
+		TTestInput::Create_Example( "Ex. 08", ")))", "-3"),
+		TTestInput::Create_Example( "Ex. 09", ")())())", "-3"),
 	};
-
-	return o_RunTests( ltests, [this](const std::string& str){return Solve(str); } );
 }
+
+
+std::string TAoCS_P1::i_Test_Run( std::string_view astrin ) const
+{
+	return Solve( astrin );
+}
+
 
 //__________________________________________________________________________________________________
 
 
 
-std::string TAoCS_B::Solve( const TStringList& input ) const
+//std::string TAoCS_P2::i_Solve_Run() const
+//{
+//	return STR_IMPLEMENTED;
+//}
+
+
+std::string TAoCS_P2::i_Solve_Run( std::string_view input ) const
 {
+	if (input == STR_SOLVE_CHECK)
+	{
+		return STR_IMPLEMENTED;
+	}
+
+
 	int piano = 0;
 
 	int step = 1;
 
-	for (const auto& str : input)
+	for (const auto& curr : input)
 	{
-		for (const auto& curr : str)
+		if (curr == '(')
 		{
-			if (curr == '(')
-			{
-				++piano;
-			}
-			else if (curr == ')')
-			{
-				--piano;
-			}
-
-			if (piano == -1)
-			{
-				return std::to_string( step );
-			}
-
-			++step;
+			++piano;
 		}
+		else if (curr == ')')
+		{
+			--piano;
+		}
+
+		if (piano == -1)
+		{
+			return std::to_string( step );
+		}
+
+		++step;
 	}
 
 	return "-1";
 }
 
-std::vector<TTest_result> TAoCS_B::Test() const
-{
-	std::vector<TTest_input> ltests = {
-		{ ")", "1"},
-		{ "()())", "5"}
-	};
 
-	return o_RunTests( ltests, [this]( const std::string& str ) {return Solve( str ); } );
+
+TTestInput_Group TAoCS_P2::i_Test_Prepare() const
+{
+	return {
+		TTestInput::Create_Example( "Ex. 01", ")", "1" ),
+		TTestInput::Create_Example( "Ex. 02", "()())", "5" ),
+	};
+}
+
+std::string TAoCS_P2::i_Test_Run( std::string_view astrin ) const
+{
+	return Solve( astrin );
 }
 
 

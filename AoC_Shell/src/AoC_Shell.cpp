@@ -6,11 +6,26 @@
 #include "fmt/core.h"
 
 #include <fstream>
+#include <sstream>
 
 #include "AoC_Solver.hpp"
 
 
+#include "Aoc_Utils.hpp"
 
+#include "Test_Func.hpp"
+
+
+
+const uint16_t FIRST_YEAR = 2015;
+const uint16_t LAST_YEAR = 2023;
+
+
+const uint8_t FIRST_DAY = 1;
+const uint8_t LAST_DAY = 25;
+
+const uint8_t FIRST_PART = 1;
+const uint8_t LAST_PART = 2;
 
 
 
@@ -28,41 +43,8 @@ std::vector<std::string> ReadMainParams( int argc, char* argv[] )
 
 
 
-bool Check_TestResults( const std::vector<TTest_result>& results )
-{
-	for (const auto& curr : results)
-	{
-		if (!curr)
-		{
-			return false;
-		}
-	}
 
-	return true;
-}
-
-void Print_TestResults( const std::vector<TTest_result>& results )
-{
-	int progressivo = 1;
-	for (const auto& curr : results)
-	{
-		fmt::print( "Test {}/{}: ", progressivo, results.size() );
-
-		if (curr)
-		{
-			fmt::print( "OK\n" );
-		}
-		else
-		{
-			fmt::print( "ERROR: expected: {}, received: {}\n", curr.reference.expected, curr.actual );
-		}
-
-		++progressivo;
-	}
-}
-
-
-TStringList Read_Input( const std::string& path )
+TStringList Read_Input_old( const std::string& path )
 {
 	std::ifstream file( path );
 	if (!file.good())
@@ -88,6 +70,16 @@ TStringList Read_Input( const std::string& path )
 	return result;
 }
 
+std::string Read_Input( const std::string& path )
+{
+	std::ifstream t( path );
+	std::stringstream buffer;
+
+	buffer << t.rdbuf();
+
+	return buffer.str();
+}
+
 
 void Test_libs()
 {
@@ -106,6 +98,55 @@ void Bench_libs()
 }
 
 
+void PrintImplementationTable()
+{
+	fmt::print( "     |" );
+
+	for (auto d = FIRST_DAY; d <= LAST_DAY; ++d)
+	{
+		fmt::print( " {:2}", d );
+	}
+	fmt::print( "\n" );
+
+
+	fmt::print( "-----+" );
+	for (auto d = FIRST_DAY; d <= LAST_DAY; ++d)
+	{
+		fmt::print( "---" );
+	}
+	fmt::print( "\n" );
+
+
+	for (auto y = FIRST_YEAR; y <= LAST_YEAR; ++y)
+	{
+		fmt::print( "{} |", y );
+
+		for (auto d = FIRST_DAY; d <= LAST_DAY; ++d)
+		{
+			fmt::print( " " );
+			for (auto p = FIRST_PART; p <= LAST_PART; ++p)
+			{
+				const auto solver = Get_Solver( { y, d, p } );
+				const auto impl = solver->Implemented();
+
+				switch (impl)
+				{
+				case EImpl::NONE: fmt::print( "-" ); break;
+				case EImpl::TEST: fmt::print( "x" ); break;
+				case EImpl::SOLUTION: fmt::print( "o" ); break;
+				case EImpl::ERROR: fmt::print( "!" ); break;
+				}
+			}
+
+		}
+
+		fmt::print( "\n" );
+	}
+
+	fmt::print( "\n" );
+}
+
+
 int main( int argc, char* argv[] )
 {
 	try
@@ -116,28 +157,35 @@ int main( int argc, char* argv[] )
 		//Test_libs();
 		//Bench_libs();
 
+		PrintImplementationTable();
+
+		if (false)
+		{
+
+			TPuzzleID pid_start = { 2015, 1, 1 };
+			TPuzzleID pid_end = { 2015, 7, 2 };
+
+			RunPrint_Tests( pid_start, pid_end );
+		}
+
 		//return 0;
 
-		const int YEAR = 2015;
-		const int DAY = 6;
-		const char PART = 'B';
+		TPuzzleID pid = { 2015, 7, 2 };
+		//const int YEAR = 2015;
+		//const int DAY = 7;
+		//const char PART = 'A';
 
-		const auto solver = Get_Solver( YEAR, DAY, PART );
 
-
-		fmt::print( " - Question {} {:02} {}\n\n", YEAR, DAY, PART );
-
-		const auto restest = solver->Test();
-		const auto test_ok = Check_TestResults( restest );
-
-		//if ( !test_ok )
-		{
-			Print_TestResults( restest );
-		}
 		
+
+		const auto test_ok = RunPrint_Test( pid );
+		
+
 		if( test_ok && lparams.size() > 1 )
 		{
-			const auto fpath = fmt::format( "{}\\{}\\{:02}\\input.txt", lparams[1], YEAR, DAY );
+			const auto solver = Get_Solver( pid );
+
+			const auto fpath = fmt::format( "{}\\{}\\{:02}\\input.txt", lparams[1], pid.Year, pid.Day );
 			const auto input = Read_Input( fpath );
 
 			const auto result = solver->Solve( input );

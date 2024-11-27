@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include "Utils/Strings/TStringParser.hpp"
+
 
 
 namespace
@@ -29,14 +31,13 @@ namespace y15::d05
 {
 
 
-std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
+std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 {
 	switch (apart)
 	{
-	case 'A': return std::make_unique< TAoCS_A>();
-	case 'B': return std::make_unique< TAoCS_B>();
-
-	default: throw std::exception("Invalid part.");
+	case 1: return std::make_unique< TAoCS_P1>();
+	case 2: return std::make_unique< TAoCS_P2>();
+	default: throw std::exception( "Invalid part." );
 	}
 }
 
@@ -44,7 +45,14 @@ std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
 //__________________________________________________________________________________________________
 
 
-bool TAoCS_A::IsNice( std::string const& pstr ) const noexcept
+
+//std::string TAoCS_P1::i_Solve_Run() const
+//{
+//	return STR_IMPLEMENTED;
+//}
+
+
+bool TAoCS_P1::IsNice( std::string_view pstr ) const noexcept
 {
 
 	bool double_char = false;
@@ -97,12 +105,23 @@ bool TAoCS_A::IsNice( std::string const& pstr ) const noexcept
 }
 
 
-std::string TAoCS_A::Solve( const TStringList& input ) const
+
+
+std::string TAoCS_P1::i_Solve_Run( std::string_view input ) const
 {
+	if (input == STR_SOLVE_CHECK)
+	{
+		return STR_IMPLEMENTED;
+	}
+
 	int num_nice = 0;
 
-	for (const auto& curr : input)
+	TStringParser parser( input );
+
+	while (parser)
 	{
+		auto curr = parser.Extract_Line();
+
 		if (IsNice( curr ))
 		{
 			++num_nice;
@@ -113,24 +132,31 @@ std::string TAoCS_A::Solve( const TStringList& input ) const
 }
 
 
-std::vector<TTest_result> TAoCS_A::Test() const
+TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
-	std::vector<TTest_input> ltests = {
-		{ "ugknbfddgicrmopn", "nice"},
-		{ "aaa", "nice"},
-		{ "jchzalrnumimnmhp", "naughty"},
-		{ "haegwjzuvuyypxyu", "naughty"},
-		{ "dvszwmarrgswjxmb", "naughty"},
+	return {
+		TTestInput::Create_Example( "Ex01", "ugknbfddgicrmopn", "nice" ) ,
+		TTestInput::Create_Example( "Ex02", "aaa", "nice" ) ,
+		TTestInput::Create_Example( "Ex03", "jchzalrnumimnmhp", "naughty" ) ,
+		TTestInput::Create_Example( "Ex04", "haegwjzuvuyypxyu", "naughty" ) ,
+		TTestInput::Create_Example( "Ex05", "dvszwmarrgswjxmb", "naughty" ) ,
 	};
 
-	return o_RunTests( ltests, [this]( const std::string& str ) { return IsNice( str )? "nice": "naughty"; });
 }
+
+
+std::string TAoCS_P1::i_Test_Run( std::string_view astrin ) const
+{
+	return IsNice( astrin )? "nice": "naughty";
+}
+
 
 
 //__________________________________________________________________________________________________
 
 
-bool TAoCS_B::IsNice( std::string const& pstr ) const noexcept
+
+bool TAoCS_P2::IsNice( std::string_view pstr ) const noexcept
 {
 	// Test 1
 	if (pstr.size() < 4)
@@ -140,9 +166,9 @@ bool TAoCS_B::IsNice( std::string const& pstr ) const noexcept
 
 	bool found = false;
 
-	for (auto i = 1u; i < pstr.size() && !found; ++i)
+	for (size_t i = 1u; i < pstr.size() && !found; ++i)
 	{
-		for (auto j = i + 2u; j < pstr.size() && !found; ++j)
+		for (size_t j = i + 2u; j < pstr.size() && !found; ++j)
 		{
 			if (pstr[i - 1] == pstr[j - 1]
 				&& pstr[i] == pstr[j])
@@ -157,7 +183,7 @@ bool TAoCS_B::IsNice( std::string const& pstr ) const noexcept
 		return false;
 	}
 
-	for (auto i = 2u; i < pstr.size(); ++i)
+	for (size_t i = 2u; i < pstr.size(); ++i)
 	{
 		if (pstr[i] == pstr[i - 2])
 		{
@@ -169,12 +195,28 @@ bool TAoCS_B::IsNice( std::string const& pstr ) const noexcept
 }
 
 
-std::string TAoCS_B::Solve( const TStringList& input ) const
-{
-	int num_nice = 0;
 
-	for (const auto& curr : input)
+
+//std::string TAoCS_P2::i_Solve_Run() const
+//{
+//	return STR_IMPLEMENTED;
+//}
+
+
+std::string TAoCS_P2::i_Solve_Run( std::string_view input ) const
+{
+	if (input == STR_SOLVE_CHECK)
 	{
+		return STR_IMPLEMENTED;
+	}
+
+	int num_nice = 0;
+	TStringParser parser( input );
+
+	while (parser)
+	{
+		auto curr = parser.Extract_Line();
+
 		if (IsNice( curr ))
 		{
 			++num_nice;
@@ -184,17 +226,24 @@ std::string TAoCS_B::Solve( const TStringList& input ) const
 	return std::to_string( num_nice );
 }
 
-std::vector<TTest_result> TAoCS_B::Test() const
+
+TTestInput_Group TAoCS_P2::i_Test_Prepare() const
 {
-	std::vector<TTest_input> ltests = {
-		{ "qjhvhtzxzqqjkmpb", "nice"},
-		{ "xxyxx", "nice"},
-		{ "uurcxstgmygtbstg", "naughty"},
-		{ "ieodomkazucvgmuy", "naughty"},
+	return {
+		TTestInput::Create_Example( "Ex01", "qjhvhtzxzqqjkmpb", "nice" ) ,
+		TTestInput::Create_Example( "Ex02", "xxyxx", "nice" ) ,
+		TTestInput::Create_Example( "Ex03", "uurcxstgmygtbstg", "naughty" ) ,
+		TTestInput::Create_Example( "Ex04", "ieodomkazucvgmuy", "naughty" ) ,
 	};
 
-	return o_RunTests( ltests, [this]( const std::string& str ) { return IsNice( str ) ? "nice" : "naughty"; } );
 }
+
+
+std::string TAoCS_P2::i_Test_Run( std::string_view astrin ) const
+{
+	return IsNice( astrin ) ? "nice" : "naughty";
+}
+
 
 
 //__________________________________________________________________________________________________

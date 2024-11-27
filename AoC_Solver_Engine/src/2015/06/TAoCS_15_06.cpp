@@ -3,6 +3,9 @@
 
 #include <vector>
 
+#include "Utils/Strings/TStringParser.hpp"
+
+
 #include "Grid.hpp"
 
 
@@ -10,14 +13,13 @@ namespace y15::d06
 {
 
 
-std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
+std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 {
 	switch (apart)
 	{
-	case 'A': return std::make_unique< TAoCS_A>();
-	case 'B': return std::make_unique< TAoCS_B>();
-
-	default: throw std::exception("Invalid part.");
+	case 1: return std::make_unique< TAoCS_P1>();
+	case 2: return std::make_unique< TAoCS_P2>();
+	default: throw std::exception( "Invalid part." );
 	}
 }
 
@@ -26,12 +28,27 @@ std::unique_ptr<TAoC_Solver> Get_Solver( char apart )
 
 
 
-std::string TAoCS_A::Solve( const TStringList& input ) const
+//std::string TAoCS_P1::i_Solve_Run() const
+//{
+//	return STR_IMPLEMENTED;
+//}
+
+
+std::string TAoCS_P1::i_Solve_Run( std::string_view input ) const
 {
+	if (input == STR_SOLVE_CHECK)
+	{
+		return STR_IMPLEMENTED;
+	}
+
+
 	TOps_Bool grid(1000, 1000);
 
-	for (const auto& curr : input)
+	TStringParser parser( input );
+
+	while (parser)
 	{
+		auto curr = parser.Extract_Line();
 		grid.ParseLine( curr );
 	}
 
@@ -39,43 +56,64 @@ std::string TAoCS_A::Solve( const TStringList& input ) const
 }
 
 
-std::vector<TTest_result> TAoCS_A::Test() const
+TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 {
-	std::vector<TTest_input> ltests = {
-		{ "turn on 0,0 through 999,999", "1000000"},
-		{ "toggle 0,0 through 999,0", "1000"},
+	return {
+		TTestInput::Create_Example( "Ex01", "turn on 0,0 through 999,999", "1000000" ),
+		TTestInput::Create_Example( "Ex02", "toggle 0,0 through 999,0", "1000" ),
 	};
-
-	return o_RunTests( ltests, [this]( const std::string& str ) { return Solve( str ); } );
 }
+
+
+std::string TAoCS_P1::i_Test_Run( std::string_view astrin ) const
+{
+	return Solve( astrin );
+}
+
 
 
 //__________________________________________________________________________________________________
 
 
 
+//std::string TAoCS_P2::i_Solve_Run() const
+//{
+//	return STR_IMPLEMENTED;
+//}
 
 
-std::string TAoCS_B::Solve( const TStringList& input ) const
+std::string TAoCS_P2::i_Solve_Run( std::string_view input ) const
 {
+	if (input == STR_SOLVE_CHECK)
+	{
+		return STR_IMPLEMENTED;
+	}
+
 	TOps_Int grid( 1000, 1000 );
 
-	for (const auto& curr : input)
+	TStringParser parser( input );
+
+	while (parser)
 	{
+		auto curr = parser.Extract_Line();
 		grid.ParseLine( curr );
 	}
 
 	return std::to_string( grid.SumAll() );
 }
 
-std::vector<TTest_result> TAoCS_B::Test() const
-{
-	std::vector<TTest_input> ltests = {
-		{ "turn on 0,0 through 0,0", "1"},
-		{ "toggle 0,0 through 999,999", "2000000"},
-	};
 
-	return o_RunTests( ltests, [this]( const std::string& str ) { return Solve( str ); } );
+TTestInput_Group TAoCS_P2::i_Test_Prepare() const
+{
+	return {
+		TTestInput::Create_Example( "Ex01", "turn on 0,0 through 0,0", "1" ),
+		TTestInput::Create_Example( "Ex02", "toggle 0,0 through 999,999", "2000000" ),
+	};
+}
+
+std::string TAoCS_P2::i_Test_Run( std::string_view astrin ) const
+{
+	return Solve( astrin );
 }
 
 
