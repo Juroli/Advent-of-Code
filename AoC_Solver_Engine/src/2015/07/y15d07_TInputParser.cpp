@@ -33,9 +33,9 @@ std::unique_ptr<BGate> TInputParser::Extract_NextGate()
 
 TPtrPort TInputParser::i_CreatePort( std::string_view input )
 {
+	// Input type for the Port: if is numeric is a Fixed value, otherwise is a Wire
 	if (input.find_first_not_of( "0123456789" ) == std::string::npos)
 	{
-		// costante
 		const auto value = static_cast<uint16_t>(std::stoul( std::string( input ) ));
 		return std::make_unique<TInPort_Fixed>( value );
 	}
@@ -50,22 +50,7 @@ std::unique_ptr<BGate> TInputParser::i_CreateGate( std::string_view wire_name, s
 
 	if (pos == std::string::npos)
 	{
-		// Parametro unico, dev'essere una costante o un link
-
-		//if (gate_def.find_first_not_of("0123456789") == std::string::npos)
-		//{
-		//	// costante
-		//	auto value = static_cast<uint16_t>(std::stoul( std::string( gate_def ) ));
-
-		//	return std::make_unique<TGate_Fixed>( wire_name, value );
-		//}
-		//else
-		//{
-
-		//	return std::make_unique<TGate_Link>( wire_name, gate_def );
-
-		//}
-
+		// Unique parameter: is a link. 
 		return std::make_unique<TGate_Link>( wire_name, i_CreatePort( gate_def ) );
 	}
 
@@ -80,7 +65,7 @@ std::unique_ptr<BGate> TInputParser::i_CreateGate( std::string_view wire_name, s
 
 	if (firststr == "NOT")
 	{
-		// Operazione NOT
+		// NOT operation
 		return std::make_unique<TGate_NOT>( wire_name, i_CreatePort( tmpstr ) );
 	}
 
@@ -107,16 +92,12 @@ std::unique_ptr<BGate> TInputParser::i_CreateGate( std::string_view wire_name, s
 
 	if (oper == "LSHIFT")
 	{
-		//auto offset = std::stoul( std::string( secondstr ) );
-
-		return std::make_unique<TGate_LSHIFT>( wire_name, i_CreatePort( firststr ), i_CreatePort( secondstr ) );	// offset );
+		return std::make_unique<TGate_LSHIFT>( wire_name, i_CreatePort( firststr ), i_CreatePort( secondstr ) );
 	}
 
 	if (oper == "RSHIFT")
 	{
-		//auto offset = std::stoul( std::string( secondstr ) );
-
-		return std::make_unique<TGate_RSHIFT>( wire_name, i_CreatePort( firststr ), i_CreatePort( secondstr ) );	// offset );
+		return std::make_unique<TGate_RSHIFT>( wire_name, i_CreatePort( firststr ), i_CreatePort( secondstr ) );
 	}
 
 	return nullptr;
@@ -144,19 +125,6 @@ std::unique_ptr<BGate> TInputParser::i_CreateGate_FromLine( std::string_view lin
 	{
 		return nullptr;
 	}
-
-	//auto upgate = i_CreateGate( wire_name, gate_def );
-
-	//if (pgate == nullptr)
-	//{
-	//	return;
-	//}
-
-	//m_LWires.AddWire( wire_name, gate_def, pgate.get() );
-	//m_LGates.AddGate( std::move( pgate ) );
-	//m_LGate_ToProcess.push_back( pgate.get() );
-	//i_AddGate( std::move( pgate ) );
-	//i_AddGate( std::move( upgate ) );
 
 	return i_CreateGate( wire_name, gate_def );
 }

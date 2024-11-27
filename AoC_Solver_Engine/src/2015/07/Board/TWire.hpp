@@ -7,13 +7,10 @@
 #endif  // _MSC_VER
 
 
-//#include "Ports.hpp"
 
-#include <memory>
 #include <vector>
 #include <string>
-//#include <optional>
-//#include <algorithm>
+
 
 
 
@@ -32,6 +29,7 @@ struct TWireInfo
 };
 
 
+
 struct TMeta
 {
 	bool Ready;
@@ -39,16 +37,13 @@ struct TMeta
 };
 
 
-class TWire			//: public TOutPort
+
+class TWire
 {
 public:
 
-	TWire( std::string_view wname );		// , std::string_view in_name );		// , const TOutPort* aport );
+	TWire( std::string_view wname );
 
-
-	//bool IsReady() const noexcept;
-
-	//void LinkTo( const TOutPort* aport ) noexcept;
 
 	bool IsReady() const noexcept { return m_Meta.Ready; }
 	int Level() const noexcept { return m_Meta.Level; }
@@ -57,15 +52,7 @@ public:
 
 	void Set_MetaData( const TMeta& lvl ) { m_Meta = lvl; }
 
-	
-
 	const std::string& Name() const noexcept;
-
-	//TSignal ReadSignal() const override;
-
-
-	//virtual bool IsReady() const noexcept = 0;
-	//virtual bool IsLinked() const noexcept = 0;
 
 	TSignal Value() const;
 
@@ -87,10 +74,11 @@ private:
 	mutable bool m_Cached = false;
 	mutable TSignal m_Cache = 0;
 
-	//TInPort m_InPort;
-
 };
 
+
+
+//__________________________________________________________________________________________________
 
 
 
@@ -98,11 +86,9 @@ class TLPWire_Sorted
 {
 public:
 
-
-	void Add( TWire* wire );		// , const TOutPort* out_port );
+	void Add( TWire* wire );
 
 	const TWire* FindWire( std::string_view name ) const noexcept;
-
 
 	std::vector<TWireInfo> Info_Snapshot() const;
 
@@ -114,6 +100,8 @@ private:
 	std::vector<TWire*> m_LWire;
 
 };
+
+
 
 
 }

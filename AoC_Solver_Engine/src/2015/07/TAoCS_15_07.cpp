@@ -2,11 +2,10 @@
 
 #include "TAoCS_15_07.h"
 
-#include <vector>
+
 #include "fmt/format.h"
 
 
-//#include "v1/TCircuit_v1.hpp"
 #include "board/TCircuit.hpp"
 
 #include "y15d07_TInputParser.hpp"
@@ -15,7 +14,6 @@
 namespace y15::d07
 {
 
-//using namespace y15::d07::v2;
 
 
 std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
@@ -32,64 +30,14 @@ std::unique_ptr<TAoC_Solver> Get_Solver( uint8_t apart )
 //__________________________________________________________________________________________________
 
 
-//std::string TAoCS_P1::ListWires_v1( std::string_view input ) const
-//{
-//	v1::TCircuit circuit;
-//
-//	TStringParser parser( input );
-//
-//	while (parser)
-//	{
-//		auto curr = parser.Extract_Line();
-//
-//		auto currwire = v1::BWire::Create_Wire( curr );
-//
-//		if (currwire)
-//		{
-//			circuit.AddWire( std::move( currwire ) );
-//		}
-//	}
-//
-//
-//	struct TWireStatus
-//	{
-//		std::string Name;
-//		uint16_t Signal;
-//	};
-//
-//
-//	std::vector<TWireStatus> snapshot;
-//
-//	for (const auto& curr : circuit.LWires())
-//	{
-//		snapshot.push_back( { curr->Name(), curr->Value( 1 ) } );
-//	}
-//
-//	std::sort( snapshot.begin(), snapshot.end(), []( const TWireStatus& p1, TWireStatus& p2 ) { return (p1.Name < p2.Name); } );
-//
-//	std::string result;
-//
-//	for (const auto& curr : snapshot)
-//	{
-//		result += fmt::format( "{}: {}\n", curr.Name, curr.Signal );
-//	}
-//
-//	return result;
-//}
 
-std::string TAoCS_P1::ListWires_v2( std::string_view input ) const
+std::string TAoCS_P1::ListWires( std::string_view input ) const
 {
 	TCircuit circuit;
-
-	//TStringParser parser( input );
 	TInputParser parser( input );
 
 	while (parser)
 	{
-		//auto curr = parser.Extract_Line();
-
-		//auto gate = v2::TCircuit::CreateGate_FromLine( curr );
-
 		auto gate = parser.Extract_NextGate();
 
 		if (gate)
@@ -98,7 +46,6 @@ std::string TAoCS_P1::ListWires_v2( std::string_view input ) const
 		}
 	}
 
-	//circuit.BuildCircuit();
 
 	if (!circuit.IsReady())
 	{
@@ -119,12 +66,6 @@ std::string TAoCS_P1::ListWires_v2( std::string_view input ) const
 }
 
 
-//std::string TAoCS_P1::i_Solve_Run() const
-//{
-//	return STR_IMPLEMENTED;
-//}
-
-
 std::string TAoCS_P1::i_Solve_Run( std::string_view input ) const
 {
 	if (input == STR_SOLVE_CHECK)
@@ -133,25 +74,10 @@ std::string TAoCS_P1::i_Solve_Run( std::string_view input ) const
 	}
 
 	TCircuit circuit;
-
-	//TStringParser parser( input );
 	TInputParser parser( input );
 
 	while (parser)
 	{
-		//auto curr = parser.Extract_Line();
-
-
-		/*		CIRCUIT V1		*
-		auto currwire = BWire::Create_Wire( curr );
-
-		if (currwire)
-		{
-			circuit.AddWire( std::move( currwire ) );
-		}
-		/*/
-
-		//circuit.AddFromLine( curr );
 		auto gate = parser.Extract_NextGate();
 
 		if (gate)
@@ -159,11 +85,7 @@ std::string TAoCS_P1::i_Solve_Run( std::string_view input ) const
 			circuit.AddGate( std::move( gate ) );
 		}
 
-
-		//*/
 	}
-
-	//circuit.BuildCircuit();
 
 	return std::to_string( circuit.Value( "a" ) );
 
@@ -199,8 +121,7 @@ TTestInput_Group TAoCS_P1::i_Test_Prepare() const
 
 std::string TAoCS_P1::i_Test_Run( std::string_view astrin ) const
 {
-	//return ListWires_v1( astrin );
-	return ListWires_v2( astrin );
+	return ListWires( astrin );
 }
 
 
@@ -209,18 +130,12 @@ std::string TAoCS_P1::i_Test_Run( std::string_view astrin ) const
 
 
 
-//std::string TAoCS_P2::i_Solve_Run() const
-//{
-//	return STR_NOT_IMPLEMENTED;
-//}
-
-
 std::string TAoCS_P2::i_Solve_Run( std::string_view input ) const
 {
-	//if (input == STR_SOLVE_CHECK)
-	//{
-	//	return STR_NOT_IMPLEMENTED;
-	//}
+	if (input == STR_SOLVE_CHECK)
+	{
+		return STR_NOT_IMPLEMENTED;
+	}
 
 	//v1::TCircuit circuit;
 

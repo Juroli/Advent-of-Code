@@ -25,34 +25,23 @@ public:
 
 	BGate( std::string_view wire_name );
 
-	//const std::string& Name() const noexcept override { return m_Name; }
 
-	//virtual bool IsLinked() const = 0;
 	virtual bool IsLinked() const noexcept = 0;
 
-	//void ProposeInputWire( const TWire* in_wire );
 	void LinkInput( const TLPWire_Sorted& lista_wire ) noexcept;
 
 	virtual std::string to_string() const = 0;
 
 private:
 
-	//virtual bool i_CheckAddWire( const TWire* in_wire ) = 0;
 	virtual bool i_LinkInput( const TLPWire_Sorted& lista_wire ) noexcept = 0;
-
-	//int m_Level;
-
-	//std::string m_Name;
-
-
-	// Inherited via TOutPort
-	
 
 };
 
 
 
 using TPtrPort = std::unique_ptr<BInPort>;
+
 
 
 class TPGateList_Sorted
@@ -64,14 +53,7 @@ public:
 	bool empty() const noexcept { return m_LGate.empty(); }
 	size_t size() const noexcept { return m_LGate.size(); }
 
-	//TWire* FindWire( std::string_view name ) const noexcept;
-
-	//bool IsLinked() const;
-
 	bool Check_Data() const noexcept;
-
-
-	//std::vector<TWireInfo> WireInfo_Snapshot() const;
 
 	const auto begin() const noexcept { return m_LGate.begin(); }
 	const auto end() const noexcept { return m_LGate.end(); }
@@ -84,35 +66,10 @@ private:
 
 
 
-//class TGate_Fixed : public BGate
-//{
-//public:
-//
-//	TGate_Fixed( std::string_view wire_name, const TSignal& signal );
-//
-//
-//	//bool IsReady() const noexcept override;
-//
-//	bool IsLinked() const noexcept override;
-//
-//	void ProposeWire( const TWire* in_wire ) override;
-//
-//	void Update_Level() override;
-//
-//	std::string to_string() const override;
-//
-//private:
-//
-//	TSignal i_ReadSignal() const override;
-//
-//private:
-//
-//	TSignal m_Value;
-//
-//};
-
 
 //__________________________________________________________________________________________________
+
+
 
 
 class TGate_Link : public BGate
@@ -122,15 +79,12 @@ public:
 	TGate_Link( std::string_view wire_name, TPtrPort input );
 
 
-	//bool IsReady() const noexcept override;
-
 	bool IsLinked() const noexcept override;
 
 	std::string to_string() const override;
 
 private:
 
-	//bool i_CheckAddWire( const TWire* in_wire ) override;
 	bool i_LinkInput( const TLPWire_Sorted& lista_wire ) noexcept override;
 
 	void i_Update_Meta() override;
@@ -160,7 +114,6 @@ public:
 
 private:
 
-	//bool i_CheckAddWire( const TWire* in_wire ) override;
 	bool i_LinkInput( const TLPWire_Sorted& lista_wire ) noexcept override;
 
 	void i_Update_Meta() override;
@@ -190,7 +143,6 @@ public:
 
 private:
 
-	//bool i_CheckAddWire( const TWire* in_wire ) override;
 	bool i_LinkInput( const TLPWire_Sorted& lista_wire ) noexcept override;
 
 	void i_Update_Meta() override;
@@ -221,7 +173,6 @@ public:
 
 private:
 
-	//bool i_CheckAddWire( const TWire* in_wire ) override;
 	bool i_LinkInput( const TLPWire_Sorted& lista_wire ) noexcept override;
 
 	void i_Update_Meta() override;
@@ -252,7 +203,6 @@ public:
 
 private:
 
-	//bool i_CheckAddWire( const TWire* in_wire ) override;
 	bool i_LinkInput( const TLPWire_Sorted& lista_wire ) noexcept override;
 
 	void i_Update_Meta() override;
@@ -263,7 +213,6 @@ private:
 
 	TPtrPort m_Input_1;
 	TPtrPort m_Input_2;
-	//int m_Offset;
 
 };
 
@@ -284,7 +233,6 @@ public:
 
 private:
 
-	//bool i_CheckAddWire( const TWire* in_wire ) override;
 	bool i_LinkInput( const TLPWire_Sorted& lista_wire ) noexcept override;
 
 	void i_Update_Meta() override;
@@ -295,7 +243,6 @@ private:
 
 	TPtrPort m_Input_1;
 	TPtrPort m_Input_2;
-	//int m_Offset;
 
 };
 

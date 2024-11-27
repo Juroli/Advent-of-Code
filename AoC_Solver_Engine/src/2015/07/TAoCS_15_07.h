@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include"TAoC_Solver.h"
@@ -15,14 +16,11 @@ class TAoCS_P1 : public TAoC_Solver
 {
 public:
 
-
-	//std::string ListWires_v1( std::string_view input ) const;
-	std::string ListWires_v2( std::string_view input ) const;
+	std::string ListWires( std::string_view input ) const;
 
 	
 private:
 
-	//std::string i_Solve_Run() const override;
 	std::string i_Solve_Run( std::string_view input ) const override;
 
 	TTestInput_Group i_Test_Prepare() const override;
@@ -37,7 +35,6 @@ class TAoCS_P2 : public TAoC_Solver
 
 private:
 
-	//std::string i_Solve_Run() const override;
 	std::string i_Solve_Run( std::string_view input ) const override;
 
 	TTestInput_Group i_Test_Prepare() const override;

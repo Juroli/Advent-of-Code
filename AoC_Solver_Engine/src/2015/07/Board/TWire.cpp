@@ -1,11 +1,6 @@
 
 #include "TWire.hpp"
 
-#include "gsl/gsl"
-
-
-#include "Utils/Strings/Misc.hpp"
-
 
 
 
@@ -13,32 +8,12 @@ namespace y15::d07
 {
 
 
-TWire::TWire( std::string_view wname )		//, std::string_view in_name)			//, const TOutPort* aport )
+
+TWire::TWire( std::string_view wname )
 	: m_Name( wname )
 	, m_Meta{ false, 0 }
-	//, m_InPort( in_name, aport)
 {
-	//if (aport == nullptr)
-	//{
-	//	throw std::exception( "Invalid port: is null." );
-	//}
 }
-
-//bool TWire::IsReady() const noexcept
-//{
-//	return m_InPort.IsLinked();
-//}
-
-
-//void TWire::LinkTo( const TOutPort* aport ) noexcept
-//{
-//	m_InPort.Link( aport );
-//}
-
-//int TWire::Level() const
-//{
-//	return m_InPort.Level();
-//}
 
 const std::string& TWire::Name() const noexcept
 {
@@ -56,18 +31,11 @@ TSignal TWire::Value() const
 	return m_Cache;
 }
 
-//TSignal TWire::ReadSignal() const
-//{
-//	return m_InPort.ReadSignal();
-//}
 
 
+//__________________________________________________________________________________________________
 
 
-//void TWireList::AddWire( std::string_view wire_name, std::string_view in_name)		//, const TOutPort* out_port )
-//{
-//	m_LWire.push_back( std::make_unique<TWire>( wire_name, in_name ) );		// , out_port ) );
-//}
 
 void TLPWire_Sorted::Add( TWire* wire )
 {
@@ -76,7 +44,6 @@ void TLPWire_Sorted::Add( TWire* wire )
 	);
 	m_LWire.insert( ins_pos, wire );
 }
-
 
 const TWire* TLPWire_Sorted::FindWire( std::string_view name ) const noexcept
 {
@@ -89,7 +56,6 @@ const TWire* TLPWire_Sorted::FindWire( std::string_view name ) const noexcept
 	
 	return *pos;
 }
-
 
 std::vector<TWireInfo> TLPWire_Sorted::Info_Snapshot() const
 {
