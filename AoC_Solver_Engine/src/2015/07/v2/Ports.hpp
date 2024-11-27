@@ -13,6 +13,7 @@
 
 #include "TWire.hpp"
 
+
 namespace y15::d07::v2
 {
 
@@ -44,7 +45,10 @@ public:
 	virtual const std::string& Name() const noexcept = 0;
 	virtual bool IsLinked() const noexcept = 0;
 	virtual TMeta MetaData() const noexcept = 0;
-	virtual bool CheckAddLink( const TWire* wire ) noexcept = 0;
+
+	//virtual bool CheckAddLink( const TWire* wire ) noexcept = 0;
+	virtual bool LinkInput( const TLPWire_Sorted& lista_wire ) noexcept = 0;
+
 	virtual TSignal ReadSignal() const = 0;
 };
 
@@ -63,7 +67,8 @@ public:
 
 	TMeta MetaData() const noexcept override { return { true, 0 }; }
 
-	bool CheckAddLink( const TWire* wire ) noexcept override { return false; }
+	//bool CheckAddLink( const TWire* wire ) noexcept override { return false; }
+	bool LinkInput( const TLPWire_Sorted& lista_wire ) noexcept override { return false; }
 
 	TSignal ReadSignal() const override { return m_Value; }
 
@@ -72,6 +77,7 @@ private:
 
 	std::string m_Name;
 	TSignal m_Value;
+
 };
 
 
@@ -80,7 +86,7 @@ class TInPort_Wire: public BInPort
 public:
 
 	TInPort_Wire( std::string_view in_name );
-	TInPort_Wire( std::string_view in_name, const TWire* aport );
+	//TInPort_Wire( std::string_view in_name, const TWire* aport );
 
 
 	//bool IsReady() const noexcept;
@@ -91,7 +97,8 @@ public:
 
 	TMeta MetaData() const noexcept override;
 
-	bool CheckAddLink( const TWire* wire ) noexcept override;
+	//bool CheckAddLink( const TWire* wire ) noexcept override;
+	bool LinkInput( const TLPWire_Sorted& lista_wire ) noexcept override;
 
 	TSignal ReadSignal() const override;
 

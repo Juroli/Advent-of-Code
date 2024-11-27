@@ -7,17 +7,20 @@ namespace y15::d07::v2
 
 
 
+
+
+
 TInPort_Wire::TInPort_Wire( std::string_view in_name )
 	: m_InName( in_name )
 	, m_InWire( nullptr )
 {
 }
 
-TInPort_Wire::TInPort_Wire( std::string_view in_name, const TWire* aport )
-	: m_InName( in_name )
-	, m_InWire( aport )
-{
-}
+//TInPort_Wire::TInPort_Wire( std::string_view in_name, const TWire* aport )
+//	: m_InName( in_name )
+//	, m_InWire( aport )
+//{
+//}
 
 //bool TInPort::IsReady() const noexcept
 //{
@@ -35,14 +38,25 @@ TMeta TInPort_Wire::MetaData() const noexcept
 	return { m_InWire->IsReady(), m_InWire->Level() + 1};
 }
 
-bool TInPort_Wire::CheckAddLink( const TWire* wire ) noexcept
-{
-	if (wire != nullptr && wire->Name() == m_InName )
-	{
-		m_InWire = wire;
-		return true;
-	}
+//bool TInPort_Wire::CheckAddLink( const TWire* wire ) noexcept
+//{
+//	if (wire != nullptr && wire->Name() == m_InName )
+//	{
+//		m_InWire = wire;
+//		return true;
+//	}
+//
+//	return false;
+//}
 
+bool TInPort_Wire::LinkInput( const TLPWire_Sorted& lista_wire ) noexcept
+{
+	if (!IsLinked())
+	{
+		m_InWire = lista_wire.FindWire( m_InName );
+		return m_InWire != nullptr;
+	}
+	
 	return false;
 }
 
@@ -59,6 +73,7 @@ TSignal TInPort_Wire::ReadSignal() const
 	}
 	return m_InWire->Value();
 }
+
 
 
 }

@@ -120,6 +120,9 @@
     <ClInclude Include="src\2015\07\v2\Ports.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\2015\07\y15d07_TInputParser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2015\01\TAoCS_15_01.cpp">
@@ -213,6 +216,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\2015\07\v2\TGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2015\07\y15d07_TInputParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -68,36 +68,46 @@ TSignal TWire::Value() const
 //{
 //	m_LWire.push_back( std::make_unique<TWire>( wire_name, in_name ) );		// , out_port ) );
 //}
-//
-//TWire* TWireList::FindWire( std::string_view name ) const noexcept
-//{
-//	const auto pos = std::find_if( m_LWire.begin(), m_LWire.end(), [&name]( const std::unique_ptr<TWire>& w ) { return (w->Name() == name); });
-//
-//	if (pos == m_LWire.end())
-//	{
-//		return nullptr;
-//	}
-//	
-//	return pos->get();
-//}
-//
-//
-//std::vector<TWireInfo> TWireList::Info_Snapshot() const
-//{
-//	std::vector<TWireInfo> result;
-//
-//	for (const auto& curr : m_LWire)
-//	{
-//		if (curr == nullptr)
-//		{
-//			throw std::exception( "CRITICAL ERROR (1507 TCirc): Wires list corrupted!" );
-//		}
-//
-//		result.push_back( { curr->Name(), curr->ReadSignal() } );
-//	}
-//
-//	return result;
-//}
+
+void TLPWire_Sorted::Add( TWire* wire )
+{
+	const auto ins_pos = std::upper_bound( m_LWire.begin(), m_LWire.end(), wire,
+		[]( const TWire* pa, const TWire* pb ) { return pa->Name() < pb->Name(); }
+	);
+	m_LWire.insert( ins_pos, wire );
+}
+
+
+const TWire* TLPWire_Sorted::FindWire( std::string_view name ) const noexcept
+{
+	const auto pos = std::find_if( m_LWire.begin(), m_LWire.end(), [&name]( const TWire* w ) { return (w->Name() == name); });
+
+	if (pos == m_LWire.end())
+	{
+		return nullptr;
+	}
+	
+	return *pos;
+}
+
+
+std::vector<TWireInfo> TLPWire_Sorted::Info_Snapshot() const
+{
+	std::vector<TWireInfo> result;
+
+	for (const auto& curr : m_LWire)
+	{
+		if (curr == nullptr)
+		{
+			throw std::exception( "CRITICAL ERROR (1507 TCirc): Wires list corrupted!" );
+		}
+
+		result.push_back( { curr->Name(), curr->Value() } );
+	}
+
+	return result;
+}
+
 
 
 

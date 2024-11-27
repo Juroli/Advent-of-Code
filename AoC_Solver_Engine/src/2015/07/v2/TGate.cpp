@@ -12,14 +12,20 @@ BGate::BGate( std::string_view wire_name )
 {
 }
 
-void BGate::ProposeInputWire( const TWire* in_wire )
+//void BGate::ProposeInputWire( const TWire* in_wire )
+//{
+//	if (i_CheckAddWire( in_wire ))
+//	{
+//		i_Update_Meta();
+//	}
+//}
+
+void BGate::LinkInput( const TLPWire_Sorted& lista_wire ) noexcept
 {
-	if (i_CheckAddWire( in_wire ))
+	if (i_LinkInput( lista_wire ))
 	{
 		i_Update_Meta();
 	}
-
-	
 }
 
 
@@ -27,6 +33,47 @@ void BGate::ProposeInputWire( const TWire* in_wire )
 //{
 //	m_LGates.push_back( std::move( (gate) ) );
 //}
+
+void TPGateList_Sorted::Add( BGate* gate )
+{
+	const auto ins_pos = std::upper_bound( m_LGate.begin(), m_LGate.end(), gate,
+		[]( const BGate* pa, const BGate* pb ) { return pa->Level() < pb->Level(); }
+	);
+	m_LGate.insert( ins_pos, gate );
+}
+
+
+bool TPGateList_Sorted::Check_Data() const noexcept
+{
+	int curr_maxlvl = 0;
+
+	for (const auto& curr : m_LGate)
+	{
+		if (!curr->IsReady())
+		{
+			//throw std::exception( "Wire not ready" );
+			return false;
+		}
+
+		if (curr->Level() > curr_maxlvl)
+		{
+			curr_maxlvl = curr->Level();
+		}
+
+		if (curr->Level() < curr_maxlvl)
+		{
+			return false;
+		}
+
+		//if (curr->Name() == wire_name)
+		//{
+		//	return curr->Value();
+		//}
+	}
+
+	return true;
+}
+
 
 //TWire* TGateList::FindWire( std::string_view name ) const noexcept
 //{
@@ -140,9 +187,14 @@ std::string TGate_Link::to_string() const
 
 
 
-bool TGate_Link::i_CheckAddWire( const TWire* in_wire )
+//bool TGate_Link::i_CheckAddWire( const TWire* in_wire )
+//{
+//	return m_Input->CheckAddLink( in_wire );
+//}
+
+bool TGate_Link::i_LinkInput( const TLPWire_Sorted& lista_wire ) noexcept
 {
-	return m_Input->CheckAddLink( in_wire );
+	return m_Input->LinkInput(lista_wire);
 }
 
 void TGate_Link::i_Update_Meta()
@@ -180,9 +232,14 @@ std::string TGate_NOT::to_string() const
 
 
 
-bool TGate_NOT::i_CheckAddWire( const TWire* in_wire )
+//bool TGate_NOT::i_CheckAddWire( const TWire* in_wire )
+//{
+//	return m_Input->CheckAddLink( in_wire );
+//}
+
+bool TGate_NOT::i_LinkInput( const TLPWire_Sorted& lista_wire ) noexcept
 {
-	return m_Input->CheckAddLink( in_wire );
+	return m_Input->LinkInput( lista_wire );
 }
 
 void TGate_NOT::i_Update_Meta()
@@ -222,10 +279,16 @@ std::string TGate_AND::to_string() const
 
 
 
-bool TGate_AND::i_CheckAddWire( const TWire* in_wire )
+//bool TGate_AND::i_CheckAddWire( const TWire* in_wire )
+//{
+//	return m_Input_1->CheckAddLink( in_wire )
+//		|| m_Input_2->CheckAddLink( in_wire );
+//}
+
+bool TGate_AND::i_LinkInput( const TLPWire_Sorted& lista_wire ) noexcept
 {
-	return m_Input_1->CheckAddLink( in_wire )
-		|| m_Input_2->CheckAddLink( in_wire );
+	return m_Input_1->LinkInput( lista_wire )
+		|| m_Input_2->LinkInput( lista_wire );
 }
 
 void TGate_AND::i_Update_Meta()
@@ -269,10 +332,16 @@ std::string TGate_OR::to_string() const
 
 
 
-bool TGate_OR::i_CheckAddWire( const TWire* in_wire )
+//bool TGate_OR::i_CheckAddWire( const TWire* in_wire )
+//{
+//	return m_Input_1->CheckAddLink( in_wire )
+//		|| m_Input_2->CheckAddLink( in_wire );
+//}
+
+bool TGate_OR::i_LinkInput( const TLPWire_Sorted& lista_wire ) noexcept
 {
-	return m_Input_1->CheckAddLink( in_wire )
-		|| m_Input_2->CheckAddLink( in_wire );
+	return m_Input_1->LinkInput( lista_wire )
+		|| m_Input_2->LinkInput( lista_wire );
 }
 
 void TGate_OR::i_Update_Meta()
@@ -317,10 +386,16 @@ std::string TGate_LSHIFT::to_string() const
 
 
 
-bool TGate_LSHIFT::i_CheckAddWire( const TWire* in_wire )
+//bool TGate_LSHIFT::i_CheckAddWire( const TWire* in_wire )
+//{
+//	return m_Input_1->CheckAddLink( in_wire )
+//		|| m_Input_2->CheckAddLink( in_wire );
+//}
+
+bool TGate_LSHIFT::i_LinkInput( const TLPWire_Sorted& lista_wire ) noexcept
 {
-	return m_Input_1->CheckAddLink( in_wire )
-		|| m_Input_2->CheckAddLink( in_wire );
+	return m_Input_1->LinkInput( lista_wire )
+		|| m_Input_2->LinkInput( lista_wire );
 }
 
 void TGate_LSHIFT::i_Update_Meta()
@@ -365,10 +440,16 @@ std::string TGate_RSHIFT::to_string() const
 
 
 
-bool TGate_RSHIFT::i_CheckAddWire( const TWire* in_wire )
+//bool TGate_RSHIFT::i_CheckAddWire( const TWire* in_wire )
+//{
+//	return m_Input_1->CheckAddLink( in_wire )
+//		|| m_Input_2->CheckAddLink( in_wire );
+//}
+
+bool TGate_RSHIFT::i_LinkInput( const TLPWire_Sorted& lista_wire ) noexcept
 {
-	return m_Input_1->CheckAddLink( in_wire )
-		|| m_Input_2->CheckAddLink( in_wire );
+	return m_Input_1->LinkInput( lista_wire )
+		|| m_Input_2->LinkInput( lista_wire );
 }
 
 void TGate_RSHIFT::i_Update_Meta()
@@ -388,6 +469,7 @@ TSignal TGate_RSHIFT::i_ReadSignal() const
 {
 	return m_Input_1->ReadSignal() >> m_Input_2->ReadSignal();
 }
+
 
 
 }

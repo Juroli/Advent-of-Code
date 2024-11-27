@@ -94,26 +94,26 @@ private:
 
 
 
-//class TWireList
-//{
-//public:
-//
-//
-//	void AddWire( std::string_view wire_name, std::string_view in_name );		// , const TOutPort* out_port );
-//
-//	TWire* FindWire( std::string_view name ) const noexcept;
-//
-//
-//	std::vector<TWireInfo> Info_Snapshot() const;
-//
-//	const auto begin() const noexcept { return m_LWire.begin(); }
-//	const auto end() const noexcept { return m_LWire.end(); }
-//
-//private:
-//
-//	std::vector<std::unique_ptr<TWire>> m_LWire;
-//
-//};
+class TLPWire_Sorted
+{
+public:
+
+
+	void Add( TWire* wire );		// , const TOutPort* out_port );
+
+	const TWire* FindWire( std::string_view name ) const noexcept;
+
+
+	std::vector<TWireInfo> Info_Snapshot() const;
+
+	const auto begin() const noexcept { return m_LWire.begin(); }
+	const auto end() const noexcept { return m_LWire.end(); }
+
+private:
+
+	std::vector<TWire*> m_LWire;
+
+};
 
 
 }

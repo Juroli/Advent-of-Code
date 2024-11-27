@@ -164,6 +164,7 @@
     <ClInclude Include="src\2015\07\v2\TCircuit.hpp" />
     <ClInclude Include="src\2015\07\v2\TGate.hpp" />
     <ClInclude Include="src\2015\07\v2\TWire.hpp" />
+    <ClInclude Include="src\2015\07\y15d07_TInputParser.hpp" />
     <ClInclude Include="src\2015\TAoC_15_Index.h" />
     <ClInclude Include="src\TAoC_Index.h" />
     <ClInclude Include="src\TAoC_Solver.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="src\2015\07\v2\TCircuit.cpp" />
     <ClCompile Include="src\2015\07\v2\TGate.cpp" />
     <ClCompile Include="src\2015\07\v2\TWire.cpp" />
+    <ClCompile Include="src\2015\07\y15d07_TInputParser.cpp" />
     <ClCompile Include="src\2015\TAoC_15_Index.cpp" />
     <ClCompile Include="src\TAoC_Index.cpp" />
     <ClCompile Include="src\TAoC_Solver.cpp" />

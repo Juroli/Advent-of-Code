@@ -5,11 +5,11 @@
 #include <vector>
 #include "fmt/format.h"
 
-#include "Utils/Strings/TStringParser.hpp"
 
 #include "v1/TCircuit_v1.hpp"
 #include "v2/TCircuit.hpp"
 
+#include "y15d07_TInputParser.hpp"
 
 
 namespace y15::d07
@@ -81,13 +81,21 @@ std::string TAoCS_P1::ListWires_v2( std::string_view input ) const
 {
 	v2::TCircuit circuit;
 
-	TStringParser parser( input );
+	//TStringParser parser( input );
+	TInputParser parser( input );
 
 	while (parser)
 	{
-		auto curr = parser.Extract_Line();
+		//auto curr = parser.Extract_Line();
 
-		circuit.AddFromLine( curr );
+		//auto gate = v2::TCircuit::CreateGate_FromLine( curr );
+
+		auto gate = parser.Extract_NextGate();
+
+		if (gate)
+		{
+			circuit.AddGate( std::move(gate) );
+		}
 	}
 
 	//circuit.BuildCircuit();
@@ -126,11 +134,12 @@ std::string TAoCS_P1::i_Solve_Run( std::string_view input ) const
 
 	v2::TCircuit circuit;
 
-	TStringParser parser( input );
+	//TStringParser parser( input );
+	TInputParser parser( input );
 
 	while (parser)
 	{
-		auto curr = parser.Extract_Line();
+		//auto curr = parser.Extract_Line();
 
 
 		/*		CIRCUIT V1		*
@@ -142,7 +151,14 @@ std::string TAoCS_P1::i_Solve_Run( std::string_view input ) const
 		}
 		/*/
 
-		circuit.AddFromLine( curr );
+		//circuit.AddFromLine( curr );
+		auto gate = parser.Extract_NextGate();
+
+		if (gate)
+		{
+			circuit.AddGate( std::move( gate ) );
+		}
+
 
 		//*/
 	}
