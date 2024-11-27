@@ -134,38 +134,37 @@ std::string TAoCS_P2::i_Solve_Run( std::string_view input ) const
 {
 	if (input == STR_SOLVE_CHECK)
 	{
-		return STR_NOT_IMPLEMENTED;
+		return STR_IMPLEMENTED;
 	}
 
-	//v1::TCircuit circuit;
+	TCircuit circuit_p1;
+	TCircuit circuit_p2;
+	TInputParser parser( input );
 
-	//TStringParser parser( input );
+	while (parser)
+	{
+		parser.Select_NextLine();
 
-	//while (parser)
-	//{
-	//	auto curr = parser.Extract_Line();
+		auto gate_1 = parser.Create_CurrentGate();
 
-	//	auto currwire = v1::BWire::Create_Wire( curr );
+		if (gate_1)
+		{
+			if (gate_1->Name() != "b")
+			{
+				circuit_p2.AddGate( parser.Create_CurrentGate() );
+			}
 
-	//	if (currwire)
-	//	{
-	//		circuit.AddWire( std::move( currwire ) );
-	//	}
-	//}
+			circuit_p1.AddGate( std::move( gate_1 ) );
+		}
+	}
 
-	//auto a_value = circuit.Value( "a" );
+	const auto value = circuit_p1.Value( "a" );
 
-	//std::string strwire = std::to_string( a_value ) + "->b";
+	auto new_gate = std::make_unique<TGate_Link>( "b", std::make_unique<TInPort_Fixed>( value ) );
 
-	//auto newwire = v1::BWire::Create_Wire( strwire );
+	circuit_p2.AddGate( std::move( new_gate ) );
 
-	//if (newwire)
-	//{
-	//	circuit.ReplaceWire( std::move( newwire ) );
-	//}
-
-	//return std::to_string( circuit.Value( "a" ));
-	return "---";
+	return std::to_string( circuit_p2.Value( "a" ));
 }
 
 

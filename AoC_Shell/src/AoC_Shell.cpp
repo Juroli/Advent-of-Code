@@ -170,7 +170,7 @@ int main( int argc, char* argv[] )
 
 		//return 0;
 
-		TPuzzleID pid = { 2015, 7, 1 };
+		TPuzzleID pid = { 2015, 7, 2 };
 		//const int YEAR = 2015;
 		//const int DAY = 7;
 		//const char PART = 'A';

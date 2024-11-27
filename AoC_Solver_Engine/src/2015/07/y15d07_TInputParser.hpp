@@ -23,6 +23,9 @@ public:
 	operator bool() const noexcept { return m_Parser; }
 
 
+	void Select_NextLine();
+	std::unique_ptr<BGate> Create_CurrentGate();
+
 	std::unique_ptr<BGate> Extract_NextGate();
 
 private:
@@ -35,6 +38,8 @@ private:
 private:
 
 	TStringParser m_Parser;
+
+	std::string_view m_CurrentLine;
 	
 };
 

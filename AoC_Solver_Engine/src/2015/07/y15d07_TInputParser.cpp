@@ -13,21 +13,23 @@ TInputParser::TInputParser( std::string_view input )
 {
 }
 
+void TInputParser::Select_NextLine()
+{
+	m_CurrentLine = m_Parser.Extract_Line();
+}
+
+std::unique_ptr<BGate> TInputParser::Create_CurrentGate()
+{
+	return i_CreateGate_FromLine( m_CurrentLine );
+}
+
+
+
 std::unique_ptr<BGate> TInputParser::Extract_NextGate()
 {
-	while( m_Parser)
-	{
-		auto curr = m_Parser.Extract_Line();
+	Select_NextLine();
 
-		auto gate = i_CreateGate_FromLine( curr );
-
-		if (gate != nullptr)
-		{
-			return gate;
-		}
-	}
-
-	return nullptr;
+	return Create_CurrentGate();
 }
 
 
