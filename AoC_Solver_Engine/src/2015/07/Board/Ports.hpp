@@ -14,7 +14,7 @@
 #include "TWire.hpp"
 
 
-namespace y15::d07::v2
+namespace y15::d07
 {
 
 //using TSignal = uint16_t;

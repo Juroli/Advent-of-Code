@@ -13,7 +13,7 @@ TInputParser::TInputParser( std::string_view input )
 {
 }
 
-std::unique_ptr<v2::BGate> TInputParser::Extract_NextGate()
+std::unique_ptr<BGate> TInputParser::Extract_NextGate()
 {
 	while( m_Parser)
 	{
@@ -31,19 +31,19 @@ std::unique_ptr<v2::BGate> TInputParser::Extract_NextGate()
 }
 
 
-v2::TPtrPort TInputParser::i_CreatePort( std::string_view input )
+TPtrPort TInputParser::i_CreatePort( std::string_view input )
 {
 	if (input.find_first_not_of( "0123456789" ) == std::string::npos)
 	{
 		// costante
 		const auto value = static_cast<uint16_t>(std::stoul( std::string( input ) ));
-		return std::make_unique<v2::TInPort_Fixed>( value );
+		return std::make_unique<TInPort_Fixed>( value );
 	}
 
-	return std::make_unique<v2::TInPort_Wire>( input );
+	return std::make_unique<TInPort_Wire>( input );
 }
 
-std::unique_ptr<v2::BGate> TInputParser::i_CreateGate( std::string_view wire_name, std::string_view gate_def )
+std::unique_ptr<BGate> TInputParser::i_CreateGate( std::string_view wire_name, std::string_view gate_def )
 {
 
 	auto pos = gate_def.find( ' ' );
@@ -66,7 +66,7 @@ std::unique_ptr<v2::BGate> TInputParser::i_CreateGate( std::string_view wire_nam
 
 		//}
 
-		return std::make_unique<v2::TGate_Link>( wire_name, i_CreatePort( gate_def ) );
+		return std::make_unique<TGate_Link>( wire_name, i_CreatePort( gate_def ) );
 	}
 
 
@@ -81,7 +81,7 @@ std::unique_ptr<v2::BGate> TInputParser::i_CreateGate( std::string_view wire_nam
 	if (firststr == "NOT")
 	{
 		// Operazione NOT
-		return std::make_unique<v2::TGate_NOT>( wire_name, i_CreatePort( tmpstr ) );
+		return std::make_unique<TGate_NOT>( wire_name, i_CreatePort( tmpstr ) );
 	}
 
 	pos = tmpstr.find( ' ' );
@@ -96,12 +96,12 @@ std::unique_ptr<v2::BGate> TInputParser::i_CreateGate( std::string_view wire_nam
 
 	if (oper == "AND")
 	{
-		return std::make_unique<v2::TGate_AND>( wire_name, i_CreatePort( firststr ), i_CreatePort( secondstr ) );
+		return std::make_unique<TGate_AND>( wire_name, i_CreatePort( firststr ), i_CreatePort( secondstr ) );
 	}
 
 	if (oper == "OR")
 	{
-		return std::make_unique<v2::TGate_OR>( wire_name, i_CreatePort( firststr ), i_CreatePort( secondstr ) );
+		return std::make_unique<TGate_OR>( wire_name, i_CreatePort( firststr ), i_CreatePort( secondstr ) );
 	}
 
 
@@ -109,21 +109,21 @@ std::unique_ptr<v2::BGate> TInputParser::i_CreateGate( std::string_view wire_nam
 	{
 		//auto offset = std::stoul( std::string( secondstr ) );
 
-		return std::make_unique<v2::TGate_LSHIFT>( wire_name, i_CreatePort( firststr ), i_CreatePort( secondstr ) );	// offset );
+		return std::make_unique<TGate_LSHIFT>( wire_name, i_CreatePort( firststr ), i_CreatePort( secondstr ) );	// offset );
 	}
 
 	if (oper == "RSHIFT")
 	{
 		//auto offset = std::stoul( std::string( secondstr ) );
 
-		return std::make_unique<v2::TGate_RSHIFT>( wire_name, i_CreatePort( firststr ), i_CreatePort( secondstr ) );	// offset );
+		return std::make_unique<TGate_RSHIFT>( wire_name, i_CreatePort( firststr ), i_CreatePort( secondstr ) );	// offset );
 	}
 
 	return nullptr;
 }
 
 
-std::unique_ptr<v2::BGate> TInputParser::i_CreateGate_FromLine( std::string_view line )
+std::unique_ptr<BGate> TInputParser::i_CreateGate_FromLine( std::string_view line )
 {
 	if (line.empty())
 	{
